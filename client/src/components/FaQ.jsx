@@ -11,4 +11,4 @@ const FaQ = () => {
     )
 }
 
-export default NavBar;
+export default FaQ;
