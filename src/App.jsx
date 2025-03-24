@@ -3,6 +3,7 @@ import './App.css'
 import { Routes, Route } from "react-router-dom";
 import Home from './components/Home.jsx';
 import NavBar from './components/NavBar.jsx';
+import FaQ from './components/FaQ.jsx';
 
 function App() {
 
