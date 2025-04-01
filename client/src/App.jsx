@@ -5,6 +5,13 @@ import Home from './components/Home.jsx';
 import NavBar from './components/NavBar.jsx';
 import FaQ from './components/FaQ.jsx';
 
+// Importing FontAwesome to allow for icons
+import { library } from '@fortawesome/fontawesome-svg-core';
+import {faCarOn, faCrown, faKeyboard, faCircleInfo, faGear, faCircleUser} from '@fortawesome/free-solid-svg-icons'; 
+
+//Adding in the icons
+library.add(faCarOn, faCrown, faKeyboard,faCircleInfo, faGear, faCircleUser);
+
 function App() {
 
   return (
