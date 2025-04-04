@@ -8,18 +8,25 @@ const NavBar = () => {
 
 
     return (
-        <div class="theme-d5">
+        <div className="theme-d5 p-4 flex w-full items-center">
            {/* This will hold the logo and the Title */}
-            <div class="grid auto-cols-auto">
-                <div ><FontAwesomeIcon icon="fa-solid fa-car-on" size='4x'/></div>
-                <div><h2>Zoom Zoom Type </h2></div>
-                <div><FontAwesomeIcon icon="fa-solid fa-keyboard" size='2x'/></div>
-                <div><FontAwesomeIcon icon="fa-solid fa-crown" size='2x'/></div>
-                <div><FontAwesomeIcon icon="fa-solid fa-circle-info" size='2x'/></div>
-                <div><h3>Average WPM: <p id='wpmCounter'>55</p></h3></div>
-                <div><a href="#" class="nav-anchor-visited" ><FontAwesomeIcon icon="fa-solid fa-gear" class="nav-anchor-hover nav-anchor-visited"/></a></div>
-                <div><a href="#" class="nav-anchor-visited"><FontAwesomeIcon icon="fa-solid fa-circle-user" size='1x' class='nav-anchor-hover nav-anchor-visited'/></a></div>
+            <div className="flex items-center space-x-6 flex-1">
+                <FontAwesomeIcon icon="fa-car-on" className='text-2xl'/>
+                <h2 className='mr-6'>Zoom Zoom Type</h2>
+            </div>
 
+            <div className="flex items-center space-x-6 flex-1">
+                {/* Add the other items to the bar */}
+               <FontAwesomeIcon icon="fa-keyboard" className='text-xl'/>
+               <FontAwesomeIcon icon="fa-crown" className='mr-4'/>
+               <FontAwesomeIcon icon="fa-info-circle" className='mr-4'/>
+               <h3 className='flex items-center'>Average WPM: <p id='wpmCounter'></p></h3>
+            </div>
+
+            <div className="flex justify-end items-center space-x-6">
+                  {/* Settings and Profile Icons on the far right */}
+               <a><FontAwesomeIcon icon="fa-gear"/></a>
+               <FontAwesomeIcon icon="fa-circle-user"/>
 
             </div>
             
