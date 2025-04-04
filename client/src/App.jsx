@@ -12,6 +12,7 @@ import "bootstrap/dist/js/bootstrap.bundle.min";
 // Importing FontAwesome to allow for icons
 import { library } from '@fortawesome/fontawesome-svg-core';
 import {faCarOn, faCrown, faKeyboard, faCircleInfo, faGear, faCircleUser} from '@fortawesome/free-solid-svg-icons'; 
+import LogInPage from './components/loginPage.jsx';
 
 //Adding in the icons
 library.add(faCarOn, faCrown, faKeyboard,faCircleInfo, faGear, faCircleUser);
@@ -26,6 +27,7 @@ function App() {
         <Route path='/' element={<Home/>}/>
         <Route path='/Home' element={<Home/>}/>
         <Route path='/FaQ' element={<Home/>}/>
+        <Route path='/login' element={<LogInPage/>}/>
       </Routes>
     </div>
   )
