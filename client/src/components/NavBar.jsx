@@ -26,7 +26,7 @@ const NavBar = () => {
             <div className="flex justify-end items-center space-x-6">
                   {/* Settings and Profile Icons on the far right */}
                <a><FontAwesomeIcon icon="fa-gear"/></a>
-               <FontAwesomeIcon icon="fa-circle-user"/>
+               <a href="/login" className='nav-anchor-visited nav-anchor-hover'><FontAwesomeIcon icon="fa-circle-user"/></a>
 
             </div>
             
