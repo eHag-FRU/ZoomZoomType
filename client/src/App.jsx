@@ -4,6 +4,7 @@ import { Routes, Route } from "react-router-dom";
 import Home from './components/Home.jsx';
 import NavBar from './components/NavBar.jsx';
 import FaQ from './components/FaQ.jsx';
+import About from './components/About.jsx';
 
 function App() {
 
@@ -14,7 +15,8 @@ function App() {
       <Routes>
         <Route path='/' element={<Home/>}/>
         <Route path='/Home' element={<Home/>}/>
-        <Route path='/FaQ' element={<Home/>}/>
+        <Route path='/FaQ' element={<FaQ/>}/>
+        <Route path='/About' element={<About/>}/>
       </Routes>
     </div>
   )
