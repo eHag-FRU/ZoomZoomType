@@ -4,6 +4,7 @@ import { Routes, Route } from "react-router-dom";
 import Home from './components/Home.jsx';
 import NavBar from './components/NavBar.jsx';
 import FaQ from './components/FaQ.jsx';
+import Register from './components/Register.jsx';
 
 function App() {
 
@@ -15,6 +16,7 @@ function App() {
         <Route path='/' element={<Home/>}/>
         <Route path='/Home' element={<Home/>}/>
         <Route path='/FaQ' element={<Home/>}/>
+        <Route path='/Register' element={<Register/>}/>
       </Routes>
     </div>
   )
