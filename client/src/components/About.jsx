@@ -6,8 +6,8 @@ const About = () => {
 
     return (
         
-        <div className="grid auto-cols-auto">
-                {/* This will hold the logo and the Title */}
+        <div className="theme-d5 p-4 flex w-full items-center">
+           {/* This will hold the logo and the Title */}
             <div className="flex items-center space-x-6 flex-1">
                 <FontAwesomeIcon icon="fa-car-on" className='text-2xl'/>
                 <h2 className='mr-6'>Zoom Zoom Type</h2>
@@ -27,14 +27,13 @@ const About = () => {
                 <a href="/login" className='nav-anchor-visited nav-anchor-hover'><FontAwesomeIcon icon="fa-circle-user"/></a>
 
             </div>
-        
-        
-        
+            
+            
 
-        
-            <div className="about-content">
-                <h1 className="about-title">About Us</h1>
-                <p className="username">ZoomZoomType</p>
+            
+            <div className="place-items-center">
+                <h1 className="text-3xl font-semibold mb-4">About Us</h1>
+                <p className="text-lg mb-8">ZoomZoomType</p>
                 <hr />
 
 
@@ -73,7 +72,6 @@ const About = () => {
                 </div>
             </div>
         </div>
-        
     )
 }
 
