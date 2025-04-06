@@ -5,17 +5,18 @@ const LogInPage = () => {
     //Set up the navigate object
     const navigate = useNavigate();
 
-    //check if user is already logged in, need to see what that will be (i.e. cookies, etc.)
+    //check if user is already logged in, need to check for the cookie and see if it is there, if not show login page
+    
 
     if (true) {
         return (
             <div className='grid h-screen place-items-center'>
                 
-                <form method="POST">
+                <form method="POST" action="http://localhost:3000/api/login">
                     <h1 className='place-items-center'>Login</h1>
                     <div>
-                        <label for="email">Email </label>
-                        <input type='text' name='email' id='email'></input>
+                        <label for={".email"}>Email </label>
+                        <input type='text' name='email' id='email' style={{backgroundColor: "#ffff"}}></input>
                     </div>
                     
                     <br/>
