@@ -1,44 +1,65 @@
 import React, { useEffect, useState, useRef } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 
+/*
+  The settings page (according to the mockup) has the following approach
+  - Header
+    - Settings header
+    - Settings blocks (keyboard layout, font, theme)
+      - Block header
+      - Block buttons
+        - Buttons
+  - Footer (if we got it)
+*/
+
+// SettingsBlock takes a title and however many buttons inside
+// Dynamically creates a segment for each section of the settings
+const SettingsBlock = ({title, buttons}) => (
+  <li className="settings-block">
+    <div className="block-header">
+      <h2>{title}</h2>
+    </div>
+    <ul className="block-buttons">
+      {buttons.map((button, index) => (
+        <li key={index} className="button">
+          {button.content}
+        </li>
+      ))}
+    </ul>
+  </li>
+);
+
 const Settings = () => {
+  // takes a json file as input for the settings
+  // title:   Title of the settings segment
+  // buttons: Options inside of the segment
+  // content: The text presented in the button
+  const blockData = [
+    {
+      title: "Test1",
+      buttons: [{content: "button1"}, {content: "button2"}, {content: "button3"}, {content: "button4"}]
+    },
+    {
+      title: "Test2",
+      buttons: [{content: "button1"}, {content: "button2"}, {content: "button3"}, {content: "button4"}]
+    },
+    {
+      title: "Test3",
+      buttons: [{content: "button1"}, {content: "button2"}, {content: "button3"}, {content: "button4"}]
+    },
+  ];
+
+  // Once blockData is established, we create the elements
+  // blockData maps the block data into each block
   return (
-    <div className="grid auto-cols-auto">
-      {/* This will hold the logo and the Title */}
-      <div className="flex items-center space-x-6 flex-1">
-        <FontAwesomeIcon icon="fa-car-on" className="text-2xl" />
-        <h2 className="mr-6">Zoom Zoom Type</h2>
-      </div>
-
-      <div className="flex items-center space-x-6 flex-1">
-        {/* Add the other items to the bar */}
-        <FontAwesomeIcon icon="fa-keyboard" className="text-xl" />
-        <FontAwesomeIcon icon="fa-crown" className="mr-4" />
-        <FontAwesomeIcon icon="fa-info-circle" className="mr-4" />
-        <h3 className="flex items-center">
-          Average WPM: <p id="wpmCounter"></p>
-        </h3>
-      </div>
-
-      <div className="flex justify-end items-center space-x-6">
-        {/* Settings and Profile Icons on the far right */}
-        <a>
-          <FontAwesomeIcon icon="fa-gear" />
-        </a>
-        <a href="/login" className="nav-anchor-visited nav-anchor-hover">
-          <FontAwesomeIcon icon="fa-circle-user" />
-        </a>
-      </div>
-
-      <div className="settings-section">
-        <h1 className="settings-header">Settings</h1>
-        <br />
-
-        <h2 className="setting-layout">Keyboard Layout</h2>
-
-        <h2 className="setting-font">Font</h2>
-
-        <h2 className="setting-theme">Color Theme</h2>
+    <div className="settings-window">
+      <div className="settings-header">
+        <h1>Settings</h1>
+        <ul className="settings-blocks">
+          {blockData.map((block, index) => (
+            <SettingsBlock key={index} title={block.title} buttons={block.buttons} />
+          ))}
+        </ul>
       </div>
     </div>
   );
