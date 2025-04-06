@@ -1,6 +1,6 @@
 import React, { useEffect, useState, useRef } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
-import {FontAwesomeIcon} from "@fontawesome/react-fontawesome"
+import {FontAwesomeIcon} from "@fortawesome/react-fontawesome"
 
 const About = () => {
 
