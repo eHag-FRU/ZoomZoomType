@@ -9,6 +9,7 @@ import { useNavigate, useLocation } from "react-router-dom";
       - Block header
       - Block buttons
         - Buttons
+          - Button content
   - Footer (if we got it)
 */
 
@@ -30,7 +31,7 @@ const SettingsBlock = ({title, buttons}) => (
 );
 
 const Settings = () => {
-  // takes a json file as input for the settings
+  // takes a json as input for the settings
   // title:   Title of the settings segment
   // buttons: Options inside of the segment
   // content: The text presented in the button
