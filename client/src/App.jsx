@@ -5,6 +5,8 @@ import Home from './components/Home.jsx';
 import NavBar from './components/NavBar.jsx';
 import FaQ from './components/FaQ.jsx';
 
+
+
 function App() {
 
   return (
@@ -14,7 +16,6 @@ function App() {
       <Routes>
         <Route path='/' element={<Home/>}/>
         <Route path='/Home' element={<Home/>}/>
-        <Route path='/FaQ' element={<Home/>}/>
       </Routes>
     </div>
   )
