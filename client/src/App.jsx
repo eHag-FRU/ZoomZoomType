@@ -19,6 +19,8 @@ import {faCarOn, faCrown, faKeyboard, faCircleInfo, faGear, faCircleUser} from '
 //Adding in the icons
 library.add(faCarOn, faCrown, faKeyboard,faCircleInfo, faGear, faCircleUser);
 
+
+
 function App() {
 
   return (
@@ -31,7 +33,6 @@ function App() {
         <Route path='/About' element={<About/>}/>
         <Route path='/FaQ' element={<FaQ/>}/>
         <Route path='/ProfilePage' element={<ProfilePage/>}/>
-
       </Routes>
     </div>
   )
