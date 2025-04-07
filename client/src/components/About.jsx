@@ -2,6 +2,8 @@ import React, { useEffect, useState, useRef } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome"
 
+import 'bootstrap/dist/css/bootstrap.min.css';
+
 const About = () => {
 
     return (
@@ -73,7 +75,6 @@ const About = () => {
                 </div>
             </div>
         </div>
-        
     )
 }
 

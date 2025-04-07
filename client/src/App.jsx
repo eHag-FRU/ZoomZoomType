@@ -8,6 +8,17 @@ import About from './components/About.jsx';
 import ProfilePage from './components/ProfilePage.jsx';
 
 
+//Importing Bootstrap
+import "bootstrap/dist/css/bootstrap.min.css";
+import "bootstrap/dist/js/bootstrap.bundle.min";
+
+// Importing FontAwesome to allow for icons
+import { library } from '@fortawesome/fontawesome-svg-core';
+import {faCarOn, faCrown, faKeyboard, faCircleInfo, faGear, faCircleUser} from '@fortawesome/free-solid-svg-icons'; 
+
+//Adding in the icons
+library.add(faCarOn, faCrown, faKeyboard,faCircleInfo, faGear, faCircleUser);
+
 function App() {
 
   return (
