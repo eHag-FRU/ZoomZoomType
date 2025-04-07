@@ -12,13 +12,13 @@ const About = () => {
                     <h1 className="text-center" style={{ color: "#ffffff" }}>About Us</h1>
                     <p className="text-center" style={{ color: "#FF9900" }}>ZoomZoomType</p>
                 </div>
-                <hr style={{ border: "0.15rem solid black" }} />
+                <hr style={{ border: "0.15em solid black" }} />
 
 
-                <div className="container text-white py-2">
-                    <div className="row">
-                        <div className="col-md-4 offset-md-9 p-2">
-                            <p>
+                <div className="container-fluid text-white py-2">
+                    <div className="row justify-content-end">
+                        <div className="col-12 col-md-4 p-3 me-md-5 me-3">
+                            <p style={{ fontSize: "1em" }}>
                             Text section regarding what we do as a group,
                             how we started the idea, yadda yadda yadda <br />
                             Lorem ipsum dolor sit amet, consectetur adipiscing elit,
@@ -31,14 +31,21 @@ const About = () => {
                             </p>
                         </div>
                     </div>
-                    
                 </div>
 
 
-                <div className="container text-white py-2">
-                    <div className="row">
-                        <div className="col-md-4 offset-md-1 p-2">
-                            <p>
+                <div className="container-fluid text-white py-2">
+                    <div className="row justify-content-start">
+                        <div className="col-12 col-md-4 p-3 ms-md-5 ms-3">
+                            { /* Image above paragraph */}
+                            <img
+                                src="image"
+                                alt="image"
+                                className="img-fluid mb-3"
+                                style={{ borderRadius: '8px'}}
+                            />
+
+                            <p style={{ fontSize: "1em"}}>
                                 Another text section regarding what we do as a group,
                                 how we started the idea, yadda yadda yadda <br />
                                 Lorem ipsum dolor sit amet, consectetur adipiscing elit,
