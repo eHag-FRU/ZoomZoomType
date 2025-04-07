@@ -15,7 +15,7 @@ import { useNavigate, useLocation } from "react-router-dom";
 
 // SettingsBlock takes a title and however many buttons inside
 // Dynamically creates a segment for each section of the settings
-const SettingsBlock = ({title, buttons}) => (
+const SettingsBlock = ({ title, buttons }) => (
   <li className="settings-block">
     <div className="block-header">
       <h2>{title}</h2>
@@ -37,16 +37,33 @@ const Settings = () => {
   // content: The text presented in the button
   const blockData = [
     {
-      title: "Test1",
-      buttons: [{content: "button1"}, {content: "button2"}, {content: "button3"}, {content: "button4"}]
+      title: "Keyboard Layout",
+      buttons: [
+        { content: "QWERTY" },
+        { content: "Colemak" },
+        { content: "Dvorak" },
+        { content: "Workman" },
+        { content: "QWERTZ" },
+      ],
     },
     {
-      title: "Test2",
-      buttons: [{content: "button1"}, {content: "button2"}, {content: "button3"}, {content: "button4"}]
+      title: "Font",
+      buttons: [
+        { content: "Arial" },
+        { content: "Helvetica" },
+        { content: "Consolas" },
+        { content: "Comic Sans" },
+        { content: "Times New Roman" },
+      ],
     },
     {
-      title: "Test3",
-      buttons: [{content: "button1"}, {content: "button2"}, {content: "button3"}, {content: "button4"}]
+      title: "Theme",
+      buttons: [
+        { content: "Blue" },
+        { content: "Green" },
+        { content: "Red" },
+        { content: "Yellow" },
+      ],
     },
   ];
 
@@ -58,7 +75,11 @@ const Settings = () => {
         <h1>Settings</h1>
         <ul className="settings-blocks">
           {blockData.map((block, index) => (
-            <SettingsBlock key={index} title={block.title} buttons={block.buttons} />
+            <SettingsBlock
+              key={index}
+              title={block.title}
+              buttons={block.buttons}
+            />
           ))}
         </ul>
       </div>
