@@ -8,32 +8,28 @@ const NavBar = () => {
 
 
     return (
-        <div className="theme-d5 p-4 flex w-full items-center">
-           {/* This will hold the logo and the Title */}
-            <div className="flex items-center space-x-6 flex-1">
-                <FontAwesomeIcon icon="fa-car-on" className='text-2xl'/>
-                <h2 className='mr-6'>Zoom Zoom Type</h2>
-            </div>
+        <div className="theme-d5 text-white px-3 py-2">
+            <div className="d-flex flex-column flex-md-row justify-content-between align-items-start align-items-md-center gap-2">
 
-            <div className="flex items-center space-x-6 flex-1">
-                {/* Add the other items to the bar */}
-               <FontAwesomeIcon icon="fa-keyboard" className='text-xl'/>
-               <FontAwesomeIcon icon="fa-crown" className='mr-4'/>
-               <FontAwesomeIcon icon="fa-info-circle" className='mr-4'/>
-               <h3 className='flex items-center'>Average WPM: <p id='wpmCounter'></p></h3>
-            </div>
+                <div className="d-flex flex-wrap align-items-center gap-2">
+                    <a className='nav-logo' href='/'><FontAwesomeIcon icon="fa-solid fa-car-on"/></a>
+                    <h5 className="mb-0 me-2">Zoom Zoom Type</h5>
+                    <a className='nav-anchor-visited nav-anchor-hover' href='/games'><FontAwesomeIcon icon="fa-solid fa-keyboard"/></a>
+                    <a className='nav-anchor-visited nav-anchor-hover' href='/leaderBoard'><FontAwesomeIcon icon="fas fa-crown"/></a>
+                    <a className='nav-anchor-visited nav-anchor-hover' href='/about'><FontAwesomeIcon icon="fas fa-info-circle"/></a>
+                    <span className="ms-2">Average WPM: <strong><p id="highestUserWPM">55</p></strong></span>
+                </div>
 
-            <div className="flex justify-end items-center space-x-6">
-                  {/* Settings and Profile Icons on the far right */}
-               <a><FontAwesomeIcon icon="fa-gear"/></a>
-               <FontAwesomeIcon icon="fa-circle-user"/>
+                {/* Gap is here */}
+
+                <div className="d-flex align-items-center gap-3 ms-md-3 mt-2 mt-md-0">
+                <i className="fas fa-cog"></i>
+                <a href='/login'><i className="fas fa-user"></i></a>
+                </div>
 
             </div>
-            
-            
-           
         </div>
-    )
-}
+    );
+};
 
 export default NavBar;
