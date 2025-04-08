@@ -19,20 +19,22 @@ import {faCarOn, faCrown, faKeyboard, faCircleInfo, faGear, faCircleUser} from '
 //Adding in the icons
 library.add(faCarOn, faCrown, faKeyboard,faCircleInfo, faGear, faCircleUser);
 
+
+
 function App() {
 
   return (
-    <div className='app-container'>
+    <div className='app-container min-vh-100 d-flex flex-column theme-d5'>
       <NavBar></NavBar>
-
-      <Routes>
-        <Route path='/' element={<Home/>}/>
-        <Route path='/Home' element={<Home/>}/>
-        <Route path='/About' element={<About/>}/>
-        <Route path='/FaQ' element={<FaQ/>}/>
-        <Route path='/ProfilePage' element={<ProfilePage/>}/>
-
-      </Routes>
+      <div className='d-flex flex-grow-1'>
+        <Routes>
+          <Route path='/' element={<Home/>}/>
+          <Route path='/Home' element={<Home/>}/>
+          <Route path='/About' element={<About/>}/>
+          <Route path='/FaQ' element={<FaQ/>}/>
+          <Route path='/ProfilePage' element={<ProfilePage/>}/>
+        </Routes>
+      </div>
     </div>
   )
 }
