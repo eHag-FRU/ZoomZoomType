@@ -7,15 +7,19 @@ const Home = () => {
 
 
     return (
-        <div className="d-flex flex-column justify-content-center align-items-center min-vh-100 theme-d5 text-center">            <h1 className="border-bottom border-3 border-primary d-inline">
-                <FontAwesomeIcon icon={faCar}/> Zoom Zoom  Type
+        <div className="container-fluid d-flex flex-column flex-grow-1 justify-content-center align-items-center theme-d5 text-center pb-5">
+
+            <h1 className="border-bottom border-3 d-inline display-3 fw-bold mb-5">
+                <FontAwesomeIcon icon={faCar}/> Zoom Zoom Type
             </h1>
-            <p className="lead col align-items-center border-bottom border-3 border-primary ">
+            <p className='align-items-center display-6 mb-5'>
                 Hone your typing skills solo or compete against others
             </p>
-            <div className="col">
-                <button className="btn btn-large btn-primary mb-3">Primary button</button>
-                <button className="btn btn-large btn-primary mb-3">Primary button</button>
+            <div className="row w-100">
+                <div className="container-fluid d-flex justify-content-between gap-4 w-25">
+                    <button className="btn btn-lg custom-accent-btn mb-3">Play Now</button>
+                    <button className="btn btn-lg custom-accent-btn mb-3">Modes</button>
+                </div>
             </div>
       
         </div>
