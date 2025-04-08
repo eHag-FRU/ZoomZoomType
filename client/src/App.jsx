@@ -24,9 +24,8 @@ library.add(faCarOn, faCrown, faKeyboard,faCircleInfo, faGear, faCircleUser);
 function App() {
 
   return (
-    <div className='app-container'>
+    <div className='app-container  theme-d5'>
       <NavBar></NavBar>
-
       <Routes>
         <Route path='/' element={<Home/>}/>
         <Route path='/Home' element={<Home/>}/>
