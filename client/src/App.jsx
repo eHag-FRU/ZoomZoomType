@@ -6,6 +6,7 @@ import NavBar from './components/NavBar.jsx';
 import FaQ from './components/FaQ.jsx';
 import About from './components/About.jsx';
 import ProfilePage from './components/ProfilePage.jsx';
+import GamePage from './components/GamePage.jsx';
 
 
 //Importing Bootstrap
@@ -33,6 +34,7 @@ function App() {
           <Route path='/About' element={<About/>}/>
           <Route path='/FaQ' element={<FaQ/>}/>
           <Route path='/ProfilePage' element={<ProfilePage/>}/>
+          <Route path='/GamePage' element={<GamePage/>}/>
         </Routes>
       </div>
     </div>

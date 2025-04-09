@@ -27,6 +27,10 @@
 .nav-anchor-visited:visited {color: #fff !important;}
 .nav-anchor-hover:hover {color:#b45f06 !important}
 
+.nav-achor-hover:hover *{
+  color:#b45f06 !important;
+}
+
 .nav-logo:hover,:visited {color: #fff !important;}
 
 .custom-accent-btn{
@@ -38,4 +42,13 @@
 
 .custom-accent-btn:hover{
   background-color: #cc6e09 !important;
+}
+
+.custom-btn{
+  border: none;
+  width: 160px;
+}
+
+.custom-btn:hover{
+  background-color: #7cc0ff !important;
 }
