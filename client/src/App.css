@@ -30,9 +30,6 @@
 .nav-logo:hover,:visited {color: #fff !important;}
 .nav-anchor-hover:hover {color:#0060ba !important}
 
-*{
-    color:#fff !important; background-color:#002f5c !important
-}
 .nav-achor-hover:hover *{
   color:#b45f06 !important;
 }
