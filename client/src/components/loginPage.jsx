@@ -76,6 +76,8 @@ const LogInPage = ({ updateAvgWPM }) => {
             //Set the WPM global state
             updateAvgWPM(userAvgWPM.data.avgWPM);
 
+            console.log(userAvgWPM.data.avgWPM);
+
             console.log(`userAvgWPM: {userAvgWPM}`);
 
             //Redirect to the homepage
@@ -116,7 +118,7 @@ const LogInPage = ({ updateAvgWPM }) => {
 
                         <div>
                             <button type='submit'>Login</button>
-                            <p>Need an account? <a href="register">Register Here</a></p>
+                            <p>Need an account? <a className="theme-d5" href="register">Register Here</a></p>
                         </div>
                     </form>
                 </div>

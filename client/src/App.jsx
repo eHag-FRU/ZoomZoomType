@@ -25,7 +25,7 @@ library.add(faCarOn, faCrown, faKeyboard,faCircleInfo, faGear, faCircleUser);
 
 function App() {
   //Adding the avg WPM state
-  const [avgWPM, setAvgWPM] = useState();
+  const [avgWPM, setAvgWPM] = useState(0);
 
 
   return (
