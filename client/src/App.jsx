@@ -18,16 +18,19 @@ import LogInPage from './components/loginPage.jsx';
 library.add(faCarOn, faCrown, faKeyboard,faCircleInfo, faGear, faCircleUser);
 
 function App() {
+  //Adding the avg WPM state
+  const [avgWPM, setAvgWPM] = useState();
+
 
   return (
     <div className='app-container'>
-      <NavBar></NavBar>
+      <NavBar wpm={avgWPM}></NavBar>
 
       <Routes>
         <Route path='/' element={<Home/>}/>
         <Route path='/Home' element={<Home/>}/>
         <Route path='/FaQ' element={<Home/>}/>
-        <Route path='/login' element={<LogInPage/>}/>
+        <Route path='/login' element={<LogInPage updateAvgWPM={setAvgWPM}/>} />
       </Routes>
     </div>
   )

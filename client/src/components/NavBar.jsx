@@ -4,8 +4,7 @@ import {FontAwesomeIcon} from "@fortawesome/react-fontawesome"
 
 
 
-const NavBar = () => {
-
+const NavBar = ({wpm}) => {
 
     return (
         <div className="theme-d5 text-white px-3 py-2">
@@ -17,7 +16,7 @@ const NavBar = () => {
                     <a className='nav-anchor-visited nav-anchor-hover' href='/games'><FontAwesomeIcon icon="fa-solid fa-keyboard" style={{ fontSize: '1.5em' }}/></a>
                     <a className='nav-anchor-visited nav-anchor-hover' href='/leaderBoard'><FontAwesomeIcon icon="fas fa-crown" style={{ fontSize: '1.5em' }}/></a>
                     <a className='nav-anchor-visited nav-anchor-hover' href='/about'><FontAwesomeIcon icon="fas fa-info-circle" style={{ fontSize: '1.5em' }}/></a>
-                    <span className="ms-2">Average WPM: <strong><p id="highestUserWPM"></p></strong></span>
+                    <span className="ms-2">Average WPM: <strong><p id="highestUserWPM">{wpm}</p></strong></span>
                 </div>
 
                 {/* Gap is here */}

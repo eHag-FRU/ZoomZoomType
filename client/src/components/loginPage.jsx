@@ -5,10 +5,11 @@ import axios from 'axios';
 
 
 
-const LogInPage = () => {
+const LogInPage = ({ updateAvgWPM }) => {
     //Set up the navigate object
     const navigate = useNavigate();
     
+    const [loginError, setLoginError] = useState(false);
     const [formValue, setFormValue] = useState({password: "", email: ""})
 
     function handleFormEmailChange(e) {
@@ -18,18 +19,44 @@ const LogInPage = () => {
     function handleFormPasswordChange(e) {
         setFormValue({password: e.target.value, email: formValue.email});
     }
+
+    //Component to display the login errors if present
+    function LoginErrorMessage({ error }) {
+        if (error) {
+            return(
+                <p className='error-text-theme' id='incorrectLogin'>Either the username or password is incorrect or an account does not exist under the provided email, please try again</p>
+            )
+        } else {
+            return null;
+        }
+    }
     
     //Handles the login button click
     const handleLogin = async (e) => {
         //Prevent the default action of submission, will do with axios
         e.preventDefault();
+
+        //Clear the error message state since trying to log in again
+        setLoginError(false);
         
         console.log("handling the login!!!");
         console.log(`formValue.email: ${formValue.email}`);
         console.log(`formValue.password: ${formValue.password}`);
 
         //Now take the information and submit it to the backend with axios
-        const response = await axios.post("http://localhost:3000/api/login", formValue);
+        let response = null;
+        
+        try {
+            response = await axios.post("http://localhost:3000/api/login", formValue);
+        } catch {
+            //Now make response be an {} with status 401
+            //Force it to be a fail HTTP status code
+            response = {status: 401};
+        }
+        
+        
+
+        print(response.status);
 
         //Now check in on the response code
         if (response.status == 200) {
@@ -43,15 +70,24 @@ const LogInPage = () => {
 
             //Set the state for logged in for the nav bar
 
-            //Grab the avg WPM and set the navbar state too
+            //Grab the avg WPM
             const userAvgWPM = await axios.get("http://localhost:3000/api/getAvgWPM", { params: { email }});
+
+            console.log(userAvgWPM);
+
+            //Set the WPM global state
+            updateAvgWPM(userAvgWPM.data.avgWPM);
 
             console.log(`userAvgWPM: {userAvgWPM}`);
 
             //Redirect to the homepage
+
+
         } else {
-            //Reponse was 401, Unauthorized Access
-            //Then make the error code show up by modifying the state
+            //clear the fields
+
+            //Make the error message show by modifying the state
+            setLoginError(true);
         }
     }
 
@@ -64,7 +100,8 @@ const LogInPage = () => {
                     <form method="POST" onSubmit={handleLogin}>
                         <h1 className='place-items-center'>Welcome to Zoom Zoom Type!</h1>
                         <h2 className='place-items-center'>Please login below</h2>
-                        <p className='error-text-theme' id='incorrectLogin'>Either the username or password is incorrect or an account does not exist under the provided email, please try again</p>
+                        <LoginErrorMessage error={loginError}></LoginErrorMessage>
+                        
                         <div>
                             <label for={".email"}>Email: </label>
                             <input type='text' name='email' id='email' style={{backgroundColor: "#ffff"}} value={formValue.email} onChange={handleFormEmailChange}></input>

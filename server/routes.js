@@ -77,10 +77,8 @@ router.get("/getAvgWPM", (res, req) => {
     //Now get the avg WMP from the database
     avgWPM = queries.getAvgWPMByUserID(userID);
 
-    console.log(avgWPM);
-
     //Send the response back
-    //req.send({'avgWPM': avgWPM});
+    req.send({'avgWPM': avgWPM});
 });
 
 
