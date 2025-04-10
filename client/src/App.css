@@ -18,6 +18,7 @@
 
 .theme {color:#fff !important; background-color:#0060ba !important}
 .text-theme {color:#0060ba !important}
+.error-text-theme {color: #b45f06 !important}
 .border-theme {border-color:#0060ba !important}
 
 .hover-theme:hover {color:#fff !important; background-color:#0060ba !important}
@@ -26,7 +27,12 @@
 
 .nav-anchor-visited:visited {color: #fff !important;}
 .nav-anchor-hover:hover {color:#b45f06 !important}
+.nav-logo:hover,:visited {color: #fff !important;}
+.nav-anchor-hover:hover {color:#0060ba !important}
 
+*{
+    color:#fff !important; background-color:#002f5c !important
+}
 .nav-achor-hover:hover *{
   color:#b45f06 !important;
 }

@@ -4,8 +4,7 @@ import {FontAwesomeIcon} from "@fortawesome/react-fontawesome"
 
 
 
-const NavBar = () => {
-
+const NavBar = ({wpm}) => {
     return (
         <div className="theme-d5 text-white px-3 py-2">
             <div className="d-flex flex-column flex-md-row justify-content-between align-items-start align-items-md-center gap-2">
