@@ -16,11 +16,13 @@ const GamePage = () => {
   //const [targetText, setTargetText] = useState("Lorem ipsum dolor sit amet consectetur adipiscing elit. Quisque faucibus ex sapien vitae pellentesque sem placerat. In id cursus mi pretium tellus duis convallis. Tempus leo eu aenean sed diam urna tempor. Pulvinar vivamus fringilla lacus nec metus bibendum egestas. Iaculis massa nisl malesuada lacinia integer nunc posuere. Ut hendrerit semper vel class aptent taciti sociosqu. Ad litora torquent per conubia nostra inceptos himenaeos");
   const [words, setWords] = useState([]);
   //text user types
-  const [typedText, setTypedText] = useState("");
+  const [typedWord, setTypedWord] = useState("");
   //array for user typed words
   const [typedWords, setTypedWords] = useState([]);
   //Game status
   const [status, setStatus] = useState(false);
+  //iterator for tracking which word user is at in word array
+  const [it, setIt] = useState(0);
 
   //Implement functionality to grab targetText from 
   useEffect(() => {
@@ -46,6 +48,20 @@ const GamePage = () => {
     })
   }
 
+  function handleTypedInput(event){
+    //grab typed input
+    let typedPhrase = event.target.value;
+
+    //add character to typed word
+    setTypedWord(typedPhrase);
+    console.log(typedPhrase, " ", words[it]);
+    if(typedWord === words[it]){
+      setIt(it+1);
+      setTypedWord("");
+    }
+
+  }
+
 
   return (
 
@@ -56,20 +72,29 @@ const GamePage = () => {
         <div className="col-12 col-lg-4 text-center mt-2 mb-2 fs-5">wpm: {wpm}</div>
       </div>
       <div className="w-75 p-5 fs-5">
-        {words.map((word, i) => (
-          <span key={i}>
-            <span>
-              {word + ' '}
-            </span>
+      {/**/}
+      {words.map((word, i) => {
+        //Set class name
+        let c = "";
+        if(i < it){
+          c = "green";
+        }
+        return (
+          <span key={i} style={{color: `${c}`}}>
+            {word + ' '}
           </span>
-        ))}
+        );
+      })}
       </div>
       <input 
         className="w-50 m-6"
-        value={typedText}
-        onChange={(e) => setTypedText(e.target.value)}
+        value={typedWord}
+        onChange={(event) => handleTypedInput(event)}
       />
-      {typedWords}
+      <h2>Debug</h2>
+      <p>Typed words so far: {typedWords}</p>
+      <p>Current word: {typedWord}</p>
+      <p>Target word: {words[it]}</p>
       <div className="container mt-5">
       <button onClick={() => handleClick('/Home')} className="btn btn-lg custom-btn theme-l2 mb-3 fw-bold">Start</button>
         <button onClick={() => handleClick('/Home')} className="btn btn-lg custom-btn theme-l2 mb-3 fw-bold">Home</button>
