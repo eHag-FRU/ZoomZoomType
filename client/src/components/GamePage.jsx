@@ -72,19 +72,57 @@ const GamePage = () => {
         <div className="col-12 col-lg-4 text-center mt-2 mb-2 fs-5">wpm: {wpm}</div>
       </div>
       <div className="w-75 p-5 fs-5">
-      {/**/}
-      {words.map((word, i) => {
-        //Set class name
-        let c = "";
-        if(i < it){
-          c = "green";
-        }
-        return (
-          <span key={i} style={{color: `${c}`}}>
-            {word + ' '}
-          </span>
-        );
-      })}
+        {words.map((word, i) => {
+          //print already typed words as green because they have been successfully completed
+          if(i < it){
+            return(
+              <span key={i} style={{color: "green"}}>
+                {word + ' '}
+              </span>
+            )
+          } 
+          //if on current word, style character by character
+          //TODO: Finish function
+          else if(i === it){
+            //split current word
+            let chars = word.split('');
+            console.log(chars);
+
+            //map all the words and store in object
+            let completedWord = chars.map((char, j) => {
+              let styling = "";
+              //if character is less than typedWord.length, it's already been typed, check if correct
+              if(j < typedWord.length){
+                if(typedWord[j] == char){
+                  styling = "green";
+                } else {
+                  styling = "red";
+                }
+              }
+              //TODO: check whether to print caret or not
+              //return to be stored in completedWord object
+              return(
+                <span key={j} style={{color: `${styling}`}}>
+                  {char}
+                </span>
+              )
+            })
+            console.log(completedWord);
+            return(
+              <span key={i}>
+                {completedWord}{' '}
+              </span>
+            )
+          }
+          //otherwise print word with no styling
+          else {
+            return (
+              <span key={i}>
+                {word + ' '}
+              </span>
+            );
+          }
+        })}
       </div>
       <input 
         className="w-50 m-6"
@@ -92,7 +130,6 @@ const GamePage = () => {
         onChange={(event) => handleTypedInput(event)}
       />
       <h2>Debug</h2>
-      <p>Typed words so far: {typedWords}</p>
       <p>Current word: {typedWord}</p>
       <p>Target word: {words[it]}</p>
       <div className="container mt-5">
