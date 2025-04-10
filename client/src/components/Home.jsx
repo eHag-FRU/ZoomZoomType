@@ -41,7 +41,7 @@ const Home = (alreadyLoggedIn) => {
             </p>
             <div className="row w-100">
                 <div className="container-fluid d-flex justify-content-between gap-4 w-25">
-                    <button onClick={() => handleClick('GamePage')}className="btn btn-lg custom-accent-btn mb-3 fw-bold">Play Now</button>
+                    <button onClick={() => handleClick('/GamePage')}className="btn btn-lg custom-accent-btn mb-3 fw-bold">Play Now</button>
                     <button className="btn btn-lg custom-accent-btn mb-3 fw-bold">Modes</button>
                 </div>
             </div>
