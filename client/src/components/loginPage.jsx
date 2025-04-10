@@ -56,8 +56,6 @@ const LogInPage = ({ updateAvgWPM }) => {
         
         
 
-        print(response.status);
-
         //Now check in on the response code
         if (response.status == 200) {
             //Good 
