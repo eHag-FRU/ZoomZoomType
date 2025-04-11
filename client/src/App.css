@@ -55,3 +55,13 @@
 .custom-btn:hover{
   background-color: #7cc0ff !important;
 }
+
+.custom-caret{
+  border-right: solid 1px black;
+}
+
+@keyframes blink {
+  50% {
+    opacity: 0;
+  }
+}

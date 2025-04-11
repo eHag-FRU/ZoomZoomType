@@ -76,7 +76,7 @@ const GamePage = () => {
           //print already typed words as green because they have been successfully completed
           if(i < it){
             return(
-              <span key={i} style={{color: "green"}}>
+              <span key={i} style={{color: "white"}}>
                 {word + ' '}
               </span>
             )
@@ -94,20 +94,36 @@ const GamePage = () => {
               //if character is less than typedWord.length, it's already been typed, check if correct
               if(j < typedWord.length){
                 if(typedWord[j] == char){
-                  styling = "green";
+                  styling = "white";
                 } else {
                   styling = "red";
                 }
+              } else {
+                styling = 'gray';
               }
-              //TODO: check whether to print caret or not
-              //return to be stored in completedWord object
+              //Print the caret
+              if(j == typedWord.length){
+                return (
+                  <span key={j} style={{color: `gray`, position: 'relative', display: 'inline-block'}}>
+                    {char}
+                    <span style={{
+                      position: 'absolute',
+                      left: -2,
+                      top: 0,
+                      bottom: 0,
+                      width: '2px',
+                      backgroundColor: 'orange',
+                      animation: 'blink 1s step-end infinite',
+                    }} />
+                  </span>
+                );
+              }
               return(
                 <span key={j} style={{color: `${styling}`}}>
                   {char}
                 </span>
               )
             })
-            console.log(completedWord);
             return(
               <span key={i}>
                 {completedWord}{' '}
@@ -117,7 +133,7 @@ const GamePage = () => {
           //otherwise print word with no styling
           else {
             return (
-              <span key={i}>
+              <span key={i} style={{color: 'grey'}}>
                 {word + ' '}
               </span>
             );
