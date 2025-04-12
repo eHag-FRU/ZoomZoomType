@@ -2,13 +2,13 @@ import React, {useState, useEffect, useRef} from 'react';
 import { useNavigate } from 'react-router-dom';
 import {generate, count} from 'random-words';
 
-const NUMB_OF_WORD = 200;
+const NUMB_OF_WORD = 170;
 const SECONDS = 60;
 
 
 const GamePage = () => {
   //used placeholder for future gamemodes
-  const [mode, setMode] = useState("Solo Quotes");
+  const [mode, setMode] = useState("Random Lowercase Words");
   //place holder for ability to set time
   const [time, setTime] = useState(60);
   //future calculated wpm
@@ -17,8 +17,6 @@ const GamePage = () => {
   const [words, setWords] = useState([]);
   //text user types
   const [typedWord, setTypedWord] = useState("");
-  //array for user typed words
-  const [typedWords, setTypedWords] = useState([]);
   //Game status
   const [gameStatus, setGameStatus] = useState(false);
   //IsTextGenerated?
@@ -27,6 +25,8 @@ const GamePage = () => {
   const [it, setIt] = useState(0);
   //correct characters typed
   const [correctChars, setCorrectChars] = useState(0);
+  //defining input ref so when game starts, you can automatically type on keyboard without clicking it
+  const inputRef = useRef(null);
 
   //Auxiliary functions to help with game
   function generateWords(){
@@ -115,14 +115,17 @@ const GamePage = () => {
       setIt(0);
       //set typed word to nothing
       setTypedWord("");
-      //set typedWords to nothing
-      setTypedWords([]);
       //if text is not generated, generate the text
       if(textGenerated===false){
         generateWords();
         setTextGenerated(true);
       }
     }
+    //auto focus on input bar so user doesn't have to manually click it after game starts
+    if (gameStatus === true && inputRef.current) {
+      inputRef.current.focus();
+    }
+
     //hook runs when game Status updates
   }, [gameStatus])
 
@@ -174,92 +177,94 @@ const GamePage = () => {
         <div className="col-12 col-lg-4 text-center mt-2 mb-2 fs-5">Time: {formatTime(time)}</div>
         <div className="col-12 col-lg-4 text-center mt-2 mb-2 fs-5">wpm: {wpm}</div>
       </div>
-      <div className="w-75 p-5 fs-5">
-        {/*Print the words and their typed state*/}
-        {words.map((word, i) => {
-          //print already typed words as green because they have been successfully completed
-          if(i < it){
-            return(
-              <span key={i} style={{color: "white"}}>
-                {word + ' '}
-              </span>
-            )
-          } 
-          //if on current word, style character by character
-          //TODO: Finish function
-          else if(i === it){
-            //split current word
-            let chars = word.split('');
-            console.log(chars);
-
-            //map all the words and store in object
-            let completedWord = chars.map((char, j) => {
-              let styling = "";
-              //if character is less than typedWord.length, it's already been typed, check if correct
-              if(j < typedWord.length){
-                if(typedWord[j] == char){
-                  styling = "white";
-                } else {
-                  styling = "red";
-                }
-              } else {
-                styling = 'gray';
-              }
-              //Print the caret
-              //Ripped straight from chatgpt, will update with my own version once I understand this one
-              /*TODO-update with own <version></version>
-              /***********************************/
-              if(j == typedWord.length){
-                return (
-                  <span key={j} style={{color: `gray`, position: 'relative', display: 'inline-block'}}>
-                    {char === ' ' ? '\u00A0' : char}
-                    <span style={{
-                      position: 'absolute',
-                      left: -2,
-                      top: 0,
-                      bottom: 0,
-                      width: '2px',
-                      backgroundColor: 'orange',
-                      animation: 'blink 1s step-end infinite',
-                    }} />
-                  </span>
-                );
-              }
-              /***********************************/
+      {/*Conditionally render game is game is running or not*/}
+      {gameStatus &&
+        <div className="w-75 p-5 fs-5">
+          {/*Print the words and their typed state*/}
+          {words.map((word, i) => {
+            //print already typed words as green because they have been successfully completed
+            if(i < it){
               return(
-                <span key={j} style={{color: `${styling}`}}>
-                  {char}
+                <span key={i} style={{color: "white"}}>
+                  {word + ' '}
                 </span>
               )
-            })
-            return(
-              <span key={i}>
-                {completedWord}{' '}
-              </span>
-            )
-          }
-          //otherwise print word with no styling
-          else {
-            return (
-              <span key={i} style={{color: 'grey'}}>
-                {word + ' '}
-              </span>
-            );
-          }
-        })}
-      </div>
-      <input 
-        className="w-50 m-6"
-        value={typedWord}
-        onChange={(event) => handleTypedInput(event)}
-      />
-      <h2>Debug</h2>
-      <p>Current word: {typedWord}</p>
-      <p>Target word: {words[it]}</p>
-      <p>Correct chars Typed: {correctChars}</p>
-      <p>Time elapsed: {SECONDS-time}</p>
-      <div className="container  d-flex flex-column gap-3">
-        <button onClick={()=>start()} className="btn btn-lg custom-btn theme-l2 mb-3 fw-bold">Start</button>
+            } 
+            //if on current word, style character by character
+            //TODO: Finish function
+            else if(i === it){
+              //split current word
+              let chars = word.split('');
+              console.log(chars);
+
+              //map all the words and store in object
+              let completedWord = chars.map((char, j) => {
+                let styling = "";
+                //if character is less than typedWord.length, it's already been typed, check if correct
+                if(j < typedWord.length){
+                  if(typedWord[j] == char){
+                    styling = "white";
+                  } else {
+                    styling = "red";
+                  }
+                } else {
+                  styling = 'gray';
+                }
+                //Print the caret
+                //Ripped straight from chatgpt, will update with my own version once I understand this one
+                /*TODO-update with own <version></version>
+                /***********************************/
+                if(j == typedWord.length){
+                  return (
+                    <span key={j} style={{color: `gray`, position: 'relative', display: 'inline-block'}}>
+                      {char}
+                      <span style={{
+                        position: 'absolute',
+                        left: -2,
+                        top: 0,
+                        bottom: 0,
+                        width: '2px',
+                        backgroundColor: 'orange',
+                        animation: 'blink 1s step-end infinite',
+                      }} />
+                    </span>
+                  );
+                }
+                /***********************************/
+                return(
+                  <span key={j} style={{color: `${styling}`}}>
+                    {char}
+                  </span>
+                )
+              })
+              return(
+                <span key={i}>
+                  {completedWord}{' '}
+                </span>
+              )
+            }
+            //otherwise print word with no styling
+            else {
+              return (
+                <span key={i} style={{color: 'grey'}}>
+                  {word + ' '}
+                </span>
+              );
+            }
+          })}
+        </div>
+      }
+      {gameStatus&&
+        <input
+          ref={inputRef} 
+          className="w-50 m-6"
+          value={typedWord}
+          onChange={(event) => handleTypedInput(event)}
+        />
+      }
+      <div className="container mt-5 d-flex flex-row gap-3">
+        {gameStatus === false &&
+        <button onClick={()=>start()} className="btn btn-lg custom-btn theme-l2 mb-3 fw-bold">Start</button>}
         <button onClick={() => handleClick('/Home')} className="btn btn-lg custom-btn theme-l2 mb-3 fw-bold">Home</button>
       </div>
     </div>
