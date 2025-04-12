@@ -25,17 +25,18 @@ const GamePage = () => {
   const[textGenerated, setTextGenerated] = useState(true);
   //iterator for tracking which word user is at in word array
   const [it, setIt] = useState(0);
+  //correct characters typed
+  const [correctChars, setCorrectChars] = useState(0);
 
   //Auxiliary functions to help with game
   function generateWords(){
     //generate list of words
     let tempWords = generate(NUMB_OF_WORD);
     //add a space to every word except for the last one
-    for(let i = 0; i < words.length-1; i++){
+    for(let i = 0; i < tempWords.length-1; i++){
       tempWords[i] = tempWords[i] + ' ';
     }
     setWords(tempWords);
-    console.log(tempWords);
   }
 
   //got this from chatgpt
@@ -64,17 +65,39 @@ const GamePage = () => {
     setTypedWord(typedPhrase);
     console.log(typedPhrase, " ", words[it]);
     if(typedPhrase === words[it]){
+      //if game is running, allow characters to be recorded
+      if(gameStatus === true){
+        //get correct characters typed so far
+        let charsTyped = correctChars;
+        //add current typedPhrase length to charsTyped
+        charsTyped += typedPhrase.length;
+        //set chars typed. This is used to calculate words per minute
+        setCorrectChars(charsTyped);
+      }
+      //increment the word
       setIt(it+1);
+      //set input word to nothing
       setTypedWord("");
     }
   }
 
-  function calWPM(time, characters){
 
-  }
 
-  function calAccuracy(mistakes, characters){
-
+  //calculate words per minute which is characters per second divided by 5
+  function calWPM(numChars, time){
+    //convert characters to words
+    let words_ = numChars/5;
+    //calculate wpm if 
+    if(SECONDS-time != 0){
+      //calculate seconds elapsed
+      let secondsElapsed = SECONDS-time;
+      //convert secondsElapsed to minutes elapsed
+      let minutesElapsed = secondsElapsed/60;
+      //return wpm which is words/minutes
+      return words_/minutesElapsed;
+    }
+    //return 0 if no time has passed
+    return 0;
   }
 
 
@@ -134,6 +157,14 @@ const GamePage = () => {
       }, 1000);  
     }
   }, [gameStatus]);
+
+  //useEffect loop for updating words per minute
+  useEffect(() => {
+    let tmpCorrectChars = correctChars;
+    let tmpWpm = calWPM(tmpCorrectChars, time);
+    setWpm(Math.round(tmpWpm));
+    //useeffect function runs when correctChars changes
+  }, [correctChars])
 
   return (
 
@@ -225,6 +256,8 @@ const GamePage = () => {
       <h2>Debug</h2>
       <p>Current word: {typedWord}</p>
       <p>Target word: {words[it]}</p>
+      <p>Correct chars Typed: {correctChars}</p>
+      <p>Time elapsed: {SECONDS-time}</p>
       <div className="container  d-flex flex-column gap-3">
         <button onClick={()=>start()} className="btn btn-lg custom-btn theme-l2 mb-3 fw-bold">Start</button>
         <button onClick={() => handleClick('/Home')} className="btn btn-lg custom-btn theme-l2 mb-3 fw-bold">Home</button>
