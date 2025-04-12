@@ -1,4 +1,4 @@
-/* The color pallet for the application */
+/*The color pallet for the application*/
 .theme-l5 {color:#000 !important; background-color:#ebf6ff !important}
 .theme-l4 {color:#000 !important; background-color:#bedfff !important}
 .theme-l3 {color:#000 !important; background-color:#7cc0ff !important}
@@ -25,10 +25,10 @@
 .hover-text-theme:hover {color:#0060ba !important}
 .hover-border-theme:hover {border-color:#0060ba !important}
 
-.nav-anchor-visited:visited {color: #fff !important;}
-.nav-anchor-hover:hover {color:#b45f06 !important}
-.nav-logo:hover,:visited {color: #fff !important;}
-.nav-anchor-hover:hover {color:#0060ba !important}
+.nav-anchor-visited:visited {color: #fff !important; text-decoration: none;}
+.nav-anchor-hover:hover {color:#b45f06 !important; text-decoration: none;}
+.nav-logo:hover,:visited {color: #fff !important; text-decoration: none;}
+.nav-anchor-hover:hover {color:#0060ba !important; text-decoration: none;}
 
 .nav-achor-hover:hover *{
   color:#b45f06 !important;

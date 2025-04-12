@@ -20,15 +20,23 @@ const GamePage = () => {
   //array for user typed words
   const [typedWords, setTypedWords] = useState([]);
   //Game status
-  const [status, setStatus] = useState(false);
+  const [gameStatus, setGameStatus] = useState(false);
+  //IsTextGenerated?
+  const[textGenerated, setTextGenerated] = useState(true);
   //iterator for tracking which word user is at in word array
   const [it, setIt] = useState(0);
 
-  //Implement functionality to grab targetText from 
-  useEffect(() => {
-    //const Words = targetText.split(' ').filter(word => word.trim() !== '');
-    setWords(generate(NUMB_OF_WORD));
-  }, [])
+  //Auxiliary functions to help with game
+  function generateWords(){
+    //generate list of words
+    let tempWords = generate(NUMB_OF_WORD);
+    //add a space to every word except for the last one
+    for(let i = 0; i < words.length-1; i++){
+      tempWords[i] = tempWords[i] + ' ';
+    }
+    setWords(tempWords);
+    console.log(tempWords);
+  }
 
   //got this from chatgpt
   function formatTime(time){
@@ -42,12 +50,12 @@ const GamePage = () => {
       navigate(page);
   }
 
+  //handles starting the game from the start game button
   function start() {
-    let interval = setInterval(() => {
-      setTime
-    })
+    setGameStatus(true);
   }
 
+  //checks if typed input matches current word
   function handleTypedInput(event){
     //grab typed input
     let typedPhrase = event.target.value;
@@ -55,13 +63,77 @@ const GamePage = () => {
     //add character to typed word
     setTypedWord(typedPhrase);
     console.log(typedPhrase, " ", words[it]);
-    if(typedWord === words[it]){
+    if(typedPhrase === words[it]){
       setIt(it+1);
       setTypedWord("");
     }
+  }
+
+  function calWPM(time, characters){
 
   }
 
+  function calAccuracy(mistakes, characters){
+
+  }
+
+
+  //useEffect hooks for game logic
+  //This hook generates initial text when page first loads
+  useEffect(() => {
+    generateWords();
+  }, [])
+
+  //This hook is responsible for generating text when the game starts and resetting it
+  useEffect(() => {
+    //checks if gameStatus is true and runs the text generation if it is true
+    if(gameStatus === true){
+      //set text counter to 0
+      setIt(0);
+      //set typed word to nothing
+      setTypedWord("");
+      //set typedWords to nothing
+      setTypedWords([]);
+      //if text is not generated, generate the text
+      if(textGenerated===false){
+        generateWords();
+        setTextGenerated(true);
+      }
+    }
+    //hook runs when game Status updates
+  }, [gameStatus])
+
+  
+  //home responsible for managing the timer --will merge with first hook
+  useEffect(() => {
+    if (gameStatus === true) {
+      //set time for timer to value of global variable SECONDS
+      let tempTime = SECONDS;
+      //set time to temp time before timer runs
+      setTime(tempTime);
+      //set timer that updates code roughly every second
+      const timer = setInterval(() => {
+        //decrement timer
+        tempTime = tempTime-1;
+        //when timer hits zero, game is over
+        //reset the game settings and record user wpm in database
+        if(tempTime <= 0){
+          //disable the timer
+          clearInterval(timer);
+          //set gameStatus to false
+          setGameStatus(false);
+          //set textGenerated to false so new text can generate
+          setTextGenerated(false);
+          //TODO:
+          /***********************************/ 
+          //Record wpm in database
+          /***********************************/
+        }
+        //set time to new time
+        setTime(tempTime);
+      }, 1000);  
+    }
+  }, [gameStatus]);
 
   return (
 
@@ -72,6 +144,7 @@ const GamePage = () => {
         <div className="col-12 col-lg-4 text-center mt-2 mb-2 fs-5">wpm: {wpm}</div>
       </div>
       <div className="w-75 p-5 fs-5">
+        {/*Print the words and their typed state*/}
         {words.map((word, i) => {
           //print already typed words as green because they have been successfully completed
           if(i < it){
@@ -102,10 +175,13 @@ const GamePage = () => {
                 styling = 'gray';
               }
               //Print the caret
+              //Ripped straight from chatgpt, will update with my own version once I understand this one
+              /*TODO-update with own <version></version>
+              /***********************************/
               if(j == typedWord.length){
                 return (
                   <span key={j} style={{color: `gray`, position: 'relative', display: 'inline-block'}}>
-                    {char}
+                    {char === ' ' ? '\u00A0' : char}
                     <span style={{
                       position: 'absolute',
                       left: -2,
@@ -118,6 +194,7 @@ const GamePage = () => {
                   </span>
                 );
               }
+              /***********************************/
               return(
                 <span key={j} style={{color: `${styling}`}}>
                   {char}
@@ -148,8 +225,8 @@ const GamePage = () => {
       <h2>Debug</h2>
       <p>Current word: {typedWord}</p>
       <p>Target word: {words[it]}</p>
-      <div className="container mt-5">
-      <button onClick={() => handleClick('/Home')} className="btn btn-lg custom-btn theme-l2 mb-3 fw-bold">Start</button>
+      <div className="container  d-flex flex-column gap-3">
+        <button onClick={()=>start()} className="btn btn-lg custom-btn theme-l2 mb-3 fw-bold">Start</button>
         <button onClick={() => handleClick('/Home')} className="btn btn-lg custom-btn theme-l2 mb-3 fw-bold">Home</button>
       </div>
     </div>
