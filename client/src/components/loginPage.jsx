@@ -5,7 +5,7 @@ import axios from 'axios';
 
 
 
-const LogInPage = ({ updateAvgWPM }) => {
+const LogInPage = ({ updateAvgWPM, cookie, setLoginCookie }) => {
     //Set up the navigate object
     const navigate = useNavigate();
     
@@ -64,9 +64,18 @@ const LogInPage = ({ updateAvgWPM }) => {
             const email = formValue.email;
             console.log(`formvalue.email: ${formValue.email}`);
 
-            //Make a cookie
+         
+            console.log(response.data.userName);
 
-            //Set the state for logged in for the nav bar
+            //Make the JSON to put into the cookie, so usrID, usrName
+            //The login query already sends back all three to use!
+            const cookieJSON = {
+                "userUsername": response.data.userName,
+                "userID": response.data.userID,
+                "userEmail": response.data.userEmail,
+            };
+
+            console.log(cookieJSON);
 
             //Grab the avg WPM
             const userAvgWPM = await axios.get("http://localhost:3000/api/getAvgWPM", { params: { email }});
@@ -80,7 +89,11 @@ const LogInPage = ({ updateAvgWPM }) => {
 
             console.log(`userAvgWPM: {userAvgWPM}`);
 
+            //make the cookie
+            setLoginCookie('usr', JSON.stringify(cookieJSON), { path: '/' })
+
             //Redirect to the homepage
+
 
 
         } else {
@@ -91,9 +104,21 @@ const LogInPage = ({ updateAvgWPM }) => {
         }
     }
 
-   
+        //
+        // Checking if the user is logged in, if so, redirect to profile
+        //
 
-        if (true) {
+        console.log(`loginCookie: ${cookie.usr}`);
+
+        const loginCookie = cookie.usr ? JSON.parse(cookie.usr) : null;
+
+       
+
+        console.log(`LogIn Component loginCookie: ${loginCookie}`);
+
+
+
+        if (loginCookie == null) {
             return (
                 <div className='grid h-screen place-items-center'>
                     

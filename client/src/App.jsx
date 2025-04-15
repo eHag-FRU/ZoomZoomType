@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import './App.css'
 import { Routes, Route } from "react-router-dom";
+import { useCookies } from 'react-cookie';
 import Home from './components/Home.jsx';
 import NavBar from './components/NavBar.jsx';
 import FaQ from './components/FaQ.jsx';
@@ -27,6 +28,9 @@ function App() {
   //Adding the avg WPM state
   const [avgWPM, setAvgWPM] = useState(0);
 
+  //Adding in the cookie to handle user login state
+  const [cookie, setCookies] = useCookies(['usr']);
+
 
   return (
     <div className='app-container min-vh-100 d-flex flex-column theme-d5'>
@@ -39,7 +43,7 @@ function App() {
           <Route path='/FaQ' element={<FaQ/>}/>
           <Route path='/ProfilePage' element={<ProfilePage/>}/>
           <Route path='/GamePage' element={<GamePage/>}/>
-          <Route path='/login' element={<LogInPage updateAvgWPM={setAvgWPM}/>} />
+          <Route path='/login' element={<LogInPage updateAvgWPM={setAvgWPM} cookie={cookie} setLoginCookie={setCookies}/>} />
         </Routes>
       </div>
     </div>
