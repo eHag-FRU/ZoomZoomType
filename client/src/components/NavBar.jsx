@@ -16,7 +16,7 @@ const NavBar = ({wpm}) => {
                     <Link className='nav-anchor-visited nav-anchor-hover' to='/games'><FontAwesomeIcon icon="fa-solid fa-keyboard" style={{ fontSize: '1.5em' }}/></Link>
                     <Link className='nav-anchor-visited nav-anchor-hover' to='/leaderBoard'><FontAwesomeIcon icon="fas fa-crown" style={{ fontSize: '1.5em' }}/></Link>
                     <Link className='nav-anchor-visited nav-anchor-hover' to='/about'><FontAwesomeIcon icon="fas fa-info-circle" style={{ fontSize: '1.5em' }}/></Link>
-                    <span className="ms-2 ">Average WPM: <strong><p id="highestUserWPM"></p></strong></span>
+                    <span className="ms-2 ">Average WPM: <strong><p id="highestUserWPM">{wpm}</p></strong></span>
                 </div>
 
                 {/* Gap is here */}

@@ -38,8 +38,17 @@ router.post('/login', (req, res, next) => {
     //Create a cookie since the log in is correct
     if (req.body.password === correctPassword) {
         console.log("Password is correct!!");
+
+        //grab the usr id
+        const usrID = queries.getUserIDByEmail(req.body.email);
+
+        //grab the usr name
+        const usrName = queries.getUserNameByID(usrID);
+
+        console.log(usrName);
+
         //Send a HTTP 200 status for OK and redirect to the homepage
-        res.sendStatus(200);
+        res.status(200).send({"userID": usrID, 'userName': usrName, 'userEmail': req.body.email});
     } else {
         console.log("Password is incorrect, or no account exists");
         //Send a HTTP 401 - Unauthorized access response
