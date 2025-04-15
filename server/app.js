@@ -1,5 +1,6 @@
 const express = require('express')
 const app = express();
+const path = require('path');
 const routes = require("./routes")
 
 //Define the port for the API
@@ -10,6 +11,16 @@ app.use('/api', routes);
 
 //Use the JSON parser, this is needed
 app.use(express.json());
+
+//Serve the static files from the client folder
+app.use(express.static(path.join(__dirname + '/../client/dist')));
+
+//Serve the files from the client folder to client
+//Used for fallback non api routing /{*splat} is equivalent to saying * routes in express
+//Needed for react router to work when reloading pages
+app.get('/{*splat}', (req, res) => {
+    res.sendFile(path.join(__dirname, '../client/dist/index.html'));
+});
 
 //Run the server
 app.listen(port, () => {

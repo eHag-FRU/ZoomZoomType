@@ -26,7 +26,7 @@ library.add(faCarOn, faCrown, faKeyboard,faCircleInfo, faGear, faCircleUser);
 
 function App() {
   //Adding the avg WPM state
-  const [avgWPM, setAvgWPM] = useState();
+  const [avgWPM, setAvgWPM] = useState(0);
 
   //Adding in the cookie to handle user login state
   const [cookie, setCookies] = useCookies(['usr']);

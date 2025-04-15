@@ -85,6 +85,8 @@ const LogInPage = ({ updateAvgWPM, cookie, setLoginCookie }) => {
             //Set the WPM global state
             updateAvgWPM(userAvgWPM.data.avgWPM);
 
+            console.log(userAvgWPM.data.avgWPM);
+
             console.log(`userAvgWPM: {userAvgWPM}`);
 
             //make the cookie
@@ -141,7 +143,7 @@ const LogInPage = ({ updateAvgWPM, cookie, setLoginCookie }) => {
 
                         <div>
                             <button type='submit'>Login</button>
-                            <p>Need an account? <a href="register">Register Here</a></p>
+                            <p>Need an account? <a className="theme-d5" href="register">Register Here</a></p>
                         </div>
                     </form>
                 </div>
