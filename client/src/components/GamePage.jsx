@@ -216,7 +216,7 @@ const GamePage = () => {
                 /***********************************/
                 if(j == typedWord.length){
                   return (
-                    <span key={j} style={{color: `gray`, position: 'relative', display: 'inline-block'}}>
+                    <span key={j} style={{color: `gray`, position: 'relative'}}>
                       {char}
                       <span style={{
                         position: 'absolute',
