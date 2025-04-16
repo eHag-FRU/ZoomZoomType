@@ -55,6 +55,28 @@ function getUserIDByEmail(email) {
 }
 
 
+function getUserNameByID(userID) {
+    //Check if userID is null
+    if (userID == null) {
+        return;
+    }
+
+
+    //Now execute the query 
+    result = db.query("SELECT userUsername FROM users WHERE userID = ?;", [ userID ]);
+
+    usrName = null;
+
+    try{
+        usrName = result[0].userUsername;
+    }catch{
+        throw "getUserNameByID: Could not get the user's username from the SQL Database Query";
+    }
+
+    return usrName;
+
+}
+
 function getAvgWPMByUserID(userID) {
     //check if the userID is null
     if (userID == null) {
@@ -153,5 +175,6 @@ module.exports = {
     getPasswordByEmail,
     getUserIDByEmail,
     getAvgWPMByUserID,
-    updateAvgWPMByUserID
+    updateAvgWPMByUserID,
+    getUserNameByID
 }

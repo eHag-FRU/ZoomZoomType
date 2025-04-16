@@ -5,7 +5,7 @@ import axios from 'axios';
 
 
 
-const LogInPage = ({ updateAvgWPM }) => {
+const LogInPage = ({ updateAvgWPM, cookie, setLoginCookie }) => {
     //Set up the navigate object
     const navigate = useNavigate();
     
@@ -64,9 +64,18 @@ const LogInPage = ({ updateAvgWPM }) => {
             const email = formValue.email;
             console.log(`formvalue.email: ${formValue.email}`);
 
-            //Make a cookie
+         
+            console.log(response.data.userName);
 
-            //Set the state for logged in for the nav bar
+            //Make the JSON to put into the cookie, so usrID, usrName
+            //The login query already sends back all three to use!
+            const cookieJSON = {
+                "userUsername": response.data.userName,
+                "userID": response.data.userID,
+                "userEmail": response.data.userEmail,
+            };
+
+            console.log(cookieJSON);
 
             //Grab the avg WPM
             const userAvgWPM = await axios.get("http://localhost:3000/api/getAvgWPM", { params: { email }});
@@ -80,7 +89,11 @@ const LogInPage = ({ updateAvgWPM }) => {
 
             console.log(`userAvgWPM: {userAvgWPM}`);
 
+            //make the cookie
+            setLoginCookie('usr', JSON.stringify(cookieJSON), { path: '/' })
+
             //Redirect to the homepage
+            return <Navigate to="/" replace/>;
 
 
         } else {
@@ -91,36 +104,52 @@ const LogInPage = ({ updateAvgWPM }) => {
         }
     }
 
-   
+        //
+        // Checking if the user is logged in, if so, redirect to profile
+        //
+        const loginCookie = cookie.usr ? JSON.stringify(cookie.usr) : null;
 
-        if (true) {
+
+
+
+        if (loginCookie == null) {
             return (
-                <div className='grid h-screen place-items-center'>
+                <div className='container-fluid theme-d5 pb-5'>
+                    <div className="row justify-content-center">
+                     <div className="col-12 col-md-8 col-lg-6">
                     
-                    <form method="POST" onSubmit={handleLogin}>
-                        <h1 className='place-items-center'>Welcome to Zoom Zoom Type!</h1>
-                        <h2 className='place-items-center'>Please login below</h2>
-                        <LoginErrorMessage error={loginError}></LoginErrorMessage>
-                        
-                        <div>
-                            <label for={".email"}>Email: </label>
-                            <input type='text' name='email' id='email' style={{backgroundColor: "#ffff"}} value={formValue.email} onChange={handleFormEmailChange}></input>
-                        </div>
-                        
-                        <br/>
+                        <form method="POST" onSubmit={handleLogin} className='mt-5'>
+                                <h1 className='text-center'>Welcome to Zoom Zoom Type!</h1>
+                                <h2 className='text-center'>Please login below</h2>
+                                
+                                {/* Throwing in a DIV to ensure the input boxes dont grow with the error message being shown */}
+                                <div style={{minHeight: '1.5rem'}}>
+                                    <LoginErrorMessage error={loginError} className='text-center'></LoginErrorMessage>
+                                </div>
+                                
+                                
 
-                        <div>
-                            <label for="password">Password: </label>
-                            <input type='password' name='password' id='password' value={formValue.password} onChange={handleFormPasswordChange}></input>
-                        </div>
-                        
-                        <br/>
+                                <div className='form-group text-start'>
+                                    <label htmlFor='email'style={{textAlign: 'left'}}>Email </label>
+                                    <input type='text' name='email' id='email' className='form-control' style={{backgroundColor: "#ffff"}} value={formValue.email} onChange={handleFormEmailChange}></input>
+                                </div>
+                                
+                                <br/>
 
-                        <div>
-                            <button type='submit'>Login</button>
-                            <p>Need an account? <a className="theme-d5" href="register">Register Here</a></p>
-                        </div>
-                    </form>
+                                <div className='form-group text-start'>
+                                    <label htmlFor="password">Password </label>
+                                    <input type='password' name='password' id='password' className='form-control' style={{flexGrow: 0}} value={formValue.password} onChange={handleFormPasswordChange}></input>
+                                </div>
+                                
+                                <br/>
+
+                                <div className='text-center'>
+                                    <button type='submit' className='btn btn-lg custom-accent-btn mb-3 fw-bold'>Login</button>
+                                    <p>Need an account? <a className="theme-d5 mb-3 registerLink-hover" href="register">Register Here</a></p>
+                                </div>
+                            </form>
+                        </div>  
+                    </div>
                 </div>
         )
     } else{
