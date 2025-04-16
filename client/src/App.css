@@ -27,6 +27,7 @@
 
 .nav-anchor-visited:visited {color: #fff !important; text-decoration: none;}
 .nav-anchor-hover:hover {color:#b45f06 !important; text-decoration: none;}
+
 .nav-logo:hover,:visited {color: #fff !important; text-decoration: none;}
 .nav-anchor-hover:hover {color:#0060ba !important; text-decoration: none;}
 
@@ -39,6 +40,8 @@
 .registerLink-hover:hover {
   color: #cc6e09 !important;
 }
+
+.footer-anchor-hover:hover {color:#b45f06 !important; text-decoration: none;}
 
 .custom-accent-btn{
   color: #fff !important; 

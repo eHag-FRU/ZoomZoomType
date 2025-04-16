@@ -8,6 +8,7 @@ import FaQ from './components/FaQ.jsx';
 import About from './components/About.jsx';
 import ProfilePage from './components/ProfilePage.jsx';
 import GamePage from './components/GamePage.jsx';
+import Footer from './components/Footer.jsx';
 
 
 //Importing Bootstrap
@@ -17,10 +18,11 @@ import "bootstrap/dist/js/bootstrap.bundle.min";
 // Importing FontAwesome to allow for icons
 import { library } from '@fortawesome/fontawesome-svg-core';
 import {faCarOn, faCrown, faKeyboard, faCircleInfo, faGear, faCircleUser} from '@fortawesome/free-solid-svg-icons'; 
+import {faGithub} from '@fortawesome/free-brands-svg-icons'; 
 import LogInPage from './components/loginPage.jsx';
 
 //Adding in the icons
-library.add(faCarOn, faCrown, faKeyboard,faCircleInfo, faGear, faCircleUser);
+library.add(faCarOn, faCrown, faKeyboard,faCircleInfo, faGear, faCircleUser, faGithub);
 
 
 
@@ -46,6 +48,7 @@ function App() {
           <Route path='/login' element={<LogInPage updateAvgWPM={setAvgWPM} cookie={cookie} setLoginCookie={setCookies}/>} />
         </Routes>
       </div>
+      <Footer></Footer>
     </div>
   )
 }
