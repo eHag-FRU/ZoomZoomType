@@ -58,6 +58,25 @@ router.post('/login', (req, res, next) => {
     
 });
 
+
+// i think this will work lol
+
+router.post('/register', async(req, res) => {
+    const { userName, userEmail, password } = req.body;
+
+    if (!userName || !userEmail || !password) {
+        return res.status(400).json({ error: 'Username, email, and password are required.' });
+    }
+
+    try {
+        await queries.createUserAccount(userName, userEmail, password);
+        res.status(201).json({ message: 'User account created successfully.' });
+    } catch (error) {
+        console.error('Error in /register route:', error);
+        res.status(500).json({ error: 'Failed to create account.' })
+    }
+})
+
 router.get('/logout', (res, req) => {
     //Check if there is a session
     currentLoggedInUser = req.session;
