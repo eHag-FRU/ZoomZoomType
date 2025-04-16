@@ -93,7 +93,7 @@ const LogInPage = ({ updateAvgWPM, cookie, setLoginCookie }) => {
             setLoginCookie('usr', JSON.stringify(cookieJSON), { path: '/' })
 
             //Redirect to the homepage
-
+            return <Navigate to="/" replace/>;
 
 
         } else {
@@ -107,43 +107,38 @@ const LogInPage = ({ updateAvgWPM, cookie, setLoginCookie }) => {
         //
         // Checking if the user is logged in, if so, redirect to profile
         //
+        const loginCookie = cookie.usr ? JSON.stringify(cookie.usr) : null;
 
-        console.log(`loginCookie: ${cookie.usr}`);
-
-        const loginCookie = cookie.usr ? JSON.parse(cookie.usr) : null;
-
-       
-
-        console.log(`LogIn Component loginCookie: ${loginCookie}`);
 
 
 
         if (loginCookie == null) {
             return (
-                <div className='grid h-screen place-items-center'>
+                <div className='container-fluid d-flex flex-column flex-grow-1 justify-content-center align-items-center theme-d5 text-center pb-5'>
                     
                     <form method="POST" onSubmit={handleLogin}>
-                        <h1 className='place-items-center'>Welcome to Zoom Zoom Type!</h1>
-                        <h2 className='place-items-center'>Please login below</h2>
+                        <h1>Welcome to Zoom Zoom Type!</h1>
+                        <h2>Please login below</h2>
                         <LoginErrorMessage error={loginError}></LoginErrorMessage>
                         
+
                         <div>
-                            <label for={".email"}>Email: </label>
-                            <input type='text' name='email' id='email' style={{backgroundColor: "#ffff"}} value={formValue.email} onChange={handleFormEmailChange}></input>
+                            <label htmlFor='email'>Email </label>
+                            <input type='text' name='email' id='email' className='ms-2' style={{backgroundColor: "#ffff"}} value={formValue.email} onChange={handleFormEmailChange}></input>
                         </div>
                         
                         <br/>
 
                         <div>
-                            <label for="password">Password: </label>
-                            <input type='password' name='password' id='password' value={formValue.password} onChange={handleFormPasswordChange}></input>
+                            <label htmlFor="password">Password </label>
+                            <input type='password' name='password' id='password' className='ms-2' value={formValue.password} onChange={handleFormPasswordChange}></input>
                         </div>
                         
                         <br/>
 
                         <div>
-                            <button type='submit'>Login</button>
-                            <p>Need an account? <a className="theme-d5" href="register">Register Here</a></p>
+                            <button type='submit' className='btn btn-lg custom-accent-btn mb-3 fw-bold'>Login</button>
+                            <p>Need an account? <a className="theme-d5 mb-3 registerLink-hover" href="register">Register Here</a></p>
                         </div>
                     </form>
                 </div>

@@ -36,6 +36,10 @@
 
 .nav-logo:hover,:visited {color: #fff !important;}
 
+.registerLink-hover:hover {
+  color: #cc6e09 !important;
+}
+
 .custom-accent-btn{
   color: #fff !important; 
   background-color: #b45f06 !important;
