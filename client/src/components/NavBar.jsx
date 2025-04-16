@@ -1,10 +1,11 @@
 import React, { useEffect, useState, useRef } from 'react';
 import { Link } from 'react-router-dom';
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome"
+import NavBarUserDropDownMenu from './NavBarUserDropDownMenu';
 
 
 
-const NavBar = ({wpm}) => {
+const NavBar = ({wpm, setWPM, cookie, deleteCookie}) => {
     return (
         <div className="theme-d5 text-white px-3 py-2">
             <div className="d-flex flex-column flex-md-row justify-content-between align-items-start align-items-md-center gap-2">
@@ -21,10 +22,12 @@ const NavBar = ({wpm}) => {
 
                 {/* Gap is here */}
 
-                <div className="d-flex align-items-center gap-3 ms-md-3 mt-2 mt-md-0">
+
+                <NavBarUserDropDownMenu isLoggedIn={cookie.usr ? JSON.stringify(cookie.usr) : null} deleteCookie={deleteCookie} setWPM={setWPM} wpm={wpm}></NavBarUserDropDownMenu>
+                {/* <div className="d-flex align-items-center gap-3 ms-md-3 mt-2 mt-md-0">
                     <Link className='nav-anchor-visited nav-anchor-hover text-white' to='/settings'><FontAwesomeIcon icon="fas fa-cog" style={{ fontSize: '1.5em' }}/></Link>
                     <Link className='nav-anchor-visited nav-anchor-hover text-white' to='/login'><FontAwesomeIcon icon="fas fa-circle-user" style={{ fontSize: '1.5em' }}/></Link>
-                </div>
+                </div> */}
             </div>
         </div>
     );

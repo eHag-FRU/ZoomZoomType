@@ -29,12 +29,12 @@ function App() {
   const [avgWPM, setAvgWPM] = useState(0);
 
   //Adding in the cookie to handle user login state
-  const [cookie, setCookies] = useCookies(['usr']);
+  const [cookie, setCookies, deleteCookie] = useCookies(['usr']);
 
 
   return (
     <div className='app-container min-vh-100 d-flex flex-column theme-d5'>
-      <NavBar wpm={avgWPM}></NavBar>
+      <NavBar wpm={avgWPM} setWPM={setAvgWPM} cookie={cookie} deleteCookie={deleteCookie}></NavBar>
       <div className='d-flex flex-grow-1'>
         <Routes>
           <Route path='/' element={<Home/>}/>
