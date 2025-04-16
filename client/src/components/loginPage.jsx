@@ -114,33 +114,42 @@ const LogInPage = ({ updateAvgWPM, cookie, setLoginCookie }) => {
 
         if (loginCookie == null) {
             return (
-                <div className='container-fluid d-flex flex-column flex-grow-1 justify-content-center align-items-center theme-d5 text-center pb-5'>
+                <div className='container-fluid theme-d5 pb-5'>
+                    <div className="row justify-content-center">
+                     <div className="col-12 col-md-8 col-lg-6">
                     
-                    <form method="POST" onSubmit={handleLogin}>
-                        <h1>Welcome to Zoom Zoom Type!</h1>
-                        <h2>Please login below</h2>
-                        <LoginErrorMessage error={loginError}></LoginErrorMessage>
-                        
+                        <form method="POST" onSubmit={handleLogin} className='mt-5'>
+                                <h1 className='text-center'>Welcome to Zoom Zoom Type!</h1>
+                                <h2 className='text-center'>Please login below</h2>
+                                
+                                {/* Throwing in a DIV to ensure the input boxes dont grow with the error message being shown */}
+                                <div style={{minHeight: '1.5rem'}}>
+                                    <LoginErrorMessage error={loginError} className='text-center'></LoginErrorMessage>
+                                </div>
+                                
+                                
 
-                        <div>
-                            <label htmlFor='email'>Email </label>
-                            <input type='text' name='email' id='email' className='ms-2' style={{backgroundColor: "#ffff"}} value={formValue.email} onChange={handleFormEmailChange}></input>
-                        </div>
-                        
-                        <br/>
+                                <div className='form-group text-start'>
+                                    <label htmlFor='email'style={{textAlign: 'left'}}>Email </label>
+                                    <input type='text' name='email' id='email' className='form-control' style={{backgroundColor: "#ffff"}} value={formValue.email} onChange={handleFormEmailChange}></input>
+                                </div>
+                                
+                                <br/>
 
-                        <div>
-                            <label htmlFor="password">Password </label>
-                            <input type='password' name='password' id='password' className='ms-2' value={formValue.password} onChange={handleFormPasswordChange}></input>
-                        </div>
-                        
-                        <br/>
+                                <div className='form-group text-start'>
+                                    <label htmlFor="password">Password </label>
+                                    <input type='password' name='password' id='password' className='form-control' style={{flexGrow: 0}} value={formValue.password} onChange={handleFormPasswordChange}></input>
+                                </div>
+                                
+                                <br/>
 
-                        <div>
-                            <button type='submit' className='btn btn-lg custom-accent-btn mb-3 fw-bold'>Login</button>
-                            <p>Need an account? <a className="theme-d5 mb-3 registerLink-hover" href="register">Register Here</a></p>
-                        </div>
-                    </form>
+                                <div className='text-center'>
+                                    <button type='submit' className='btn btn-lg custom-accent-btn mb-3 fw-bold'>Login</button>
+                                    <p>Need an account? <a className="theme-d5 mb-3 registerLink-hover" href="register">Register Here</a></p>
+                                </div>
+                            </form>
+                        </div>  
+                    </div>
                 </div>
         )
     } else{
