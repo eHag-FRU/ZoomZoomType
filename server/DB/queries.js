@@ -169,6 +169,8 @@ function createUserAccount(userName, userEmail, password) {
 
     //Now that its assigned, create a new entry with 0's for wpmTotal and gamesPlayed to it for the user
     db.query("INSERT INTO avgWPM (wpmTotal, userID, gamesPlayed) VALUES (?, ?, ?);", [0, userID, 0]);
+
+    return(true);
 }
 
 module.exports = {
@@ -176,5 +178,6 @@ module.exports = {
     getUserIDByEmail,
     getAvgWPMByUserID,
     updateAvgWPMByUserID,
-    getUserNameByID
+    getUserNameByID,
+    createUserAccount
 }

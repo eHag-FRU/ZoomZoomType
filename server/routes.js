@@ -64,6 +64,10 @@ router.post('/login', (req, res, next) => {
 router.post('/register', async(req, res) => {
     const { userName, userEmail, password } = req.body;
 
+    console.log(userName);
+    console.log(password);
+    console.log(userEmail)
+
     if (!userName || !userEmail || !password) {
         return res.status(400).json({ error: 'Username, email, and password are required.' });
     }
@@ -73,7 +77,7 @@ router.post('/register', async(req, res) => {
         res.status(201).json({ message: 'User account created successfully.' });
     } catch (error) {
         console.error('Error in /register route:', error);
-        res.status(500).json({ error: 'Failed to create account.' })
+        res.status(500).json({ error: `Failed to create account. ${error}` })
     }
 })
 
