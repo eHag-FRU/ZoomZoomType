@@ -1,9 +1,10 @@
-import React, {useState, useEffect, useRef} from 'react';
+import React, {useState, useEffect, useRef, useMemo} from 'react';
 import { useNavigate } from 'react-router-dom';
 import {generate, count} from 'random-words';
 
 const NUMB_OF_WORD = 170;
 const SECONDS = 60;
+const WORDS_PER_SCREEN = 60
 
 
 const GamePage = () => {
@@ -27,10 +28,10 @@ const GamePage = () => {
   const [correctChars, setCorrectChars] = useState(0);
   //defining input ref so when game starts, you can automatically type on keyboard without clicking it
   const inputRef = useRef(null);
-  //index for tracking what character is being typed
-  const [currChar, setCurrChar] = useState(0);
-  //used to track number characters in words, created during generation
-  const [totalChars, setTotalChars] = useState(0);
+  //current word iterator
+  const [currIt, setCurrIt] = useState(0);
+  //state for words per line so we can have dynamic screen sizes
+  const [wordsPerLine, setWordsPerLine] = useState(12);
 
   //Auxiliary functions to help with game
   function generateWords(){
@@ -67,8 +68,7 @@ const GamePage = () => {
 
     //add character to typed word
     setTypedWord(typedPhrase);
-    console.log(typedPhrase, " ", words[it]);
-    if(typedPhrase === words[it]){
+    if(typedPhrase === words[currIt]){
       //if game is running, allow characters to be recorded
       if(gameStatus === true){
         //get correct characters typed so far
@@ -79,7 +79,7 @@ const GamePage = () => {
         setCorrectChars(charsTyped);
       }
       //increment the word
-      setIt(it+1);
+      setCurrIt(currIt+1);
       //set input word to nothing
       setTypedWord("");
     }
@@ -117,16 +117,14 @@ const GamePage = () => {
     if(gameStatus === true){
       //set text counter to 0
       setIt(0);
+      //set currIt counter to 0
+      setCurrIt(0);
       //set typed word to nothing
       setTypedWord("");
       //if text is not generated, generate the text
       if(textGenerated===false){
         generateWords();
         setTextGenerated(true);
-        //sets current char
-        setCurrChar(0);
-        //setting total chars
-        setTotalChars(words.reduce((sum, word) => sum + word.length, 0));
       }
       //set wpm
       setWpm(0);
@@ -181,8 +179,31 @@ const GamePage = () => {
     //useeffect function runs when correctChars changes
   }, [correctChars])
 
+  const handleResize = () => {
+    const width = window.innerWidth; // Get the current window width
+    
+    const baseWordWidth = 80; // Approximate width of a word in pixels (adjustable)
+    const minWords = 1;
+    const maxWords = 12;
+  
+    // Calculate words per line based on window width
+    const calculatedWords = Math.max(
+      minWords,
+      Math.min(maxWords, Math.floor(width / baseWordWidth))
+    );
+  
+    setWordsPerLine(calculatedWords); // Update words per line state
+  };
+  //use effect for handling screensize
+  useEffect(() => {
+    handleResize(); // run initially
+    window.addEventListener('resize', handleResize);
+    // return () => window.removeEventListener('resize', handleResize);
+  },[]);
+
+
   //function for rendering the text, will be same across all games
-  function renderGame(){
+  const renderGame = useMemo(() => {
     //used to track indexes of all characters from 0 - n characters
     let charIndex = 0;
     //tracks the starting position of the current word we are typing
@@ -191,92 +212,109 @@ const GamePage = () => {
     let setCurrWordIndex = false;
     //flag to mark all words typed after incorrect character red
     let incorrectCharFound = false;
+    //tracking which word we are on
+    let currWord = 0;
+    //current line
+    let line = [];
+    //set of lines
+    let lines = [];
 
-    return(
-      //map all the words
-      words.map((word, i) => {
-        //split each word into its character components
-        let chars = word.split('');
-        //map the characters in each completed work to a <span> class
-        let completedWord = chars.map((char, j) => {
-          //intial styling for class
-          let styling = "";
-          //result span which will be appened to complete word
-          let charSpan = <span></span>;
-          //all previously typed chars are render with white styling
-          if(i < it){
-            styling = {color: "white"};
-            charSpan=
-              <span key={j} style={styling}>
-                {char}
-              </span>
+    if (currIt >= it + wordsPerLine) {
+      setIt(currIt);
+    }
+
+    let visibleWords = words.slice(it, it+WORDS_PER_SCREEN);
+
+    //map all the words to lines
+    visibleWords.map((word, i) => {
+      //split each word into its character components
+      let chars = word.split('');
+      //map the characters in each completed work to a <span> class
+      let completedWord = chars.map((char, j) => {
+        //intial styling for class
+        let styling = "";
+        //result span which will be appened to complete word
+        let charSpan = <span></span>;
+        //all previously typed chars are render with white styling
+        if(i+it < currIt){
+          styling = {color: "white"};
+          charSpan=
+            <span key={j} style={styling}>
+              {char}
+            </span>
+        }
+        //all currently typed or future chars will have variable styling which is handled in this else statement 
+        else {
+          if(i+it === currIt){
+            //set wordIndex if it hasn't already been set
+            if(setCurrWordIndex === false){
+              currWordIndex = charIndex;
+              setCurrWordIndex = true;
+            }
           }
-          //all currently typed or future chars will have variable styling which is handled in this else statement 
+          //check if character has been typed
+          if(charIndex-currWordIndex < typedWord.length){
+            //if it has been typed and is correct, make character white
+            if(typedWord[j] === char && incorrectCharFound === false){
+              styling = {color: "white", position: 'relative'};
+            }
+            //if it has been typed but is not correct, make it red
+            else {
+              styling = {color: "red", position: 'relative'};
+              incorrectCharFound = true;
+            }
+          }
+          //if character hasn't been typed yet, make it grey 
           else {
-            if(i === it){
-              //set wordIndex if it hasn't already been set
-              if(setCurrWordIndex === false){
-                currWordIndex = charIndex;
-                setCurrWordIndex = true;
-              }
-            }
-            //check if character has been typed
-            if(charIndex-currWordIndex < typedWord.length){
-              //if it has been typed and is correct, make character white
-              if(typedWord[j] === char && incorrectCharFound === false){
-                styling = {color: "white", position: 'relative'};
-              }
-              //if it has been typed but is not correct, make it red
-              else {
-                styling = {color: "red", position: 'relative'};
-                incorrectCharFound = true;
-              }
-            }
-            //if character hasn't been typed yet, make it grey 
-            else {
-              styling = {color: "grey", position: 'relative'}
-            }
-
-            //check whether to print cursor
-            if(charIndex-currWordIndex == typedWord.length){
-              charSpan=
-              <span key={j} style={styling}>
-                {char}
-                <span style={{
-                  position: 'absolute',
-                  left: -2,
-                  top: 0,
-                  bottom: 0,
-                  width: '2px',
-                  backgroundColor: 'orange',
-                  animation: 'blink 1s step-end infinite',
-                }} />
-              </span>
-            }
-            //otherwise just print without cursor 
-            else {
-              charSpan=
-              <span key={j} style={styling}>
-                {char}
-              </span>
-            }
+            styling = {color: "grey", position: 'relative'}
           }
-          //increment current char index
-          charIndex = charIndex+1;
-          //return current charspan
-          return(
-            charSpan
-          );
-        })
-        //render the completed word
+
+          //check whether to print cursor
+          if(charIndex-currWordIndex == typedWord.length){
+            charSpan=
+            <span key={j} style={styling}>
+              {char}
+              <span style={{
+                position: 'absolute',
+                left: -2,
+                top: 0,
+                bottom: 0,
+                width: '2px',
+                backgroundColor: 'orange',
+                animation: 'blink 1s step-end infinite',
+              }} />
+            </span>
+          }
+          //otherwise just print without cursor 
+          else {
+            charSpan=
+            <span key={j} style={styling}>
+              {char}
+            </span>
+          }
+        }
+        //increment current char index
+        charIndex = charIndex+1;
+        //return current charspan
         return(
-          <span key={i}>
-            {completedWord}
-          </span>
-        )
+          charSpan
+        );
       })
-    )
-  }
+      //increment current word
+      currWord = currWord + 1;
+
+      //render the completed word
+      line.push(<span key={i}>{completedWord}</span>);
+      //check if you need to print a new line
+      if ((currWord % wordsPerLine === 0) || i === visibleWords.length - 1){
+        lines.push(
+          <div>{line}</div>
+        );
+        line = [];
+      } 
+    })
+    return(lines);
+  }, [words, it, typedWord, wordsPerLine]);
 
   return (
 
@@ -289,7 +327,7 @@ const GamePage = () => {
       {/*Conditionally render game is game is running or not*/}
       {gameStatus &&
         <div className="w-75 p-5 fs-5 font-monospace">
-          {renderGame()}
+          {renderGame}
         </div>
       }
       {gameStatus&&
