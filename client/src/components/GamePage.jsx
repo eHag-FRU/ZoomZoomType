@@ -32,6 +32,12 @@ const GamePage = () => {
   const [currIt, setCurrIt] = useState(0);
   //state for words per line so we can have dynamic screen sizes
   const [wordsPerLine, setWordsPerLine] = useState(12);
+  //state for how many characters per line can exist for the purposes of resizing screen dynamically
+  const [charactersPerLine, setCharactersPerLine] = useState(0);
+  //reference for container containing typed words for the purposes of reszizing
+  const typingContainerRef = useRef(null);
+  //char reference used for calculating character width which is using for the purposes of resizing typing container
+  const charRef = useRef(null);
 
   //Auxiliary functions to help with game
   function generateWords(){
@@ -180,25 +186,34 @@ const GamePage = () => {
   }, [correctChars])
 
   const handleResize = () => {
-    const width = window.innerWidth; // Get the current window width
-    
-    const baseWordWidth = 80; // Approximate width of a word in pixels (adjustable)
+    if (!typingContainerRef.curren || !charRef.current) return;
+  
+    //get the container width
+    const containerWidth = typingContainerRef.current.offsetWidth;
+    //get the character width
+    const characterWidth = charRef.current.offsetWidth;
+    //calculate how many characters can fit within container
+    const charAmount = Math.floor(containerWidth/characterWidth);
+    //set characters per line
+    setCharactersPerLine(charAmount);
+
+    const baseWordWidth = 100; // Adjust this if needed
     const minWords = 1;
     const maxWords = 12;
   
-    // Calculate words per line based on window width
     const calculatedWords = Math.max(
       minWords,
-      Math.min(maxWords, Math.floor(width / baseWordWidth))
+      Math.min(maxWords, Math.floor(containerWidth / baseWordWidth))
     );
-  
-    setWordsPerLine(calculatedWords); // Update words per line state
+    console.log(calculatedWords);
+    setWordsPerLine(calculatedWords);
   };
+
   //use effect for handling screensize
   useEffect(() => {
-    handleResize(); // run initially
+    handleResize();
     window.addEventListener('resize', handleResize);
-    // return () => window.removeEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
   },[]);
 
 
@@ -219,11 +234,14 @@ const GamePage = () => {
     //set of lines
     let lines = [];
 
+
+    //TODO: REWRITE RENDERING LOGIC TO DO WORDS BASED OFF CHARACTERS PER LINE
+    
     if (currIt >= it + wordsPerLine) {
       setIt(currIt);
     }
 
-    let visibleWords = words.slice(it, it+WORDS_PER_SCREEN);
+    let visibleWords = words.slice(it, it+wordsPerLine*4);
 
     //map all the words to lines
     visibleWords.map((word, i) => {
@@ -326,7 +344,7 @@ const GamePage = () => {
       </div>
       {/*Conditionally render game is game is running or not*/}
       {gameStatus &&
-        <div className="w-75 p-5 fs-5 font-monospace">
+        <div ref={typingContainerRef} className="w-75 p-5 fs-5 font-monospace">
           {renderGame}
         </div>
       }
@@ -342,6 +360,10 @@ const GamePage = () => {
         {gameStatus === false &&
         <button onClick={()=>start()} className="btn btn-lg custom-btn theme-l2 mb-3 fw-bold">Start</button>}
         <button onClick={() => handleClick('/Home')} className="btn btn-lg custom-btn theme-l2 mb-3 fw-bold">Home</button>
+      </div>
+      {/*Hidden character reference used to calculating width of a character*/}
+      <div ref={charRef} className="d-none fs-5">
+          a
       </div>
     </div>
   )
