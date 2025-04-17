@@ -236,7 +236,11 @@ const GamePage = () => {
 
 
     //TODO: REWRITE RENDERING LOGIC TO DO WORDS BASED OFF CHARACTERS PER LINE
-    
+    while(lines.length != 4){
+      break;
+    }
+
+
     if (currIt >= it + wordsPerLine) {
       setIt(currIt);
     }
