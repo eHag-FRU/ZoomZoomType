@@ -27,6 +27,10 @@ const GamePage = () => {
   const [correctChars, setCorrectChars] = useState(0);
   //defining input ref so when game starts, you can automatically type on keyboard without clicking it
   const inputRef = useRef(null);
+  //index for tracking what character is being typed
+  const [currChar, setCurrChar] = useState(0);
+  //used to track number characters in words, created during generation
+  const [totalChars, setTotalChars] = useState(0);
 
   //Auxiliary functions to help with game
   function generateWords(){
@@ -119,7 +123,15 @@ const GamePage = () => {
       if(textGenerated===false){
         generateWords();
         setTextGenerated(true);
+        //sets current char
+        setCurrChar(0);
+        //setting total chars
+        setTotalChars(words.reduce((sum, word) => sum + word.length, 0));
       }
+      //set wpm
+      setWpm(0);
+      //set counted characters
+      setCorrectChars(0);
     }
     //auto focus on input bar so user doesn't have to manually click it after game starts
     if (gameStatus === true && inputRef.current) {
@@ -169,6 +181,103 @@ const GamePage = () => {
     //useeffect function runs when correctChars changes
   }, [correctChars])
 
+  //function for rendering the text, will be same across all games
+  function renderGame(){
+    //used to track indexes of all characters from 0 - n characters
+    let charIndex = 0;
+    //tracks the starting position of the current word we are typing
+    let currWordIndex = 0;
+    //set curr word index - must happen only once
+    let setCurrWordIndex = false;
+    //flag to mark all words typed after incorrect character red
+    let incorrectCharFound = false;
+
+    return(
+      //map all the words
+      words.map((word, i) => {
+        //split each word into its character components
+        let chars = word.split('');
+        //map the characters in each completed work to a <span> class
+        let completedWord = chars.map((char, j) => {
+          //intial styling for class
+          let styling = "";
+          //result span which will be appened to complete word
+          let charSpan = <span></span>;
+          //all previously typed chars are render with white styling
+          if(i < it){
+            styling = {color: "white"};
+            charSpan=
+              <span key={j} style={styling}>
+                {char}
+              </span>
+          }
+          //all currently typed or future chars will have variable styling which is handled in this else statement 
+          else {
+            if(i === it){
+              //set wordIndex if it hasn't already been set
+              if(setCurrWordIndex === false){
+                currWordIndex = charIndex;
+                setCurrWordIndex = true;
+              }
+            }
+            //check if character has been typed
+            if(charIndex-currWordIndex < typedWord.length){
+              //if it has been typed and is correct, make character white
+              if(typedWord[j] === char && incorrectCharFound === false){
+                styling = {color: "white", position: 'relative'};
+              }
+              //if it has been typed but is not correct, make it red
+              else {
+                styling = {color: "red", position: 'relative'};
+                incorrectCharFound = true;
+              }
+            }
+            //if character hasn't been typed yet, make it grey 
+            else {
+              styling = {color: "grey", position: 'relative'}
+            }
+
+            //check whether to print cursor
+            if(charIndex-currWordIndex == typedWord.length){
+              charSpan=
+              <span key={j} style={styling}>
+                {char}
+                <span style={{
+                  position: 'absolute',
+                  left: -2,
+                  top: 0,
+                  bottom: 0,
+                  width: '2px',
+                  backgroundColor: 'orange',
+                  animation: 'blink 1s step-end infinite',
+                }} />
+              </span>
+            }
+            //otherwise just print without cursor 
+            else {
+              charSpan=
+              <span key={j} style={styling}>
+                {char}
+              </span>
+            }
+          }
+          //increment current char index
+          charIndex = charIndex+1;
+          //return current charspan
+          return(
+            charSpan
+          );
+        })
+        //render the completed word
+        return(
+          <span key={i}>
+            {completedWord}
+          </span>
+        )
+      })
+    )
+  }
+
   return (
 
     <div className="container-fluid d-flex flex-column flex-grow-1 align-items-center m-5">
@@ -179,79 +288,8 @@ const GamePage = () => {
       </div>
       {/*Conditionally render game is game is running or not*/}
       {gameStatus &&
-        <div className="w-75 p-5 fs-5">
-          {/*Print the words and their typed state*/}
-          {words.map((word, i) => {
-            //print already typed words as green because they have been successfully completed
-            if(i < it){
-              return(
-                <span key={i} style={{color: "white"}}>
-                  {word + ' '}
-                </span>
-              )
-            } 
-            //if on current word, style character by character
-            //TODO: Finish function
-            else if(i === it){
-              //split current word
-              let chars = word.split('');
-              console.log(chars);
-
-              //map all the words and store in object
-              let completedWord = chars.map((char, j) => {
-                let styling = "";
-                //if character is less than typedWord.length, it's already been typed, check if correct
-                if(j < typedWord.length){
-                  if(typedWord[j] == char){
-                    styling = "white";
-                  } else {
-                    styling = "red";
-                  }
-                } else {
-                  styling = 'gray';
-                }
-                //Print the caret
-                //Ripped straight from chatgpt, will update with my own version once I understand this one
-                /*TODO-update with own <version></version>
-                /***********************************/
-                if(j == typedWord.length){
-                  return (
-                    <span key={j} style={{color: `gray`, position: 'relative'}}>
-                      {char}
-                      <span style={{
-                        position: 'absolute',
-                        left: -2,
-                        top: 0,
-                        bottom: 0,
-                        width: '2px',
-                        backgroundColor: 'orange',
-                        animation: 'blink 1s step-end infinite',
-                      }} />
-                    </span>
-                  );
-                }
-                /***********************************/
-                return(
-                  <span key={j} style={{color: `${styling}`}}>
-                    {char}
-                  </span>
-                )
-              })
-              return(
-                <span key={i}>
-                  {completedWord}{' '}
-                </span>
-              )
-            }
-            //otherwise print word with no styling
-            else {
-              return (
-                <span key={i} style={{color: 'grey'}}>
-                  {word + ' '}
-                </span>
-              );
-            }
-          })}
+        <div className="w-75 p-5 fs-5 font-monospace">
+          {renderGame()}
         </div>
       }
       {gameStatus&&
