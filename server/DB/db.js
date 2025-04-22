@@ -12,8 +12,13 @@ function deleteQuery(sql, params){
 
 }
 
+//Done for all queries that do not return any data ONLY!!!
+function noReturnQuery(sql, params) {
+    db.prepare(sql).run(params);
+}
 
 module.exports = {
     query,
-    deleteQuery
+    deleteQuery,
+    noReturnQuery
 }

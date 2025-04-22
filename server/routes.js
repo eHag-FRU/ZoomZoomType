@@ -61,13 +61,6 @@ router.post('/login', (req, res, next) => {
 });
 
 
-router.post('/updateUserName', (req, res) => {
-
-    //Now grab the user update
-
-
-});
-
 
 
 //
@@ -139,16 +132,51 @@ router.delete('/deleteaccount', (req,res) => {
     res.sendStatus(200);
 });
 
-router.update('/updateUsername', (req, res) => {
+router.post('/updateUsername', (req, res) => {
+    console.log("Going to update the username");
+
+    //Grab the username and ID from the form
+    const newUserName = req.body.userName;
+    const userID = req.body.id;
+
+    console.log(`routes.js new username: ${newUserName}`);
+
+    //Now grab the cookie
+    console.log("The updateUsername cookie: ", req.body.id);
+
+    //Send request to db
+    queries.updateUserNameByID(userID, newUserName);
+
+
+    //Send a HTTP-200 to say everything was OK
+    res.sendStatus(200);
 
 });
 
-router.update('/updatePassword', (req, res) => {
+router.post('/updatePassword', (req, res) => {
+    console.log("Going to update the password");
+
 
 });
 
-router.update('/updateEmail', (req, res) => {
+router.post('/updateEmail', (req, res) => {
+    console.log("Going to update the email");
 
+    //Grab the cookie for the ID
+    const userIDToUpdateEmail = req.body.id;
+
+    //Grab the email from the form component to send to the DB
+    const newUserEmail = req.body.email;
+
+    console.log(`newUserEmail: ${newUserEmail}`);
+    console.log(`userIDToUpdateEmail: ${userIDToUpdateEmail}`);
+
+
+    //Now make the db call
+    queries.updateEmailByID(userIDToUpdateEmail, newUserEmail);
+
+    //Send an HTTP 200 - OK, signaling the request was executed successfully
+    res.sendStatus(200);
 });
 
 

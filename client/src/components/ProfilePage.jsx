@@ -12,6 +12,16 @@ const ProfilePage = ({setWPM, deleteCookie}) => {
     //Use the useNaivgate, allows for redirection
     const navigate = useNavigate();
 
+    //Use a state to handle new email update
+    const [newEmail, setNewEmail] = useState("");
+
+    //Handles the email update
+    function handleEmailUpdateChange(e) {
+        setNewEmail(e.target.value);
+    }
+
+
+
 
 
 
@@ -65,9 +75,32 @@ const ProfilePage = ({setWPM, deleteCookie}) => {
         navigate('/');
     }
 
+
+    //Email Update handler example
+    const handleEmailUpdate = async (e) => {
+        //Prevent the default button behaviour
+        e.preventDefault();
+
+        console.log("Handling email update!");
+
+        let response = null;
+
+        try {
+            response = await axios.post("http://localhost:3000/api/updateEmail", {id: cookie.userID, email: newEmail});
+        } catch (e) {
+            console.log(`handleEmailUpdate: POST error: ${e}`);
+        }
+
+    }
+
     return (
         <div>
             <button onClick={handleDeleteAccount}>DELETE ACCOUNT TEST</button>
+
+            <div>
+                <input placeholder='New Email' onChange={handleEmailUpdateChange}></input>
+                <button onClick={handleEmailUpdate}>UPDATE EMAIL TEST</button>
+            </div>
         </div>
     )
 }

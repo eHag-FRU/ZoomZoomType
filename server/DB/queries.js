@@ -162,6 +162,9 @@ function updateAvgWPMByUserID(userID, gamesWPM){
 
 
 function updateUserNameByID(ID, newUserName) {
+    console.log("Updating username by ID with DB");
+
+
     //Check for NULL ID
     if (ID == null) {
         throw "updateUserNameByID: ID can not be null";
@@ -170,15 +173,28 @@ function updateUserNameByID(ID, newUserName) {
     }
 
     //Now make the update query
-    db.query("UPDATE users SET userUsername = ? WHERE userID = ?;", [newUserName, ID]);
+    db.noReturnQuery("UPDATE users SET userUsername = ? WHERE userID = ?;", [newUserName, ID]);
 }
 
 function updateEmailByID(ID, newEmail) {
+    console.log("Updating email by ID with DB");
 
+    //Check for NULL id and email
+    if (ID == null) {
+        throw "updateEmailByID: ID can not be null";
+
+    } else if (newEmail == null) {
+        throw "updateEmailByID: newEmail can not be null";
+    }
+
+
+
+    //Make call to DB to update info
+    db.noReturnQuery("UPDATE users SET userEmail = ? WHERE userID = ?;", [newEmail, ID]);
 }
 
 function updatePasswordByID(ID, newPassword) {
-    
+    console.log("Updating password by ID with DB");
 }
 
 //
@@ -243,5 +259,7 @@ module.exports = {
     updateAvgWPMByUserID,
     getUserNameByID,
     deleteUserByID,
-    updateUserNameByID
+    updateUserNameByID,
+    updateEmailByID,
+    updatePasswordByID
 }
