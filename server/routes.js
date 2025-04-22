@@ -139,6 +139,18 @@ router.delete('/deleteaccount', (req,res) => {
     res.sendStatus(200);
 });
 
+router.update('/updateUsername', (req, res) => {
+
+});
+
+router.update('/updatePassword', (req, res) => {
+
+});
+
+router.update('/updateEmail', (req, res) => {
+
+});
+
 
 //export the module to import into the app
 module.exports = router;

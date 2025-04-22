@@ -173,6 +173,14 @@ function updateUserNameByID(ID, newUserName) {
     db.query("UPDATE users SET userUsername = ? WHERE userID = ?;", [newUserName, ID]);
 }
 
+function updateEmailByID(ID, newEmail) {
+
+}
+
+function updatePasswordByID(ID, newPassword) {
+    
+}
+
 //
 //  CREATE
 //
