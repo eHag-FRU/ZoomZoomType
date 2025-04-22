@@ -98,16 +98,21 @@ router.get("/getAvgWPM", (res, req) => {
     req.send({'avgWPM': avgWPM});
 });
 
-router.get("/gamesPlayed", (res, req) => {
+router.get("/gamesPlayed", (req, res) => {
 
     //Grab the users ID from the request
-    const userID = res.body.ID
+    const userID = req.query.ID
+
+    console.log(`gamesPlayer: userID - ${userID}`);
 
     //Now query to grab the number of games played & total WPM
     gamesPlayed = queries.getGamesPlayedAndWPMByUserID(userID);
 
+    console.log(`gamesPlayed in router: ${gamesPlayed}`);
+    console.log(`gamesPlayed in router: ${gamesPlayed.gamesPlayed}`);
+
     //Send back the dictionary that is {gamesPlayed, wpmTotal}
-    res.statusCode(200).send(gamesPlayed)
+    res.status(200).send(gamesPlayed)
 });
 
 //

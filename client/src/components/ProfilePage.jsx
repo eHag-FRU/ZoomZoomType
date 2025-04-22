@@ -3,7 +3,31 @@ import { useNavigate, useLocation, Navigate } from 'react-router-dom';
 import axios from 'axios';
 
 //Importing what is needed to get the cookie
-import { useCookies} from 'react-cookie'; 
+import { useCookies} from 'react-cookie';
+
+async function gamePlayedDictExampleFunction(cookie) {
+    //Here is how you use the gamesPlayed endpoint to get overall wpm and games played
+
+    //Make a variable to hold the returning dictionary
+    let gamesPlayedDict = null;
+
+    console.log(`gamePlayedDictExampleFunction: cookie.userID: ${cookie.userID}`)
+
+    //Put the axios call into an try/catch ==> Axios call needs to be in try catch
+    try {
+        gamesPlayedDict = await axios.get("http://localhost:3000/api/gamesPlayed", {params: {ID: cookie.userID}})
+    } catch (e) {
+        console.log(`gamesPlayed API endpoint: ${e}`)
+    }
+
+    //Print the values here
+    console.log(`gamePlayedDictExampleFunction: ${gamesPlayedDict.data}`);
+    console.log(`gamePlayedDictExampleFunction: gamesPlayed ${gamesPlayedDict.data.gamesPlayed}`);
+    console.log(`gamePlayedDictExampleFunction: wpmTotal ${gamesPlayedDict.data.wpmTotal}`);
+
+    return gamesPlayedDict.data
+
+}
 
 const ProfilePage = ({setWPM, deleteCookie}) => {
     //Grab the cookie
@@ -12,6 +36,7 @@ const ProfilePage = ({setWPM, deleteCookie}) => {
     //Use the useNaivgate, allows for redirection
     const navigate = useNavigate();
 
+
     //Use a state to handle new email update
     const [newEmail, setNewEmail] = useState("");
 
@@ -19,6 +44,19 @@ const ProfilePage = ({setWPM, deleteCookie}) => {
 
     const [newPassword, setPassword] = useState("");
 
+
+    const [gamesPlayed, setGamesPlayed] = useState(0);
+    const [wpmTotal, setWpmTotal] = useState(0);
+
+
+    useEffect(() => {
+        if (cookie?.userID) {
+            gamePlayedDictExampleFunction(cookie).then(data => {
+                setGamesPlayed(data.gamesPlayed);
+                setWpmTotal(data.wpmTotal);
+            });
+        }
+    }, [cookie]); // call once on mount or if cookie changes
 
     //Handles the email update
     function handleEmailUpdateChange(e) {
@@ -36,27 +74,6 @@ const ProfilePage = ({setWPM, deleteCookie}) => {
     }
 
 
-
-
-
-    const gamePlayedDictExampleFunction = async (e) => {
-        //Here is how you use the gamesPlayed endpoint to get overall wpm and games played
-
-        //Make a variable to hold the returning dictionary
-        let gamesPlayedDict = null;
-
-        //Put the axios call into an try/catch ==> Axios call needs to be in try catch
-        try {
-            gamesPlayedDict = await axios.get("http://localhost:3000/api/gamesPlayed", {data: {ID: cookie.userID}})
-        } catch (e) {
-            console.log(`gamesPlayed API endpoint: ${e}`)
-        }
-
-        //Print the values here
-        console.log(`gamePlayedDictExampleFunction: gamesPlayed ${gamesPlayedDict.gamesPlayed}`);
-        console.log(`gamePlayedDictExampleFunction: wpmTotal ${gamesPlayedDict.wpmTotal}`);
-
-    }
 
     const handleDeleteAccount = async (e) => {
         //TEST function for the delete button back end
@@ -142,7 +159,12 @@ const ProfilePage = ({setWPM, deleteCookie}) => {
 
     return (
         <div>
-            <button onClick={handleDeleteAccount}>DELETE ACCOUNT TEST</button>
+            
+
+            <div>
+                <p>Total Games played: {gamesPlayed}</p>
+                <p>Total WPM: {wpmTotal}</p>
+            </div>
 
             <div>
                 <input placeholder='New Email' onChange={handleEmailUpdateChange}></input>
@@ -155,9 +177,13 @@ const ProfilePage = ({setWPM, deleteCookie}) => {
             </div>
 
             <div>
-                <input placeholder='New password' onChange={handlePasswordUpdateChange}></input>
+                <input placeholder='New password' onChange={handlePasswordUpdateChange} type='password'></input>
                 <button onClick={handlePasswordUpdate}>UPDATE PASSWORD TEST</button>
             </div>
+
+            <br></br>
+
+            <button onClick={handleDeleteAccount}>DELETE ACCOUNT TEST</button>
         </div>
     )
 }

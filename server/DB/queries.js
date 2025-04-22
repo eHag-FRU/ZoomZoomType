@@ -106,20 +106,23 @@ function getGamesPlayedAndWPMByUserID(userID) {
     }
 
     //Good to go, now grab the users WPM and games played by their userID
-    result = db.query("SELECT wpmTotal, gamesPlayed FROM avgWPM WHERE userID = ?;" [userID]);
+    result = db.query("SELECT wpmTotal, gamesPlayed FROM avgWPM WHERE userID = ?;", [userID]);
 
     //Will hold the games played and the over all WPM
     gamesPlayed = 0;
     wpmTotal = 0;
 
+    console.log(result[0].gamesPlayed);
+    console.log(result[0]);
+
     try {
         gamesPlayed = result[0].gamesPlayed;
         wpmTotal = result[0].wpmTotal;
-    } catch (e) {
+    } catch{
         throw `getGamesPlayedAndWPMByUserID: could not either assign gamesPlayed or wpmTotal: ${e}`;
     }
 
-    return {"gamesPlayed": gamesPlayed, "wpmTotal": wpmTotal};
+    return result[0];
 }
 
 
@@ -274,5 +277,6 @@ module.exports = {
     deleteUserByID,
     updateUserNameByID,
     updateEmailByID,
-    updatePasswordByID
+    updatePasswordByID,
+    getGamesPlayedAndWPMByUserID
 }
