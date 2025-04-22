@@ -98,6 +98,30 @@ function getAvgWPMByUserID(userID) {
 
 }
 
+function getGamesPlayedAndWPMByUserID(userID) {
+
+    //check for null userID
+    if (userID == null) {
+        throw "getGamesPlayedAndWPMByUserID: userID can not be null";
+    }
+
+    //Good to go, now grab the users WPM and games played by their userID
+    result = db.query("SELECT wpmTotal, gamesPlayed FROM avgWPM WHERE userID = ?;" [userID]);
+
+    //Will hold the games played and the over all WPM
+    gamesPlayed = 0;
+    wpmTotal = 0;
+
+    try {
+        gamesPlayed = result[0].gamesPlayed;
+        wpmTotal = result[0].wpmTotal;
+    } catch (e) {
+        throw `getGamesPlayedAndWPMByUserID: could not either assign gamesPlayed or wpmTotal: ${e}`;
+    }
+
+    return {"gamesPlayed": gamesPlayed, "wpmTotal": wpmTotal};
+}
+
 
 //
 // UPDATE
@@ -134,6 +158,19 @@ function updateAvgWPMByUserID(userID, gamesWPM){
 
     //Now write an update query
     db.query("UPDATE avgWPM SET wpmTotal = ?, gamesPlayed = ? WHERE userID = ?;", [newResultWPM, newGamesPlayed, userID]);
+}
+
+
+function updateUserNameByID(ID, newUserName) {
+    //Check for NULL ID
+    if (ID == null) {
+        throw "updateUserNameByID: ID can not be null";
+    } else if (newUserName == null) {
+        throw "updateUserNameByID: newUserName can not be null"
+    }
+
+    //Now make the update query
+    db.query("UPDATE users SET userUsername = ? WHERE userID = ?;", [newUserName, ID]);
 }
 
 //
@@ -197,5 +234,6 @@ module.exports = {
     getAvgWPMByUserID,
     updateAvgWPMByUserID,
     getUserNameByID,
-    deleteUserByID
+    deleteUserByID,
+    updateUserNameByID
 }

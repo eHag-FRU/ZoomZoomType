@@ -9,7 +9,7 @@ const ProfilePage = ({setWPM, deleteCookie}) => {
     //Grab the cookie
     const cookie = (useCookies(['usr'])[0]).usr;
 
-    //Use the useNaivgate
+    //Use the useNaivgate, allows for redirection
     const navigate = useNavigate();
 
     const handleDeleteAccount = async (e) => {

@@ -60,6 +60,19 @@ router.post('/login', (req, res, next) => {
     
 });
 
+
+router.post('/updateUserName', (req, res) => {
+
+    //Now grab the user update
+
+
+});
+
+
+
+//
+//  GET
+//
 router.get('/logout', (res, req) => {
     //Check if there is a session
     currentLoggedInUser = req.session;
@@ -92,6 +105,17 @@ router.get("/getAvgWPM", (res, req) => {
     req.send({'avgWPM': avgWPM});
 });
 
+router.get("/gamesPlayed", (res, req) => {
+
+    //Grab the users ID from the request
+    const userID = res.body.ID
+
+    //Now query to grab the number of games played & total WPM
+    gamesPlayed = queries.getGamesPlayedAndWPMByUserID(userID);
+
+    //Send back the dictionary that is {gamesPlayed, wpmTotal}
+    res.statusCode(200).send(gamesPlayed)
+});
 
 //
 // Profile commands
