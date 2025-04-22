@@ -12,12 +12,34 @@ const ProfilePage = ({setWPM, deleteCookie}) => {
     //Use the useNaivgate, allows for redirection
     const navigate = useNavigate();
 
+
+
+
+    const gamePlayedDictExampleFunction = async (e) => {
+        //Here is how you use the gamesPlayed endpoint to get overall wpm and games played
+
+        //Make a variable to hold the returning dictionary
+        let gamesPlayedDict = null;
+
+        //Put the axios call into an try/catch ==> Axios call needs to be in try catch
+        try {
+            gamesPlayedDict = await axios.get("http://localhost:3000/api/gamesPlayed", {data: {ID: cookie.userID}})
+        } catch (e) {
+            console.log(`gamesPlayed API endpoint: ${e}`)
+        }
+
+        //Print the values here
+        console.log(`gamePlayedDictExampleFunction: gamesPlayed ${gamesPlayedDict.gamesPlayed}`);
+        console.log(`gamePlayedDictExampleFunction: wpmTotal ${gamesPlayedDict.wpmTotal}`);
+
+    }
+
     const handleDeleteAccount = async (e) => {
         //TEST function for the delete button back end
         //Seeing if can grab cookies in the express.js backend
         //Have to send the cookie over
 
-        
+        //THIS IS HOW YOU DELETE AN ACCOUNT, this is tied to an button currently
 
         //Print the cookie out
         console.log("The cookie grabbed: ", cookie);
