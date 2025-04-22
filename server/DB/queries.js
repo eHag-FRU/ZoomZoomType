@@ -171,10 +171,31 @@ function createUserAccount(userName, userEmail, password) {
     db.query("INSERT INTO avgWPM (wpmTotal, userID, gamesPlayed) VALUES (?, ?, ?);", [0, userID, 0]);
 }
 
+//
+// DELETE
+//
+
+function deleteUserByID(ID) {
+
+    //Check for NULL ID
+    if (ID == null) {
+        throw "deleteUserByID: ID can not be null";
+    }
+
+    //Now good to execute the query
+    try {
+        db.deleteQuery("DELETE FROM users WHERE userID = ?;", [ID]);
+    } catch (e) {
+        console.log(`deleteUserByID: ${e}`);
+    }
+
+}
+
 module.exports = {
     getPasswordByEmail,
     getUserIDByEmail,
     getAvgWPMByUserID,
     updateAvgWPMByUserID,
-    getUserNameByID
+    getUserNameByID,
+    deleteUserByID
 }

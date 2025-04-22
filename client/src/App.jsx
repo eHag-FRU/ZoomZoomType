@@ -43,7 +43,7 @@ function App() {
           <Route path='/Home' element={<Home/>}/>
           <Route path='/About' element={<About/>}/>
           <Route path='/FaQ' element={<FaQ/>}/>
-          <Route path='/ProfilePage' element={<ProfilePage/>}/>
+          <Route path='/ProfilePage' element={<ProfilePage setWPM={setAvgWPM} deleteCookie={deleteCookie}/>}/>
           <Route path='/GamePage' element={<GamePage/>}/>
           <Route path='/login' element={<LogInPage updateAvgWPM={setAvgWPM} cookie={cookie} setLoginCookie={setCookies}/>} />
         </Routes>

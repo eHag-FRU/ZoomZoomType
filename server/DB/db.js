@@ -7,7 +7,13 @@ function query(sql, params) {
     return db.prepare(sql).all(params);
 }
 
+function deleteQuery(sql, params){
+    db.prepare(sql).run(params);
+
+}
+
 
 module.exports = {
-    query
+    query,
+    deleteQuery
 }

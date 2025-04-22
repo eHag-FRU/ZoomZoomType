@@ -5,9 +5,11 @@ const queries = require('./DB/queries');
 const {check, validationResults, matchedData} = require('express-validator');
 const { query } = require('./DB/db');
 
+
 //Add middleware to the router, so the form data can be processed
 router.use(express.urlencoded({extended: true}));
 router.use(express.json());
+
 
 
 //Now define the routes
@@ -88,6 +90,29 @@ router.get("/getAvgWPM", (res, req) => {
 
     //Send the response back
     req.send({'avgWPM': avgWPM});
+});
+
+
+//
+// Profile commands
+//
+
+router.delete('/deleteaccount', (req,res) => {
+    console.log("Going to delete account");
+
+    //Now grab the cookie with Express Cookies
+    //going to delete the cookie after making the DB call to remove the collumn
+    //The ID will be pulled from the cookie
+    console.log("The cookie: ", req.body.id);
+
+    const userIDToDelete = req.body.id;
+
+    //Now make the call to the db
+    queries.deleteUserByID(userIDToDelete);
+
+
+    //Delete was good, so send a 200 OK
+    res.sendStatus(200);
 });
 
 
