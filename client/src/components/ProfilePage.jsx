@@ -15,9 +15,17 @@ const ProfilePage = ({setWPM, deleteCookie}) => {
     //Use a state to handle new email update
     const [newEmail, setNewEmail] = useState("");
 
+    const [newUsername, setUsername] = useState("");
+
+
     //Handles the email update
     function handleEmailUpdateChange(e) {
         setNewEmail(e.target.value);
+    }
+
+    //Handles the username update
+    function handleUsernameUpdateChange(e) {
+        setUsername(e.target.value);
     }
 
 
@@ -93,6 +101,22 @@ const ProfilePage = ({setWPM, deleteCookie}) => {
 
     }
 
+    //Username update handler example
+    const handleUsernameUpdate = async (e) => {
+        //Prevent the default
+        e.preventDefault();
+
+        console.log("Handling username update!");
+
+        let response = null;
+
+        try {
+            response = await axios.post("http://localhost:3000/api/updateUsername", {id: cookie.userID, username: newUsername});
+        } catch (e) {
+            console.log(`handleEmailUpdate: POST error: ${e}`);
+        }
+    }
+
     return (
         <div>
             <button onClick={handleDeleteAccount}>DELETE ACCOUNT TEST</button>
@@ -100,6 +124,11 @@ const ProfilePage = ({setWPM, deleteCookie}) => {
             <div>
                 <input placeholder='New Email' onChange={handleEmailUpdateChange}></input>
                 <button onClick={handleEmailUpdate}>UPDATE EMAIL TEST</button>
+            </div>
+
+            <div>
+                <input placeholder='New username' onChange={handleUsernameUpdateChange}></input>
+                <button onClick={handleUsernameUpdate}>UPDATE USERNAME TEST</button>
             </div>
         </div>
     )

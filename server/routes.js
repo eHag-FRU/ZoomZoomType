@@ -136,7 +136,7 @@ router.post('/updateUsername', (req, res) => {
     console.log("Going to update the username");
 
     //Grab the username and ID from the form
-    const newUserName = req.body.userName;
+    const newUserName = req.body.username;
     const userID = req.body.id;
 
     console.log(`routes.js new username: ${newUserName}`);
