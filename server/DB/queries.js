@@ -195,6 +195,19 @@ function updateEmailByID(ID, newEmail) {
 
 function updatePasswordByID(ID, newPassword) {
     console.log("Updating password by ID with DB");
+
+     //Check for NULL id and email
+     if (ID == null) {
+        throw "updatePasswordByID: ID can not be null";
+
+    } else if (newPassword == null) {
+        throw "updatePasswordByID: newPassword can not be null";
+    }
+
+
+
+    //Make call to DB to update info
+    db.noReturnQuery("UPDATE users SET userPassword = ? WHERE userID = ?;", [newPassword, ID]);
 }
 
 //

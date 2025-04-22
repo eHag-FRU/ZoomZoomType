@@ -156,6 +156,22 @@ router.post('/updateUsername', (req, res) => {
 router.post('/updatePassword', (req, res) => {
     console.log("Going to update the password");
 
+    //Grab the username and ID from the form
+    const newPassword = req.body.password;
+    const userID = req.body.id;
+ 
+     console.log(`routes.js new password: ${newPassword}`);
+ 
+     //Now grab the cookie
+     console.log("The updatePassword cookie: ", req.body.id);
+ 
+     //Send request to db
+     queries.updatePasswordByID(userID, newPassword);
+ 
+ 
+     //Send a HTTP-200 to say everything was OK
+     res.sendStatus(200);
+
 
 });
 

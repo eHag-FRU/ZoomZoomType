@@ -17,6 +17,8 @@ const ProfilePage = ({setWPM, deleteCookie}) => {
 
     const [newUsername, setUsername] = useState("");
 
+    const [newPassword, setPassword] = useState("");
+
 
     //Handles the email update
     function handleEmailUpdateChange(e) {
@@ -28,6 +30,10 @@ const ProfilePage = ({setWPM, deleteCookie}) => {
         setUsername(e.target.value);
     }
 
+    //Handles the password update
+    function handlePasswordUpdateChange(e) {
+        setPassword(e.target.value);
+    }
 
 
 
@@ -117,6 +123,23 @@ const ProfilePage = ({setWPM, deleteCookie}) => {
         }
     }
 
+
+    //handle the Password update click
+    const handlePasswordUpdate = async (e) => {
+        //Prevent the default
+        e.preventDefault();
+
+        console.log("Handling password update!");
+
+        let response = null;
+
+        try {
+            response = await axios.post("http://localhost:3000/api/updatePassword", {id: cookie.userID, password: newPassword});
+        } catch (e) {
+            console.log(`handlePasswordUpdate: POST error: ${e}`);
+        }
+    }
+
     return (
         <div>
             <button onClick={handleDeleteAccount}>DELETE ACCOUNT TEST</button>
@@ -129,6 +152,11 @@ const ProfilePage = ({setWPM, deleteCookie}) => {
             <div>
                 <input placeholder='New username' onChange={handleUsernameUpdateChange}></input>
                 <button onClick={handleUsernameUpdate}>UPDATE USERNAME TEST</button>
+            </div>
+
+            <div>
+                <input placeholder='New password' onChange={handlePasswordUpdateChange}></input>
+                <button onClick={handlePasswordUpdate}>UPDATE PASSWORD TEST</button>
             </div>
         </div>
     )
