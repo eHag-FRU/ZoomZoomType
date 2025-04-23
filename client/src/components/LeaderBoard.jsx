@@ -106,58 +106,83 @@ const Leaderboard = () => {
   };
 
   return (
-    <div style={{ backgroundColor: '#002f5c', minHeight: '100vh', padding: '2rem' }}>
-      <div style={{ textAlign: 'center' }}>
-        <h2 className="text-white mb-4">Leaderboard</h2>
-
-        <ul className="nav nav-tabs mb-3 justify-content-center border-0">
-          {gameModes.map((mode) => (
-            <li className="nav-item" key={mode}>
-              <button
-                className={`nav-link ${activeTab === mode ? 'active' : ''}`}
-                onClick={() => {
-                  setActiveTab(mode);
-                  setSelectedQuote('');
-                }}
-                style={{
-                  backgroundColor: '#b45f06',
-                  color: 'white',
-                  border: '2px solid white',
-                  borderBottom: activeTab === mode ? 'none' : '2px solid white',
-                  marginRight: '4px',
-                  fontWeight: 'bold',
-                }}
+    <div
+      className="d-flex justify-content-center align-items-center"
+      style={{
+        backgroundColor: '#002f5c',
+        minHeight: '100vh',
+        width: '100%',
+        padding: '2rem',
+      }}
+    >
+      <div className="w-100" style={{ maxWidth: '900px' }}>
+        <div className="d-flex flex-column align-items-center text-center" style={{ width: '100%' }}>
+          {/* Fixed Header and Tabs */}
+          <h2 className="text-white mb-4">Leaderboard</h2>
+  
+          {/* Tab Buttons */}
+          <div className="w-100 mb-3" style={{ maxWidth: '800px' }}>
+            <div className="d-flex" style={{ gap: '4px' }}>
+              {gameModes.map((mode) => (
+                <button
+                  key={mode}
+                  className={`nav-link ${activeTab === mode ? 'active' : ''}`}
+                  onClick={() => {
+                    setActiveTab(mode);
+                    setSelectedQuote('');
+                  }}
+                  style={{
+                    flex: 1,
+                    backgroundColor: '#b45f06',
+                    color: 'white',
+                    border: '2px solid white',
+                    borderBottom: activeTab === mode ? 'none' : '2px solid white',
+                    fontWeight: 'bold',
+                  }}
+                >
+                  {mode}
+                </button>
+              ))}
+            </div>
+          </div>
+  
+          <div className="mb-4 w-100" style={{ height: '60px' }}>
+            {activeTab === 'Quotes' ? (
+              <select
+                className="form-select mx-auto"
+                value={selectedQuote}
+                onChange={(e) => setSelectedQuote(e.target.value)}
+                style={{ maxWidth: '500px' }}
               >
-                {mode}
-              </button>
-            </li>
-          ))}
-        </ul>
-      </div>
-
-      {activeTab === 'Quotes' && (
-        <div className="text-center mb-4">
-          <select
-            className="form-select"
-            value={selectedQuote}
-            onChange={(e) => setSelectedQuote(e.target.value)}
-            style={{ maxWidth: '500px', margin: '0 auto' }}
+                <option value="">Select a quote</option>
+                {quotesList.map((quote) => (
+                  <option key={quote.quoteID} value={quote.quoteID}>
+                    {quote.quote.length > 60 ? quote.quote.slice(0, 60) + '...' : quote.quote}
+                  </option>
+                ))}
+              </select>
+            ) : null}
+          </div>
+  
+          {/* Scrollable Table Container - Fixed Height */}
+          <div
+            className="mx-auto table-responsive"
+            style={{
+              width: '100%',
+              maxWidth: '800px',
+              height: '440px', // fixed height to match 10 rows + header (adjust if needed)
+              overflowY: 'auto',
+              backgroundColor: '#002f5c',
+            }}
           >
-            <option value="">Select a quote</option>
-            {quotesList.map((quote) => (
-              <option key={quote.quoteID} value={quote.quoteID}>
-                {quote.quote.length > 60 ? quote.quote.slice(0, 60) + '...' : quote.quote}
-              </option>
-            ))}
-          </select>
+            {(activeTab !== 'Quotes' || selectedQuote) && renderTable()}
+          </div>
         </div>
-      )}
-
-      <div style={{ width: '100%', maxWidth: '800px', margin: '0 auto' }}>
-        {(activeTab !== 'Quotes' || selectedQuote) && renderTable()}
       </div>
     </div>
   );
+  
+  
 };
 
 export default Leaderboard;
