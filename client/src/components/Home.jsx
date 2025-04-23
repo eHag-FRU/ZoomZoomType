@@ -24,7 +24,10 @@ const Home = () => {
           >
             Play Now
           </button>
-          <button className="btn btn-lg custom-accent-btn mb-3 fw-bold">
+          <button
+            onClick={() => handleClick("/GameModes")}
+            className="btn btn-lg custom-accent-btn mb-3 fw-bold"
+          >
             Modes
           </button>
         </div>

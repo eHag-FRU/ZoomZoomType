@@ -15,15 +15,27 @@ import { useNavigate, useLocation } from "react-router-dom";
 
 // SettingsBlock takes a title and however many buttons inside
 // Dynamically creates a segment for each section of the settings
-const SettingsBlock = ({ title, buttons }) => (
+const SettingsBlock = ({ title, context, buttons }) => (
   <li className="settings-block">
-    <div className="block-header">
-      <h2>{title}</h2>
+    <div className="d-grid py-3">
+      <div className="block-header">
+        <h2>{title}</h2>
+      </div>
+      <div className="block-context align-text-bottom">
+        <p>{context}</p>
+      </div>
     </div>
-    <ul className="block-buttons">
+    <ul className="row g-2">
       {buttons.map((button, index) => (
-        <li key={index} className="button">
-          {button.content}
+        <li className="col-3 list-unstyled">
+          <button
+            key={index}
+            type="button"
+            className="btn btn-primary w-100"
+            data-bs-toggle="button"
+          >
+            {button.content}
+          </button>
         </li>
       ))}
     </ul>
@@ -38,6 +50,7 @@ const Settings = () => {
   const blockData = [
     {
       title: "Keyboard Layout",
+      context: "Changes the keyboard format (only while the game is running)",
       buttons: [
         { content: "QWERTY" },
         { content: "Colemak" },
@@ -48,6 +61,7 @@ const Settings = () => {
     },
     {
       title: "Font",
+      context: "Style up the play field with a funky font!",
       buttons: [
         { content: "Arial" },
         { content: "Helvetica" },
@@ -58,6 +72,7 @@ const Settings = () => {
     },
     {
       title: "Theme",
+      context: "Changes the theme colors of the website.",
       buttons: [
         { content: "Blue" },
         { content: "Green" },
@@ -65,24 +80,37 @@ const Settings = () => {
         { content: "Yellow" },
       ],
     },
+    {
+      title: "Sound Effects",
+      context: "Adds sound effects whenever the player types a letter.",
+      buttons: [
+        { content: "No Sound" },
+        { content: "OOF" },
+        { content: "osu!" },
+        { content: "Fart" },
+        { content: "Cherry MX Blues" },
+        { content: "Vine Boom" },
+      ],
+    },
   ];
 
   // Once blockData is established, we create the elements
   // blockData maps the block data into each block
   return (
-    <div className="settings-window">
-      <div className="settings-header">
+    <div className="container justify-content-center">
+      <div className="header">
         <h1>Settings</h1>
-        <ul className="settings-blocks">
-          {blockData.map((block, index) => (
-            <SettingsBlock
-              key={index}
-              title={block.title}
-              buttons={block.buttons}
-            />
-          ))}
-        </ul>
       </div>
+      <ul className="list-unstyled">
+        {blockData.map((block, index) => (
+          <SettingsBlock
+            key={index}
+            title={block.title}
+            context={block.context}
+            buttons={block.buttons}
+          />
+        ))}
+      </ul>
     </div>
   );
 };

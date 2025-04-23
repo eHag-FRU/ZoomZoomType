@@ -9,6 +9,8 @@ import About from "./components/About.jsx";
 import ProfilePage from "./components/ProfilePage.jsx";
 import GamePage from "./components/GamePage.jsx";
 import Footer from "./components/Footer.jsx";
+import Settings from "./components/Settings.jsx";
+import GameModes from "./components/GameModes.jsx";
 
 //Importing Bootstrap
 import "bootstrap/dist/css/bootstrap.min.css";
@@ -61,6 +63,8 @@ function App() {
           <Route path="/FaQ" element={<FaQ />} />
           <Route path="/ProfilePage" element={<ProfilePage />} />
           <Route path="/GamePage" element={<GamePage />} />
+          <Route path="/Settings" element={<Settings />} />
+          <Route path="/GameModes" element={<GameModes />} />
           <Route
             path="/login"
             element={
