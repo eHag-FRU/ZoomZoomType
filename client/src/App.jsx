@@ -20,6 +20,7 @@ import { library } from '@fortawesome/fontawesome-svg-core';
 import {faCarOn, faCrown, faKeyboard, faCircleInfo, faGear, faCircleUser} from '@fortawesome/free-solid-svg-icons'; 
 import {faGithub} from '@fortawesome/free-brands-svg-icons'; 
 import LogInPage from './components/loginPage.jsx';
+import Leaderboard from './components/LeaderBoard.jsx';
 
 //Adding in the icons
 library.add(faCarOn, faCrown, faKeyboard,faCircleInfo, faGear, faCircleUser, faGithub);
@@ -44,6 +45,7 @@ function App() {
           <Route path='/About' element={<About/>}/>
           <Route path='/FaQ' element={<FaQ/>}/>
           <Route path='/ProfilePage' element={<ProfilePage/>}/>
+          <Route path='/leaderBoard' element={<Leaderboard/>}/>
           <Route path='/GamePage' element={<GamePage/>}/>
           <Route path='/login' element={<LogInPage updateAvgWPM={setAvgWPM} cookie={cookie} setLoginCookie={setCookies}/>} />
         </Routes>

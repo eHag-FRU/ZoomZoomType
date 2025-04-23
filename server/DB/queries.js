@@ -98,6 +98,39 @@ function getAvgWPMByUserID(userID) {
 
 }
 
+function getLeaderBoardResults(gameMode) {
+    //Will hold the top 10 results for the mode
+    top10 = null;
+
+    //Default is classic (1)
+    let gameModeNumber = 1
+
+    //Sets the game mode number, this will be passed to the DB query
+    switch (gameMode) {
+        case "Classic":
+            gameModeNumber = 1;
+            break;
+        case "Memorize":
+            gameModeNumber = 2;
+            break;
+        case "Quotes":
+            gameModeNumber = 3;
+            break;
+        case "Look-Ahead":
+            gameModeNumber = 4;
+            break;
+    }
+
+    console.log(`getLeaderBoardResults: gameMode: ${gameMode} | gameModeNumber: ${gameModeNumber}`);
+
+    //Now we need to make the DB call based on the game mode, if the game mode is not 3
+    if (gameMode != 3) {
+        top10 = db.query("SELECT users.userUsername, wpm, time FROM leaderBoard JOIN users ON leaderBoard.userID = users.userID WHERE modeID = ? ORDER BY wpm DESC LIMIT 10;", [gameModeNumber]);
+    }
+
+    return top10;
+}
+
 
 //
 // UPDATE
@@ -176,5 +209,6 @@ module.exports = {
     getUserIDByEmail,
     getAvgWPMByUserID,
     updateAvgWPMByUserID,
-    getUserNameByID
+    getUserNameByID,
+    getLeaderBoardResults
 }

@@ -91,5 +91,24 @@ router.get("/getAvgWPM", (res, req) => {
 });
 
 
+router.get("/leaderboard", (req, res) => {
+    console.log("Grabbing leaderboard info");
+
+    //Grab the game mode
+    const gameMode = req.query.mode;
+
+    console.log(`gameMode: ${gameMode}`);
+
+    //Now send it to the DB for processing
+    const result = queries.getLeaderBoardResults(gameMode);
+
+    res.status(200).json(result);
+});
+
+routes.get("/quotes", (req,res) => {
+    console.log("Grabbing the quotes")
+});
+
+
 //export the module to import into the app
 module.exports = router;
