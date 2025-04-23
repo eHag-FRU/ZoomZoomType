@@ -91,5 +91,43 @@ router.get("/getAvgWPM", (res, req) => {
 });
 
 
+router.get("/leaderboard", (req, res) => {
+    console.log("Grabbing leaderboard info");
+
+    //Grab the game mode
+    const gameMode = req.query.mode;
+
+    console.log(`gameMode: ${gameMode}`);
+
+    //Now send it to the DB for processing
+    const result = queries.getLeaderBoardResults(gameMode);
+
+    res.status(200).json(result);
+});
+
+router.get("/quotes", (req,res) => {
+    console.log("Grabbing the quotes");
+
+    //Now grab all of the quotes in the DB
+    const result = queries.getAllQuotes();
+
+    res.status(200).send(result);
+});
+
+router.get("/quoteleaderboard", (req, res) => {
+    console.log("in /quoteleaderboard");
+
+    //Now pull the quoteID from the request
+    const quoteID = req.query.quote
+
+    console.log(`The quote id to get the leaderboard for: ${quoteID}`);
+
+    //Now take that and send it to the DB to get the quote leaderboard
+    results = queries.getQuoteLeaderBoardByID(quoteID);
+
+    res.status(200).send(results);
+});
+
+
 //export the module to import into the app
 module.exports = router;
