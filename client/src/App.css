@@ -1,8 +1,4 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
-
-/* The color pallet for the application */
+/*The color pallet for the application*/
 .theme-l5 {color:#000 !important; background-color:#ebf6ff !important}
 .theme-l4 {color:#000 !important; background-color:#bedfff !important}
 .theme-l3 {color:#000 !important; background-color:#7cc0ff !important}
@@ -14,19 +10,65 @@
 .theme-d4 {color:#fff !important; background-color:#00396e !important}
 .theme-d5 {color:#fff !important; background-color:#002f5c !important}
 
+.theme-accent{color: #fff !important; background-color: #b45f06}
+
 .theme-light {color:#000 !important; background-color:#ebf6ff !important}
 .theme-dark {color:#fff !important; background-color:#002f5c !important}
 .theme-action {color:#fff !important; background-color:#002f5c !important}
 
 .theme {color:#fff !important; background-color:#0060ba !important}
 .text-theme {color:#0060ba !important}
+.error-text-theme {color: #b45f06 !important}
 .border-theme {border-color:#0060ba !important}
 
 .hover-theme:hover {color:#fff !important; background-color:#0060ba !important}
 .hover-text-theme:hover {color:#0060ba !important}
 .hover-border-theme:hover {border-color:#0060ba !important}
 
-.nav-anchor-visited:visited {color: #fff !important;}
-.nav-anchor-hover:hover {color:#b45f06 !important}
+.nav-anchor-visited:visited {color: #fff !important; text-decoration: none;}
+.nav-anchor-hover:hover {color:#b45f06 !important; text-decoration: none;}
+
+.nav-logo:hover,:visited {color: #fff !important; text-decoration: none;}
+.nav-anchor-hover:hover {color:#0060ba !important; text-decoration: none;}
+
+.nav-achor-hover:hover *{
+  color:#b45f06 !important;
+}
 
 .nav-logo:hover,:visited {color: #fff !important;}
+
+.registerLink-hover:hover {
+  color: #cc6e09 !important;
+}
+
+.footer-anchor-hover:hover {color:#b45f06 !important; text-decoration: none;}
+
+.custom-accent-btn{
+  color: #fff !important; 
+  background-color: #b45f06 !important;
+  border: none;
+  width: 160px;
+}
+
+.custom-accent-btn:hover{
+  background-color: #cc6e09 !important;
+}
+
+.custom-btn{
+  border: none;
+  width: 160px;
+}
+
+.custom-btn:hover{
+  background-color: #7cc0ff !important;
+}
+
+.custom-caret{
+  border-right: solid 1px black;
+}
+
+@keyframes blink {
+  50% {
+    opacity: 0;
+  }
+}
