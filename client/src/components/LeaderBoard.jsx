@@ -12,6 +12,9 @@ const Leaderboard = () => {
   useEffect(() => {
     if (activeTab === 'Quotes') {
       fetchQuotesList();
+      if (selectedQuote) {
+        fetchLeaderboard(selectedQuote);
+      }
     } else {
       fetchLeaderboard();
     }
@@ -21,11 +24,12 @@ const Leaderboard = () => {
     if (activeTab === 'Quotes' && selectedQuote) {
       fetchLeaderboard(selectedQuote);
     }
-  }, [selectedQuote]);
+  }, [selectedQuote, activeTab]);
 
   const fetchQuotesList = async () => {
     try {
       const response = await axios.get('http://localhost:3000/api/quotes');
+      console.log(`fetchQuotes, response: ${response.data}`);
       setQuotesList(response.data);
     } catch (err) {
       console.error('Error fetching quotes list:', err);
@@ -66,30 +70,33 @@ const Leaderboard = () => {
       return <p className="mt-3 text-white text-center">No data available for this mode.</p>;
     }
 
+    const cellStyle = {
+      border: '1px solid white',
+      padding: '8px',
+      textAlign: 'center',
+    };
+
     return (
       <div className="table-responsive" style={{ maxHeight: '400px', overflowY: 'auto' }}>
         <table
           className="table text-white"
-          style={{
-            borderCollapse: 'collapse',
-            width: '100%',
-          }}
+          style={{ borderCollapse: 'collapse', width: '100%', border: '1px solid white' }}
         >
           <thead style={{ backgroundColor: '#b45f06', color: 'white', position: 'sticky', top: 0, zIndex: 1 }}>
             <tr>
-              <th style={{ border: '1px solid white', padding: '8px', textAlign: 'center' }}>Rank</th>
-              <th style={{ border: '1px solid white', padding: '8px', textAlign: 'center' }}>Username</th>
-              <th style={{ border: '1px solid white', padding: '8px', textAlign: 'center' }}>WPM</th>
-              <th style={{ border: '1px solid white', padding: '8px', textAlign: 'center' }}>Time (s)</th>
+              <th style={cellStyle}>Rank</th>
+              <th style={cellStyle}>Username</th>
+              <th style={cellStyle}>WPM</th>
+              <th style={cellStyle}>Time (s)</th>
             </tr>
           </thead>
           <tbody>
             {data.slice(0, 50).map((entry, index) => (
               <tr key={index}>
-                <td style={{ border: '1px solid white', padding: '8px', textAlign: 'center' }}>{index + 1}</td>
-                <td style={{ border: '1px solid white', padding: '8px', textAlign: 'center' }}>{entry.userUsername}</td>
-                <td style={{ border: '1px solid white', padding: '8px', textAlign: 'center' }}>{entry.wpm}</td>
-                <td style={{ border: '1px solid white', padding: '8px', textAlign: 'center' }}>{entry.time}</td>
+                <td style={cellStyle}>{index + 1}</td>
+                <td style={cellStyle}>{entry.userUsername}</td>
+                <td style={cellStyle}>{entry.wpm}</td>
+                <td style={cellStyle}>{entry.time}</td>
               </tr>
             ))}
           </tbody>
@@ -138,8 +145,8 @@ const Leaderboard = () => {
           >
             <option value="">Select a quote</option>
             {quotesList.map((quote) => (
-              <option key={quote.id} value={quote.id}>
-                {quote.text.length > 60 ? quote.text.slice(0, 60) + '...' : quote.text}
+              <option key={quote.quoteID} value={quote.quoteID}>
+                {quote.quote.length > 60 ? quote.quote.slice(0, 60) + '...' : quote.quote}
               </option>
             ))}
           </select>

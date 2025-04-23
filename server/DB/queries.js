@@ -125,10 +125,37 @@ function getLeaderBoardResults(gameMode) {
 
     //Now we need to make the DB call based on the game mode, if the game mode is not 3
     if (gameMode != 3) {
-        top10 = db.query("SELECT users.userUsername, wpm, time FROM leaderBoard JOIN users ON leaderBoard.userID = users.userID WHERE modeID = ? ORDER BY wpm DESC LIMIT 10;", [gameModeNumber]);
+        top10 = db.query("SELECT users.userUsername, wpm, time FROM leaderBoard JOIN users ON leaderBoard.userID = users.userID WHERE mode = ? ORDER BY wpm DESC LIMIT 10;", [gameModeNumber]);
     }
 
     return top10;
+}
+
+
+function getAllQuotes() {
+    //Will hold the results
+    let results = null;
+
+
+    //Now send query over
+    result = db.query("SELECT * FROM quotes;");
+
+    console.log(`getAllQuotes result: ${result[0]}`);
+    console.log(`getAllQuotes result: ${result[1]}`);
+
+    //Now return it
+    return result;
+}
+
+function getQuoteLeaderBoardByID(quoteID) {
+    console.log("Getting quote leaderboard by the quoteID");
+
+    //Now make the DB query to get the leaderboard based on quote ID
+    let result = null;
+
+    result = db.query("SELECT users.userUsername, wpm, TIME  FROM leaderBoard JOIN users ON leaderBoard.userID = users.userID JOIN quotes ON leaderBoard.quoteID = quotes.quoteID  WHERE mode = 3 AND leaderBoard.quoteID = ? ORDER by wpm DESC LIMIT 10;", [quoteID]);
+
+    return result;
 }
 
 
@@ -210,5 +237,7 @@ module.exports = {
     getAvgWPMByUserID,
     updateAvgWPMByUserID,
     getUserNameByID,
-    getLeaderBoardResults
+    getLeaderBoardResults,
+    getAllQuotes,
+    getQuoteLeaderBoardByID
 }
