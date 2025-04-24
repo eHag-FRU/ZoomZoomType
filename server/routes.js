@@ -60,6 +60,47 @@ router.post('/login', (req, res, next) => {
     
 });
 
+//The call for this would look like: const response = await axios.post("http://localhost:3000/api/createAccount", formData);
+router.post("/createAccount", (req, res) => {
+    console.log("Creating an account!!!");
+
+    //Grab the email, password and username
+    let email = null;
+    let password = null;
+    let userName = null;
+
+    if (req.body.email) {
+        email = req.body.email
+    } else {
+        throw "createAccount: email can not be null"
+    }
+
+    if (req.body.password) {
+        password = req.body.password
+    } else {
+        throw "createAccount: password can not be null"
+    }
+
+    if (req.body.userName) {
+        userName = req.body.userName
+    } else {
+        throw "createAccount: userName can not be null"
+    }
+
+
+    //Send the query
+    try {
+        queries.createUserAccount(userName, email, password);
+    } catch (e) {
+        console.log(`createAccount ERROR: ${e}`);
+        res.sendStatus(500);
+    }
+
+    //Send an OK HTTP response, account was created
+    res.sendStatus(200);
+});
+
+
 
 //Post call will look like const response = await axios.post("http://localhost:3000/api/postNewGame", {userID: 1, wpm: 45, time: 4.0, mode: 1, quoteID: 1})
 
