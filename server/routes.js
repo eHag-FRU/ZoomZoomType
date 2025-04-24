@@ -58,6 +58,47 @@ router.post('/login', (req, res, next) => {
     
 });
 
+
+//Post call will look like const response = await axios.post("http://localhost:3000/api/postNewGame", {userID: 1, wpm: 45, time: 4.0, mode: 1, quoteID: 1})
+
+router.post("/postNewGame", (req,res) => {
+    //Will need the userID, wpm, time, and game mode int
+
+    //Grab the userID, wpm, time and game mode int
+    const userID = req.data.userID;
+    const wpm = req.data.wpm;
+    const time = req.data.time;
+    const mode = req.data.mode;
+    const quoteID = req.data.quoteID;
+
+    //Enusre no null's are given
+    if (userID == null) {
+        throw "postNewGame: userID can not be null";
+    } else if (wpm == null) {
+        throw "postNewGame: wpm can not be null";
+    } else if (time == null) {
+        throw "postNewGame: time can not be null";
+    } else if (mode == null) {
+        throw "postNewGame: mode can not be null";
+    } else if (mode == 3 && quoteID == null) {
+        throw "postNewGame: quoteID can not be null when the quotes game mode is played";
+    }
+
+
+    //Now make the db call to the leader board
+    if (mode == 3) {
+        //Only for the quotes game mode
+
+    } else {
+        //Any other game mode other than Quotes
+    }
+
+});
+
+
+//
+// GET
+//
 router.get('/logout', (res, req) => {
     //Check if there is a session
     currentLoggedInUser = req.session;
