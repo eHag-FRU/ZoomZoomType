@@ -65,13 +65,15 @@ router.post('/login', (req, res, next) => {
 
 router.post("/postNewGame", (req,res) => {
     //Will need the userID, wpm, time, and game mode int
+    console.log(`postNewGame : ${req.data}`);
+
 
     //Grab the userID, wpm, time and game mode int
-    const userID = req.data.userID;
-    const wpm = req.data.wpm;
-    const time = req.data.time;
-    const mode = req.data.mode;
-    const quoteID = req.data.quoteID;
+    const userID = req.body.userID;
+    const wpm = req.body.wpm;
+    const time = req.body.time;
+    const mode = req.body.mode;
+    const quoteID = req.body.quoteID;
 
     //Enusre no null's are given
     if (userID == null) {
@@ -90,10 +92,19 @@ router.post("/postNewGame", (req,res) => {
     //Now make the db call to the leader board
     if (mode == 3) {
         //Only for the quotes game mode
+        queries.addScoreToDatabase(userID, wpm, mode, time, quoteID);
 
     } else {
         //Any other game mode other than Quotes
+        queries.addScoreToDatabase(userID, wpm, mode, time);
     }
+
+
+    //Now make a call to update the users profile total WPM and Games played
+    queries.updateAvgWPMByUserID(userID, wpm);
+
+    //Sent the call to the db properly!
+    res.sendStatus(200); 
 
 });
 
