@@ -14,7 +14,7 @@ const NavBar = ({wpm, setWPM, cookie, deleteCookie}) => {
                         <FontAwesomeIcon icon='fa-solid fa-car-on' style={{ fontSize: '1.5em' }}/>
                         <h5 className='mb-0 text-white'>Zoom Zoom Type</h5>
                     </Link>
-                    <Link className='nav-anchor-visited nav-anchor-hover text-white' to='/games'><FontAwesomeIcon icon="fa-solid fa-keyboard" style={{ fontSize: '1.5em'}}/></Link>
+                    <Link className='nav-anchor-visited nav-anchor-hover text-white' to='/GamePage'><FontAwesomeIcon icon="fa-solid fa-keyboard" style={{ fontSize: '1.5em'}}/></Link>
                     <Link className='nav-anchor-visited nav-anchor-hover text-white' to='/leaderBoard'><FontAwesomeIcon icon="fas fa-crown" style={{ fontSize: '1.5em'}}/></Link>
                     <Link className='nav-anchor-visited nav-anchor-hover' to='/about'><FontAwesomeIcon icon="fas fa-info-circle" style={{ fontSize: '1.5em'}}/></Link>
                     <span className="ms-2 d-flex flex-row">Average WPM:&nbsp;<strong><p id="highestUserWPM">{wpm}</p></strong></span>
