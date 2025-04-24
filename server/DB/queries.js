@@ -318,7 +318,7 @@ function createUserAccount(userName, userEmail, password) {
     }
 
     //Create the user account
-    db.query("INSERT INTO users (userUsername , userEmail , userPassword) VALUES (?, ?, ?);", [userName, userEmail, password]);
+    db.noReturnQuery("INSERT INTO users (userUsername , userEmail , userPassword) VALUES (?, ?, ?);", [userName, userEmail, password]);
 
     //Holds the userID of the new account to make an entry into the avgWPM table
     userID = null;
@@ -333,7 +333,7 @@ function createUserAccount(userName, userEmail, password) {
     }
 
     //Now that its assigned, create a new entry with 0's for wpmTotal and gamesPlayed to it for the user
-    db.query("INSERT INTO avgWPM (wpmTotal, userID, gamesPlayed) VALUES (?, ?, ?);", [0, userID, 0]);
+    db.noReturnQuery("INSERT INTO avgWPM (wpmTotal, userID, gamesPlayed) VALUES (?, ?, ?);", [0, userID, 0]);
 }
 
 //
