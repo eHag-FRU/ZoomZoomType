@@ -72,3 +72,24 @@
     opacity: 0;
   }
 }
+
+/* Themes for settings testing */
+.theme-blue {
+  color: white;
+  background-color: #0055a5;
+}
+
+.theme-green {
+  color: white;
+  background-color: #00a555;
+}
+
+.theme-red {
+  color: white;
+  background-color: #a50000
+}
+
+.theme-yellow {
+  color: black;
+  background-color: #cbc600;
+}

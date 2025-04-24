@@ -32,7 +32,9 @@ const SettingsBlock = ({ title, context, buttons }) => (
             key={index}
             type="button"
             className="btn btn-primary w-100"
-            data-bs-toggle="button"
+            onClick={() =>
+              console.log(`Group: ${title}, Button: ${button.content}`)
+            }
           >
             {button.content}
           </button>
@@ -41,6 +43,10 @@ const SettingsBlock = ({ title, context, buttons }) => (
     </ul>
   </li>
 );
+
+// so... i think I need to get the thing to (on click) get the Title info (setting block), and then the button content.
+// I can do that with a function I think
+// i just dont know how to
 
 const Settings = () => {
   // takes a json as input for the settings

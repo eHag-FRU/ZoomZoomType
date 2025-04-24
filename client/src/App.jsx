@@ -41,6 +41,24 @@ library.add(
 );
 
 function App() {
+  //Settings States
+  const [theme, setTheme] = useState("theme-d5");
+  const [font, setFont] = useState("Arial");
+  const [sfx, setSFX] = useState("No Sound");
+
+  const handleSettingChange = (blockName, blockButtonContent) => {
+    if (blockName == "Layout") {
+      // adjust the keyboard layout
+      // Idk how to do that just yet, this will be a later thing
+    } else if (blockName == "Theme") {
+      setTheme(blockButtonContent);
+    } else if (blockName == "Font") {
+      setFont(blockButtonContent);
+    } else if (blockName == "Sound Effects") {
+      setSFX(blockButtonContent);
+    }
+  };
+
   //Adding the avg WPM state
   const [avgWPM, setAvgWPM] = useState(0);
 
@@ -48,7 +66,10 @@ function App() {
   const [cookie, setCookies, deleteCookie] = useCookies(["usr"]);
 
   return (
-    <div className="app-container min-vh-100 d-flex flex-column theme-d5">
+    <div
+      className={`app-container min-vh-100 d-flex flex-column ${theme}`}
+      style={{ fontFamily: font }}
+    >
       <NavBar
         wpm={avgWPM}
         setWPM={setAvgWPM}
