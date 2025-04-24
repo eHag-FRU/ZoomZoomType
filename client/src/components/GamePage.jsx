@@ -245,18 +245,48 @@ const GamePage = () => {
     console.log("here");
     while(lines.length != 4){
       //figure out how many words we can map onto current line looking ahead
-      for(let i = 0; i < visibleWords.length; i++){
+      for(let i = 0; i < visibleWords.length && lines.length < 4; i++){
         //get word length
         let wordLength = visibleWords[i].length;
         if(charsPerLineSoFar + wordLength <= charsPerLine || wordsOnCurrentLine == 0){
-          //rendering logic
-          // line.push()
+          //add the amount of chars per line
+          charsPerLineSoFar += wordLength;
+          //push the word onto the line with the rendering logic
+          for(let j = 0; j < visibleWords[i].length; j++){
+            //intial styling for class
+            let styling = "";
+            //result span which will be appened to complete word
+            let charSpan = <span></span>;
+            if(i + it < currIt){
+              styling = {color: "white"};
+              charSpan=
+                <span key={j} style={styling}>
+                  {char}
+                </span>
+            }
+            else{
+
+            }
+            wordsOnCurrentLine += 1;
+            line.push(charSpan);
+            console.log(visibleWords[i][j]);
+          }
         }
         //break if adding 
         else{
+          //add current line to lines
+          lines.push(<div>{line}</div>);
+          //reset line
+          line = [];
+          //reset charactersPerLineSoFar
+          charsPerLineSoFar = 0;
+          //check if first line so we can define the stopping point
+          if(line.length == 1){
+            setWordsPerLine(wordsOnCurrentLine);
+          }
+          wordsOnCurrentLine = 0;
           break;
         }
-        console.log(visibleWords[i]);
       }
       
 
