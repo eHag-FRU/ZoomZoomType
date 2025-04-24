@@ -60,6 +60,7 @@ router.post('/login', (req, res, next) => {
     
 });
 
+//The call for this would look like: const response = await axios.post("http://localhost:3000/api/createAccount", formData);
 router.post("/createAccount", (req, res) => {
     console.log("Creating an account!!!");
 
