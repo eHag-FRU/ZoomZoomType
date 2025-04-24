@@ -28,12 +28,7 @@ const SettingsBlock = ({ title, context, buttons, onButtonClick }) => (
     <ul className="row g-2">
       {buttons.map((button, index) => (
         <li className="col-3 list-unstyled">
-          <button
-            key={index}
-            type="button"
-            className="btn btn-outline-light w-100"
-            onClick={() => onButtonClick(title, button.content)}
-          >
+          <button key={index} type="button" className="btn btn-outline-light w-100" onClick={() => onButtonClick(title, button.content)}>
             {button.content}
           </button>
         </li>
@@ -73,23 +68,22 @@ const Settings = ({ font, setFont, theme, setTheme, sfx, setSFX }) => {
     {
       title: "Keyboard Layout",
       context: "Changes the keyboard format (only while the game is running)",
-      buttons: [
-        { content: "QWERTY" },
-        { content: "Colemak" },
-        { content: "Dvorak" },
-        { content: "Workman" },
-        { content: "QWERTZ" },
-      ],
+      buttons: [{ content: "QWERTY" }, { content: "Colemak" }, { content: "Dvorak" }, { content: "Workman" }, { content: "QWERTZ" }],
     },
     {
       title: "Font",
       context: "Style up the play field with a funky font!",
       buttons: [
         { content: "Arial" },
-        { content: "Helvetica" },
         { content: "Consolas" },
-        { content: "Comic Sans" },
+        { content: "Comic Sans MS" },
         { content: "Times New Roman" },
+        { content: "Special Gothic Expanded One" },
+        { content: "Coral Pixels" },
+        { content: "Space Grotesk" },
+        { content: "Style Script" },
+        { content: "Galindo" },
+        { content: "Poiret One" },
       ],
     },
     {
@@ -130,18 +124,12 @@ const Settings = ({ font, setFont, theme, setTheme, sfx, setSFX }) => {
   // blockData maps the block data into each block
   return (
     <div className="container justify-content-center">
-      <div className="header">
+      <div className="header pt-5">
         <h1 className="fw-bold">Settings</h1>
       </div>
       <ul className="list-unstyled">
         {blockData.map((block, index) => (
-          <SettingsBlock
-            key={index}
-            title={block.title}
-            context={block.context}
-            buttons={block.buttons}
-            onButtonClick={handleButtonClick}
-          />
+          <SettingsBlock key={index} title={block.title} context={block.context} buttons={block.buttons} onButtonClick={handleButtonClick} />
         ))}
       </ul>
     </div>
