@@ -236,17 +236,44 @@ const GamePage = () => {
 
 
     //TODO: REWRITE RENDERING LOGIC TO DO WORDS BASED OFF CHARACTERS PER LINE
+    //Need to understand how many characters can fit per line
+    //grab characters per line
+    let charsPerLine = charactersPerLine;
+    let charsPerLineSoFar = 0;
+    let wordsOnCurrentLine = 0;
+    let visibleWords = words.slice(it);
+    console.log("here");
     while(lines.length != 4){
-      //
+      //figure out how many words we can map onto current line looking ahead
+      for(let i = 0; i < visibleWords.length; i++){
+        //get word length
+        let wordLength = visibleWords[i].length;
+        if(charsPerLineSoFar + wordLength <= charsPerLine || wordsOnCurrentLine == 0){
+          //rendering logic
+          // line.push()
+        }
+        //break if adding 
+        else{
+          break;
+        }
+        console.log(visibleWords[i]);
+      }
+      
+
+      //reset chars per line
+      charsPerLineSoFar = 0;
+      //reset wordsOnCurrentLine
+      wordsOnCurrentLine = 0;
       break;
     }
 
 
+    //return lines;
     if (currIt >= it + wordsPerLine) {
       setIt(currIt);
     }
 
-    let visibleWords = words.slice(it, it+wordsPerLine*4);
+    visibleWords = words.slice(it, it+wordsPerLine*4);
 
     //map all the words to lines
     visibleWords.map((word, i) => {
@@ -340,7 +367,6 @@ const GamePage = () => {
   }, [words, it, typedWord, wordsPerLine]);
 
   return (
-
     <div className="container-fluid d-flex flex-column flex-grow-1 align-items-center m-5">
       <div className="row w-75 rounded p-4 theme-l2 fw-bold mb-4">
         <div className="col-12 col-lg-4 text-center mt-2 mb-2 fs-5">Mode: {mode}</div>
