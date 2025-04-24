@@ -191,6 +191,7 @@ function getQuoteLeaderBoardByID(quoteID) {
 //
 function updateAvgWPMByUserID(userID, gamesWPM){
     if (userID == null){
+        console.log("updateAvgWPMByUserID: userID can not be null");
         return null;
     }
 
@@ -209,18 +210,22 @@ function updateAvgWPMByUserID(userID, gamesWPM){
         throw "updateAvgWPMByUserID: Could not get wmpTotal from the SQL Database Query";
     }
 
+    console.log(`updateAvgWPMByUserID, userID: ${userID} | wpmTotal: ${newResultWPM}`);
+
     try {
         newGamesPlayed = result[0].gamesPlayed;
     } catch {
         throw "updateAvgWPMByUserID: Could not get gamesPlayed from the SQL Database Query";
     }
 
+
+
     //Update the values
     newGamesPlayed++;
-    newGamesPlayed += gamesWPM;
+    newResultWPM += gamesWPM;
 
     //Now write an update query
-    db.query("UPDATE avgWPM SET wpmTotal = ?, gamesPlayed = ? WHERE userID = ?;", [newResultWPM, newGamesPlayed, userID]);
+    db.noReturnQuery("UPDATE avgWPM SET wpmTotal = ?, gamesPlayed = ? WHERE userID = ?;", [newResultWPM, newGamesPlayed, userID]);
 }
 
 
@@ -271,6 +276,18 @@ function updatePasswordByID(ID, newPassword) {
 
     //Make call to DB to update info
     db.noReturnQuery("UPDATE users SET userPassword = ? WHERE userID = ?;", [newPassword, ID]);
+}
+
+
+function addScoreToDatabase(userID, wpm, mode, time, quoteID=null) {
+    //Send this to the database, this is any mode
+    //BUT NOT QUOTE (3)
+    if (quoteID == null && mode != 3) {
+        db.noReturnQuery("INSERT INTO leaderBoard (userID, wpm, mode, time) VALUES (?, ?, ?, ?);", [userID, wpm, mode, time]);
+    } else {
+        //This is quoted insert!
+        db.noReturnQuery("INSERT INTO leaderBoard (userID, wpm, mode, time, quoteID) VALUES (?, ?, ?, ?, ?);", [userID, wpm, mode, time, quoteID]);
+    }
 }
 
 //
@@ -333,5 +350,15 @@ module.exports = {
     getUserIDByEmail,
     getAvgWPMByUserID,
     updateAvgWPMByUserID,
-    getUserNameByID
+    getUserNameByID,
+    addScoreToDatabase,
+    getGamesPlayedAndWPMByUserID,
+    getLeaderBoardResults,
+    deleteUserByID,
+    createUserAccount,
+    updatePasswordByID,
+    updateEmailByID,
+    updateUserNameByID,
+    getQuoteLeaderBoardByID,
+    getAllQuotes
 }

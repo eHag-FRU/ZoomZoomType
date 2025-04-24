@@ -61,10 +61,56 @@ router.post('/login', (req, res, next) => {
 });
 
 
+//Post call will look like const response = await axios.post("http://localhost:3000/api/postNewGame", {userID: 1, wpm: 45, time: 4.0, mode: 1, quoteID: 1})
+
+router.post("/postNewGame", (req,res) => {
+    //Will need the userID, wpm, time, and game mode int
+    console.log(`postNewGame : ${req.data}`);
+
+
+    //Grab the userID, wpm, time and game mode int
+    const userID = req.body.userID;
+    const wpm = req.body.wpm;
+    const time = req.body.time;
+    const mode = req.body.mode;
+    const quoteID = req.body.quoteID;
+
+    //Enusre no null's are given
+    if (userID == null) {
+        throw "postNewGame: userID can not be null";
+    } else if (wpm == null) {
+        throw "postNewGame: wpm can not be null";
+    } else if (time == null) {
+        throw "postNewGame: time can not be null";
+    } else if (mode == null) {
+        throw "postNewGame: mode can not be null";
+    } else if (mode == 3 && quoteID == null) {
+        throw "postNewGame: quoteID can not be null when the quotes game mode is played";
+    }
+
+
+    //Now make the db call to the leader board
+    if (mode == 3) {
+        //Only for the quotes game mode
+        queries.addScoreToDatabase(userID, wpm, mode, time, quoteID);
+
+    } else {
+        //Any other game mode other than Quotes
+        queries.addScoreToDatabase(userID, wpm, mode, time);
+    }
+
+
+    //Now make a call to update the users profile total WPM and Games played
+    queries.updateAvgWPMByUserID(userID, wpm);
+
+    //Sent the call to the db properly!
+    res.sendStatus(200); 
+
+});
 
 
 //
-//  GET
+// GET
 //
 router.get('/logout', (res, req) => {
     //Check if there is a session
