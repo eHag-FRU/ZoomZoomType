@@ -88,7 +88,12 @@ router.post("/createAccount", (req, res) => {
 
 
     //Send the query
-    queries.createUserAccount(userName, email, password);
+    try {
+        queries.createUserAccount(userName, email, password);
+    } catch (e) {
+        console.log(`createAccount ERROR: ${e}`);
+        res.sendStatus(500);
+    }
 
     //Send an OK HTTP response, account was created
     res.sendStatus(200);

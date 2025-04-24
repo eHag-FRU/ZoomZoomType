@@ -334,6 +334,7 @@ function createUserAccount(userName, userEmail, password) {
 
     //Now that its assigned, create a new entry with 0's for wpmTotal and gamesPlayed to it for the user
     db.noReturnQuery("INSERT INTO avgWPM (wpmTotal, userID, gamesPlayed) VALUES (?, ?, ?);", [0, userID, 0]);
+
 }
 
 //
