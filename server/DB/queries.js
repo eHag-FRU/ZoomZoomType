@@ -185,6 +185,17 @@ function getQuoteLeaderBoardByID(quoteID) {
     return result;
 }
 
+function getRandomQuote() {
+    console.log("Getting random quote and quote ID");
+
+    let result = db.query("SELECT  * FROM quotes ORDER BY RANDOM() LIMIT 1;", []);
+    result = result[0];
+
+    console.log(`getAllQuotes: result = ${result}`);
+
+    return result;
+}
+
 
 //
 // UPDATE
@@ -360,5 +371,6 @@ module.exports = {
     updateEmailByID,
     updateUserNameByID,
     getQuoteLeaderBoardByID,
-    getAllQuotes
+    getAllQuotes,
+    getRandomQuote
 }
