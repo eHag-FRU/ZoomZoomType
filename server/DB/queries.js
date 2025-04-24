@@ -125,6 +125,66 @@ function getGamesPlayedAndWPMByUserID(userID) {
     return result[0];
 }
 
+function getLeaderBoardResults(gameMode) {
+    //Will hold the top 10 results for the mode
+    top10 = null;
+
+    //Default is classic (1)
+    let gameModeNumber = 1
+
+    //Sets the game mode number, this will be passed to the DB query
+    switch (gameMode) {
+        case "Classic":
+            gameModeNumber = 1;
+            break;
+        case "Memorize":
+            gameModeNumber = 2;
+            break;
+        case "Quotes":
+            gameModeNumber = 3;
+            break;
+        case "Look-Ahead":
+            gameModeNumber = 4;
+            break;
+    }
+
+    console.log(`getLeaderBoardResults: gameMode: ${gameMode} | gameModeNumber: ${gameModeNumber}`);
+
+    //Now we need to make the DB call based on the game mode, if the game mode is not 3
+    if (gameMode != 3) {
+        top10 = db.query("SELECT users.userUsername, wpm, time FROM leaderBoard JOIN users ON leaderBoard.userID = users.userID WHERE mode = ? ORDER BY wpm DESC LIMIT 10;", [gameModeNumber]);
+    }
+
+    return top10;
+}
+
+
+function getAllQuotes() {
+    //Will hold the results
+    let results = null;
+
+
+    //Now send query over
+    result = db.query("SELECT * FROM quotes;");
+
+    console.log(`getAllQuotes result: ${result[0]}`);
+    console.log(`getAllQuotes result: ${result[1]}`);
+
+    //Now return it
+    return result;
+}
+
+function getQuoteLeaderBoardByID(quoteID) {
+    console.log("Getting quote leaderboard by the quoteID");
+
+    //Now make the DB query to get the leaderboard based on quote ID
+    let result = null;
+
+    result = db.query("SELECT users.userUsername, wpm, TIME  FROM leaderBoard JOIN users ON leaderBoard.userID = users.userID JOIN quotes ON leaderBoard.quoteID = quotes.quoteID  WHERE mode = 3 AND leaderBoard.quoteID = ? ORDER by wpm DESC LIMIT 10;", [quoteID]);
+
+    return result;
+}
+
 
 //
 // UPDATE
@@ -273,10 +333,5 @@ module.exports = {
     getUserIDByEmail,
     getAvgWPMByUserID,
     updateAvgWPMByUserID,
-    getUserNameByID,
-    deleteUserByID,
-    updateUserNameByID,
-    updateEmailByID,
-    updatePasswordByID,
-    getGamesPlayedAndWPMByUserID
+    getUserNameByID
 }
