@@ -39,7 +39,7 @@ function NavBarUserDropDownMenu({ isLoggedIn, deleteCookie, wpm, setWPM}) {
             <div className="dropdown-menu show position-absolute mt-2" style={{ right: 0 }}>
               {isLoggedIn ? (
                 <>
-                    <Link className="dropdown-item text-black" to="/profile" onClick={() => setShowDropdown(false)}>Profile</Link>
+                    <Link className="dropdown-item text-black" to="/ProfilePage" onClick={() => setShowDropdown(false)}>Profile</Link>
                     <Link className="dropdown-item text-black" to="/settings" onClick={() => setShowDropdown(false)}>Settings</Link>
                     <Link className="dropdown-item text-black" to="/leaderBoard" onClick={() => setShowDropdown(false)}>Leader Board</Link>
                     <div className="dropdown-divider"></div>

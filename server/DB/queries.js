@@ -98,6 +98,33 @@ function getAvgWPMByUserID(userID) {
 
 }
 
+function getGamesPlayedAndWPMByUserID(userID) {
+
+    //check for null userID
+    if (userID == null) {
+        throw "getGamesPlayedAndWPMByUserID: userID can not be null";
+    }
+
+    //Good to go, now grab the users WPM and games played by their userID
+    result = db.query("SELECT wpmTotal, gamesPlayed FROM avgWPM WHERE userID = ?;", [userID]);
+
+    //Will hold the games played and the over all WPM
+    gamesPlayed = 0;
+    wpmTotal = 0;
+
+    console.log(result[0].gamesPlayed);
+    console.log(result[0]);
+
+    try {
+        gamesPlayed = result[0].gamesPlayed;
+        wpmTotal = result[0].wpmTotal;
+    } catch{
+        throw `getGamesPlayedAndWPMByUserID: could not either assign gamesPlayed or wpmTotal: ${e}`;
+    }
+
+    return result[0];
+}
+
 function getLeaderBoardResults(gameMode) {
     //Will hold the top 10 results for the mode
     top10 = null;
@@ -196,6 +223,56 @@ function updateAvgWPMByUserID(userID, gamesWPM){
     db.query("UPDATE avgWPM SET wpmTotal = ?, gamesPlayed = ? WHERE userID = ?;", [newResultWPM, newGamesPlayed, userID]);
 }
 
+
+function updateUserNameByID(ID, newUserName) {
+    console.log("Updating username by ID with DB");
+
+
+    //Check for NULL ID
+    if (ID == null) {
+        throw "updateUserNameByID: ID can not be null";
+    } else if (newUserName == null) {
+        throw "updateUserNameByID: newUserName can not be null"
+    }
+
+    //Now make the update query
+    db.noReturnQuery("UPDATE users SET userUsername = ? WHERE userID = ?;", [newUserName, ID]);
+}
+
+function updateEmailByID(ID, newEmail) {
+    console.log("Updating email by ID with DB");
+
+    //Check for NULL id and email
+    if (ID == null) {
+        throw "updateEmailByID: ID can not be null";
+
+    } else if (newEmail == null) {
+        throw "updateEmailByID: newEmail can not be null";
+    }
+
+
+
+    //Make call to DB to update info
+    db.noReturnQuery("UPDATE users SET userEmail = ? WHERE userID = ?;", [newEmail, ID]);
+}
+
+function updatePasswordByID(ID, newPassword) {
+    console.log("Updating password by ID with DB");
+
+     //Check for NULL id and email
+     if (ID == null) {
+        throw "updatePasswordByID: ID can not be null";
+
+    } else if (newPassword == null) {
+        throw "updatePasswordByID: newPassword can not be null";
+    }
+
+
+
+    //Make call to DB to update info
+    db.noReturnQuery("UPDATE users SET userPassword = ? WHERE userID = ?;", [newPassword, ID]);
+}
+
 //
 //  CREATE
 //
@@ -231,13 +308,30 @@ function createUserAccount(userName, userEmail, password) {
     db.query("INSERT INTO avgWPM (wpmTotal, userID, gamesPlayed) VALUES (?, ?, ?);", [0, userID, 0]);
 }
 
+//
+// DELETE
+//
+
+function deleteUserByID(ID) {
+
+    //Check for NULL ID
+    if (ID == null) {
+        throw "deleteUserByID: ID can not be null";
+    }
+
+    //Now good to execute the query
+    try {
+        db.deleteQuery("DELETE FROM users WHERE userID = ?;", [ID]);
+    } catch (e) {
+        console.log(`deleteUserByID: ${e}`);
+    }
+
+}
+
 module.exports = {
     getPasswordByEmail,
     getUserIDByEmail,
     getAvgWPMByUserID,
     updateAvgWPMByUserID,
-    getUserNameByID,
-    getLeaderBoardResults,
-    getAllQuotes,
-    getQuoteLeaderBoardByID
+    getUserNameByID
 }
