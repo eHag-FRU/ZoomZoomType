@@ -5,9 +5,11 @@ const queries = require('./DB/queries');
 const {check, validationResults, matchedData} = require('express-validator');
 const { query } = require('./DB/db');
 
+
 //Add middleware to the router, so the form data can be processed
 router.use(express.urlencoded({extended: true}));
 router.use(express.json());
+
 
 
 //Now define the routes
@@ -129,6 +131,108 @@ router.get("/getAvgWPM", (res, req) => {
 
     //Send the response back
     req.send({'avgWPM': avgWPM});
+});
+
+router.get("/gamesPlayed", (req, res) => {
+
+    //Grab the users ID from the request
+    const userID = req.query.ID
+
+    console.log(`gamesPlayer: userID - ${userID}`);
+
+    //Now query to grab the number of games played & total WPM
+    gamesPlayed = queries.getGamesPlayedAndWPMByUserID(userID);
+
+    console.log(`gamesPlayed in router: ${gamesPlayed}`);
+    console.log(`gamesPlayed in router: ${gamesPlayed.gamesPlayed}`);
+
+    //Send back the dictionary that is {gamesPlayed, wpmTotal}
+    res.status(200).send(gamesPlayed)
+});
+
+//
+// Profile commands
+//
+
+router.delete('/deleteaccount', (req,res) => {
+    console.log("Going to delete account");
+
+    //Now grab the cookie with Express Cookies
+    //going to delete the cookie after making the DB call to remove the collumn
+    //The ID will be pulled from the cookie
+    console.log("The cookie: ", req.body.id);
+
+    const userIDToDelete = req.body.id;
+
+    //Now make the call to the db
+    queries.deleteUserByID(userIDToDelete);
+
+
+    //Delete was good, so send a 200 OK
+    res.sendStatus(200);
+});
+
+router.post('/updateUsername', (req, res) => {
+    console.log("Going to update the username");
+
+    //Grab the username and ID from the form
+    const newUserName = req.body.username;
+    const userID = req.body.id;
+
+    console.log(`routes.js new username: ${newUserName}`);
+
+    //Now grab the cookie
+    console.log("The updateUsername cookie: ", req.body.id);
+
+    //Send request to db
+    queries.updateUserNameByID(userID, newUserName);
+
+
+    //Send a HTTP-200 to say everything was OK
+    res.sendStatus(200);
+
+});
+
+router.post('/updatePassword', (req, res) => {
+    console.log("Going to update the password");
+
+    //Grab the username and ID from the form
+    const newPassword = req.body.password;
+    const userID = req.body.id;
+ 
+     console.log(`routes.js new password: ${newPassword}`);
+ 
+     //Now grab the cookie
+     console.log("The updatePassword cookie: ", req.body.id);
+ 
+     //Send request to db
+     queries.updatePasswordByID(userID, newPassword);
+ 
+ 
+     //Send a HTTP-200 to say everything was OK
+     res.sendStatus(200);
+
+
+});
+
+router.post('/updateEmail', (req, res) => {
+    console.log("Going to update the email");
+
+    //Grab the cookie for the ID
+    const userIDToUpdateEmail = req.body.id;
+
+    //Grab the email from the form component to send to the DB
+    const newUserEmail = req.body.email;
+
+    console.log(`newUserEmail: ${newUserEmail}`);
+    console.log(`userIDToUpdateEmail: ${userIDToUpdateEmail}`);
+
+
+    //Now make the db call
+    queries.updateEmailByID(userIDToUpdateEmail, newUserEmail);
+
+    //Send an HTTP 200 - OK, signaling the request was executed successfully
+    res.sendStatus(200);
 });
 
 
