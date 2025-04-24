@@ -18,33 +18,17 @@ import "bootstrap/dist/js/bootstrap.bundle.min";
 
 // Importing FontAwesome to allow for icons
 import { library } from "@fortawesome/fontawesome-svg-core";
-import {
-  faCarOn,
-  faCrown,
-  faKeyboard,
-  faCircleInfo,
-  faGear,
-  faCircleUser,
-} from "@fortawesome/free-solid-svg-icons";
+import { faCarOn, faCrown, faKeyboard, faCircleInfo, faGear, faCircleUser, faBriefcaseClock } from "@fortawesome/free-solid-svg-icons";
 import { faGithub } from "@fortawesome/free-brands-svg-icons";
 import LogInPage from "./components/loginPage.jsx";
 
 //Adding in the icons
-library.add(
-  faCarOn,
-  faCrown,
-  faKeyboard,
-  faCircleInfo,
-  faGear,
-  faCircleUser,
-  faGithub
-);
+library.add(faCarOn, faCrown, faKeyboard, faCircleInfo, faGear, faCircleUser, faGithub);
 
 function App() {
   //Settings States
   const [theme, setTheme] = useState("theme-d5");
   const [font, setFont] = useState("Arial");
-  const [sfx, setSFX] = useState("No Sound");
 
   //Adding the avg WPM state
   const [avgWPM, setAvgWPM] = useState(0);
@@ -53,16 +37,8 @@ function App() {
   const [cookie, setCookies, deleteCookie] = useCookies(["usr"]);
 
   return (
-    <div
-      className={`app-container min-vh-100 d-flex flex-column ${theme}`}
-      style={{ fontFamily: font }}
-    >
-      <NavBar
-        wpm={avgWPM}
-        setWPM={setAvgWPM}
-        cookie={cookie}
-        deleteCookie={deleteCookie}
-      ></NavBar>
+    <div className={`app-container min-vh-100 d-flex flex-column ${theme}`} style={{ fontFamily: font }}>
+      <NavBar wpm={avgWPM} setWPM={setAvgWPM} cookie={cookie} deleteCookie={deleteCookie}></NavBar>
       <div className="d-flex flex-grow-1">
         <Routes>
           <Route path="/" element={<Home />} />
@@ -71,30 +47,9 @@ function App() {
           <Route path="/FaQ" element={<FaQ />} />
           <Route path="/ProfilePage" element={<ProfilePage />} />
           <Route path="/GamePage" element={<GamePage />} />
-          <Route
-            path="/Settings"
-            element={
-              <Settings
-                font={font}
-                setFont={setFont}
-                theme={theme}
-                setTheme={setTheme}
-                sfx={sfx}
-                setSFX={setSFX}
-              />
-            }
-          />
+          <Route path="/Settings" element={<Settings font={font} setFont={setFont} theme={theme} setTheme={setTheme} />} />
           <Route path="/GameModes" element={<GameModes />} />
-          <Route
-            path="/login"
-            element={
-              <LogInPage
-                updateAvgWPM={setAvgWPM}
-                cookie={cookie}
-                setLoginCookie={setCookies}
-              />
-            }
-          />
+          <Route path="/login" element={<LogInPage updateAvgWPM={setAvgWPM} cookie={cookie} setLoginCookie={setCookies} />} />
         </Routes>
       </div>
       <Footer></Footer>

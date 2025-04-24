@@ -37,7 +37,7 @@ const SettingsBlock = ({ title, context, buttons, onButtonClick }) => (
   </li>
 );
 
-const Settings = ({ font, setFont, theme, setTheme, sfx, setSFX }) => {
+const Settings = ({ font, setFont, theme, setTheme }) => {
   // so... i think I need to get the thing to (on click) get the Title info (setting block), and then the button content.
   // I can do that with a function I think
   const handleButtonClick = (blockID, buttonID) => {
@@ -50,9 +50,6 @@ const Settings = ({ font, setFont, theme, setTheme, sfx, setSFX }) => {
         break;
       case "Theme":
         setTheme(buttonID);
-        break;
-      case "Sound Effects":
-        setSFX(buttonID);
         break;
       default:
         break;
@@ -104,18 +101,6 @@ const Settings = ({ font, setFont, theme, setTheme, sfx, setSFX }) => {
         { content: "theme-green" },
         { content: "theme-red" },
         { content: "theme-yellow" },
-      ],
-    },
-    {
-      title: "Sound Effects",
-      context: "Adds sound effects whenever the player types a letter.",
-      buttons: [
-        { content: "No Sound" },
-        { content: "OOF" },
-        { content: "osu!" },
-        { content: "Fart" },
-        { content: "Cherry MX Blues" },
-        { content: "Vine Boom" },
       ],
     },
   ];
