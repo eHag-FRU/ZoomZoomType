@@ -46,19 +46,6 @@ function App() {
   const [font, setFont] = useState("Arial");
   const [sfx, setSFX] = useState("No Sound");
 
-  const handleSettingChange = (blockName, blockButtonContent) => {
-    if (blockName == "Layout") {
-      // adjust the keyboard layout
-      // Idk how to do that just yet, this will be a later thing
-    } else if (blockName == "Theme") {
-      setTheme(blockButtonContent);
-    } else if (blockName == "Font") {
-      setFont(blockButtonContent);
-    } else if (blockName == "Sound Effects") {
-      setSFX(blockButtonContent);
-    }
-  };
-
   //Adding the avg WPM state
   const [avgWPM, setAvgWPM] = useState(0);
 
@@ -84,7 +71,19 @@ function App() {
           <Route path="/FaQ" element={<FaQ />} />
           <Route path="/ProfilePage" element={<ProfilePage />} />
           <Route path="/GamePage" element={<GamePage />} />
-          <Route path="/Settings" element={<Settings />} />
+          <Route
+            path="/Settings"
+            element={
+              <Settings
+                font={font}
+                setFont={setFont}
+                theme={theme}
+                setTheme={setTheme}
+                sfx={sfx}
+                setSFX={setSFX}
+              />
+            }
+          />
           <Route path="/GameModes" element={<GameModes />} />
           <Route
             path="/login"

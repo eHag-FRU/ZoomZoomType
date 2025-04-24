@@ -15,8 +15,8 @@ import { useNavigate, useLocation } from "react-router-dom";
 
 // SettingsBlock takes a title and however many buttons inside
 // Dynamically creates a segment for each section of the settings
-const SettingsBlock = ({ title, context, buttons }) => (
-  <li className="settings-block">
+const SettingsBlock = ({ title, context, buttons, onButtonClick }) => (
+  <li className="settings-block my-3">
     <div className="d-grid py-3">
       <div className="block-header">
         <h2>{title}</h2>
@@ -31,10 +31,8 @@ const SettingsBlock = ({ title, context, buttons }) => (
           <button
             key={index}
             type="button"
-            className="btn btn-primary w-100"
-            onClick={() =>
-              console.log(`Group: ${title}, Button: ${button.content}`)
-            }
+            className="btn btn-outline-light w-100"
+            onClick={() => onButtonClick(title, button.content)}
           >
             {button.content}
           </button>
@@ -44,13 +42,31 @@ const SettingsBlock = ({ title, context, buttons }) => (
   </li>
 );
 
-// so... i think I need to get the thing to (on click) get the Title info (setting block), and then the button content.
-// I can do that with a function I think
-// i just dont know how to
+const Settings = ({ font, setFont, theme, setTheme, sfx, setSFX }) => {
+  // so... i think I need to get the thing to (on click) get the Title info (setting block), and then the button content.
+  // I can do that with a function I think
+  const handleButtonClick = (blockID, buttonID) => {
+    switch (blockID) {
+      case "Keyboard Layout":
+        // i dont have anything for this right now.
+        break;
+      case "Font":
+        setFont(buttonID);
+        break;
+      case "Theme":
+        setTheme(buttonID);
+        break;
+      case "Sound Effects":
+        setSFX(buttonID);
+        break;
+      default:
+        break;
+    }
+  };
 
-const Settings = () => {
-  // takes a json as input for the settings
+  // JSON format used to create setting blocks
   // title:   Title of the settings segment
+  // context: Small description of the segment
   // buttons: Options inside of the segment
   // content: The text presented in the button
   const blockData = [
@@ -80,10 +96,20 @@ const Settings = () => {
       title: "Theme",
       context: "Changes the theme colors of the website.",
       buttons: [
-        { content: "Blue" },
-        { content: "Green" },
-        { content: "Red" },
-        { content: "Yellow" },
+        { content: "theme-d5" },
+        { content: "theme-d4" },
+        { content: "theme-d3" },
+        { content: "theme-d2" },
+        { content: "theme-d1" },
+        { content: "theme-l5" },
+        { content: "theme-l4" },
+        { content: "theme-l3" },
+        { content: "theme-l2" },
+        { content: "theme-l1" },
+        { content: "theme-blue" },
+        { content: "theme-green" },
+        { content: "theme-red" },
+        { content: "theme-yellow" },
       ],
     },
     {
@@ -105,7 +131,7 @@ const Settings = () => {
   return (
     <div className="container justify-content-center">
       <div className="header">
-        <h1>Settings</h1>
+        <h1 className="fw-bold">Settings</h1>
       </div>
       <ul className="list-unstyled">
         {blockData.map((block, index) => (
@@ -114,6 +140,7 @@ const Settings = () => {
             title={block.title}
             context={block.context}
             buttons={block.buttons}
+            onButtonClick={handleButtonClick}
           />
         ))}
       </ul>
