@@ -161,6 +161,25 @@ router.get("/gamesPlayed", (req, res) => {
     res.status(200).send(gamesPlayed)
 });
 
+
+//Call will be like this: const result = axios.get("http://localhost:3000/api/randomQuote")
+//A dictonary 
+router.get("/randomQuote", (req, res) => {
+    console.log("Grabbing a random quote");
+
+    let result = null;
+
+    result = queries.getRandomQuote();
+
+
+    //Now print it out and see the format of the result
+    console.log(`randomQuote: ${result.quoteID}`);
+    console.log(`randomQuote: ${result.quote}`);
+
+
+    res.status(200).send(result);
+});
+
 //
 // Profile commands
 //
