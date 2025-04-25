@@ -106,7 +106,9 @@ router.post("/createAccount", (req, res) => {
 
 router.post("/postNewGame", (req,res) => {
     //Will need the userID, wpm, time, and game mode int
-    console.log(`postNewGame : ${req.data}`);
+    console.log(`postNewGame : ${req.body}`);
+    console.log(`postNewGame : ${req.body.userID}`);
+    console.log(`postNewGame : ${req.body.wpm}`);
 
 
     //Grab the userID, wpm, time and game mode int

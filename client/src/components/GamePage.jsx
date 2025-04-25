@@ -1,13 +1,14 @@
 import React, {useState, useEffect, useRef, useMemo} from 'react';
 import { useNavigate } from 'react-router-dom';
 import {generate, count} from 'random-words';
+import axios from 'axios';
 
 const NUMB_OF_WORD = 170;
 const SECONDS = 60;
 const WORDS_PER_SCREEN = 60
 
 
-const GamePage = () => {
+const GamePage = ({cookie}) => {
   //used placeholder for future gamemodes
   const [mode, setMode] = useState("Random Lowercase Words");
   //place holder for ability to set time
@@ -65,6 +66,30 @@ const GamePage = () => {
   //handles starting the game from the start game button
   function start() {
     setGameStatus(true);
+  }
+
+  async function postGameData(finalWpm){
+    console.log("posting game data");
+    //get user information
+    let userData = cookie.usr;
+    console.log(userData.userID);
+    let wordsPerMinute = wpm;
+    console.log("wpm: ", wordsPerMinute);
+    wordsPerMinute = calWPM(correctChars, 60);
+    console.log("wpm2: ", wordsPerMinute);
+    //store data in object
+    const data = {
+      "userID": userData.userID,
+      "wpm": finalWpm,
+      "time": 60,
+      "mode": 1,
+    }
+    //post
+    try{
+      await axios.post('http://localhost:3000/api/postNewGame', data);
+    } catch(e){
+      console.log('Error posting game data')
+    }
   }
 
   //checks if typed input matches current word
@@ -136,6 +161,7 @@ const GamePage = () => {
       setWpm(0);
       //set counted characters
       setCorrectChars(0);
+      console.log("game being reset");
     }
     //auto focus on input bar so user doesn't have to manually click it after game starts
     if (gameStatus === true && inputRef.current) {
@@ -147,6 +173,7 @@ const GamePage = () => {
 
   
   //home responsible for managing the timer --will merge with first hook
+  //will also post scores when game ends
   useEffect(() => {
     if (gameStatus === true) {
       //set time for timer to value of global variable SECONDS
@@ -160,16 +187,23 @@ const GamePage = () => {
         //when timer hits zero, game is over
         //reset the game settings and record user wpm in database
         if(tempTime <= 0){
+          const finalWpm = calWPM(correctChars, SECONDS);
           //disable the timer
           clearInterval(timer);
           //set gameStatus to false
           setGameStatus(false);
           //set textGenerated to false so new text can generate
           setTextGenerated(false);
-          //TODO:
-          /***********************************/ 
-          //Record wpm in database
-          /***********************************/
+          //get wpm
+          //check if user is logged in
+          console.log("useEffect wpm: ", finalWpm);
+          if(cookie.usr){
+            console.log("user is logged in");
+            postGameData(finalWpm).then(() => {
+              console.log("Finished posting data");
+            });
+          }
+
         }
         //set time to new time
         setTime(tempTime);
@@ -186,7 +220,6 @@ const GamePage = () => {
   }, [correctChars])
 
   const handleResize = () => {
-    console.log("resize triggered");
     if (!typingContainerRef.current || !charRef.current){
       console.log("One or both refs are null");
       return;
@@ -206,16 +239,6 @@ const GamePage = () => {
     const charAmount = Math.floor(containerWidth/characterWidth);
     //set characters per line
     setCharactersPerLine(charAmount);
-
-    // const baseWordWidth = 100; // Adjust this if needed
-    // const minWords = 1;
-    // const maxWords = 12;
-  
-    // const calculatedWords = Math.max(
-    //   minWords,
-    //   Math.min(maxWords, Math.floor(containerWidth / baseWordWidth))
-    // );
-    // setWordsPerLine(calculatedWords);
   };
 
   //use effect for handling screensize
@@ -241,7 +264,6 @@ const GamePage = () => {
   //function for rendering the text, will be same across all games
   const renderGame = useMemo(() => {
     if (charactersPerLine === 0) {
-      console.log("charactersPerLine is 0, skipping renderGame");
       return [];
     }
     //used to track indexes of all characters from 0 - n characters
@@ -259,12 +281,8 @@ const GamePage = () => {
     //set of lines
     let lines = [];
 
-
-    //TODO: REWRITE RENDERING LOGIC TO DO WORDS BASED OFF CHARACTERS PER LINE
-    //Need to understand how many characters can fit per line
     //grab characters per line
     let charsPerLine = charactersPerLine;
-    console.log("CharactersPerLineRender: ", charactersPerLine);
     let charsPerLineSoFar = 0;
     let wordsOnCurrentLine = 0;
     let visibleWords = words.slice(it, it+85);
@@ -290,10 +308,6 @@ const GamePage = () => {
           let charSpan= <span></span>
           //if word has already been typed
           if(wordIt+it < currIt){
-            console.log("true");
-            console.log("currIt: ", currIt);
-            console.log("it: ", it);
-            console.log("wordIt: ", wordIt);
             styling = {color: "white"};
             charSpan=
             <span key={k} style={styling}>
@@ -361,9 +375,6 @@ const GamePage = () => {
         line = [];
         wordsOnCurrentLine = 0;
       }
-      // for(let letterIt = 0; letterIt < charsPerLine; letterIt++){
-      //   line.push(<span key={letterIt}>a</span>);
-      // }
     }
 
     return lines;
