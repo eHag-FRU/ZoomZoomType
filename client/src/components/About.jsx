@@ -2,7 +2,7 @@ import React, { useEffect, useState, useRef } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome"
 import 'bootstrap/dist/css/bootstrap.min.css';
-import reactLogo from '../assets/zoomLogo.png'
+import reactLogo from '../assets/logo.png'
 
 const About = () => {
 
@@ -21,13 +21,13 @@ const About = () => {
             <div className="container text-white">
                 <div className="row align-items-stretch">
                     {/* Image on the left */}
-                    <div className="col-12 col-md-6 col-lg-5 d-flex align-items-start">
-                        <div className="w-100 d-flex">
+                    <div className="col-12 col-md-11 col-lg-4 pt-5 mx-auto">
+                        <div className="h-12 objext-contain d-flex">
                             <img
                                 src={reactLogo}
                                 alt="Logo"
                                 className="img-fluid"
-                                style={{ borderRadius: '1rem', maxHeight: '500px', width: '100%', height: 'auto', objectFit: "contain" }}
+                                style={{ borderRadius: '1rem', maxHeight: '200px', width: '100%', height: 'auto', objectFit: "contain" }}
                             />
                         </div>
                     </div>
@@ -37,15 +37,17 @@ const About = () => {
                     <div className="col-12 col-md-11 col-lg-7 pt-5 ps-lg-4">
                         <div>
                             <p style={{ fontSize: "1.1em" }}>
-                                Text section regarding what we do as a group,
-                                how we started the idea, yadda yadda yadda
-                                Lorem ipsum dolor sit amet, consectetur adipiscing elit,
-                                sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
-                                Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris
-                                nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in
-                                reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.
-                                Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia
-                                deserunt mollit anim id est laborum.
+                            ZoomZoomType is an interactive web-based typing game 
+                            designed to challenge users to improve their typing 
+                            speed and accuracy. Players race against the 
+                            clock — or against each other — by typing given 
+                            passages as quickly and precisely as possible.
+
+                            Built for both casual users looking to sharpen their 
+                            skills and competitive players aiming for the top of 
+                            the leaderboard, ZoomZoomType brings a fun, dynamic, 
+                            and fast-paced experience to the world of online typing 
+                            games. 
                             </p>
                         </div>
                     </div>
@@ -56,19 +58,16 @@ const About = () => {
 
 
             { /* Another text section? */ }
-            <div className="container text-white py-1">
+            <div className="container text-white pt-5 mt-4">
                 <div className="row justify-content-center">
                     <div className="col-12 col-lg-11 mx-auto">
                         <p style={{ fontSize: "1.1em"}}>
-                            Another text section regarding what we do as a group,
-                            how we started the idea, yadda yadda yadda
-                            Lorem ipsum dolor sit amet, consectetur adipiscing elit,
-                            sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
-                            Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris
-                            nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in
-                            reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.
-                            Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia
-                            deserunt mollit anim id est laborum.
+                        The platform tracks detailed performance statistics like words 
+                        per minute (WPM) and accuracy, giving players a way to monitor 
+                        their progress, climb leaderboards, and sharpen their skills 
+                        over time. Built with a focus on fast-paced gameplay and 
+                        community-driven competition, ZoomZoomType makes improving your 
+                        typing skills both fun and rewarding.
                         </p>
                     </div>
                 </div>
