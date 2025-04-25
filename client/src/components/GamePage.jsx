@@ -1,9 +1,10 @@
-import React, {useState, useEffect, useRef} from 'react';
+import React, {useState, useEffect, useRef, useMemo} from 'react';
 import { useNavigate } from 'react-router-dom';
 import {generate, count} from 'random-words';
 
 const NUMB_OF_WORD = 170;
 const SECONDS = 60;
+const WORDS_PER_SCREEN = 60
 
 
 const GamePage = () => {
@@ -27,6 +28,16 @@ const GamePage = () => {
   const [correctChars, setCorrectChars] = useState(0);
   //defining input ref so when game starts, you can automatically type on keyboard without clicking it
   const inputRef = useRef(null);
+  //current word iterator
+  const [currIt, setCurrIt] = useState(0);
+  //state for words per line so we can have dynamic screen sizes
+  const [wordsPerLine, setWordsPerLine] = useState(12);
+  //state for how many characters per line can exist for the purposes of resizing screen dynamically
+  const [charactersPerLine, setCharactersPerLine] = useState(0);
+  //reference for container containing typed words for the purposes of reszizing
+  const typingContainerRef = useRef(null);
+  //char reference used for calculating character width which is using for the purposes of resizing typing container
+  const charRef = useRef(null);
 
   //Auxiliary functions to help with game
   function generateWords(){
@@ -63,8 +74,7 @@ const GamePage = () => {
 
     //add character to typed word
     setTypedWord(typedPhrase);
-    console.log(typedPhrase, " ", words[it]);
-    if(typedPhrase === words[it]){
+    if(typedPhrase === words[currIt]){
       //if game is running, allow characters to be recorded
       if(gameStatus === true){
         //get correct characters typed so far
@@ -75,7 +85,7 @@ const GamePage = () => {
         setCorrectChars(charsTyped);
       }
       //increment the word
-      setIt(it+1);
+      setCurrIt(currIt+1);
       //set input word to nothing
       setTypedWord("");
     }
@@ -113,6 +123,8 @@ const GamePage = () => {
     if(gameStatus === true){
       //set text counter to 0
       setIt(0);
+      //set currIt counter to 0
+      setCurrIt(0);
       //set typed word to nothing
       setTypedWord("");
       //if text is not generated, generate the text
@@ -120,6 +132,10 @@ const GamePage = () => {
         generateWords();
         setTextGenerated(true);
       }
+      //set wpm
+      setWpm(0);
+      //set counted characters
+      setCorrectChars(0);
     }
     //auto focus on input bar so user doesn't have to manually click it after game starts
     if (gameStatus === true && inputRef.current) {
@@ -169,8 +185,191 @@ const GamePage = () => {
     //useeffect function runs when correctChars changes
   }, [correctChars])
 
-  return (
+  const handleResize = () => {
+    console.log("resize triggered");
+    if (!typingContainerRef.current || !charRef.current){
+      console.log("One or both refs are null");
+      return;
+    }
 
+    //get container padding
+    const containerElement = typingContainerRef.current;
+    const containerStyles = window.getComputedStyle(containerElement);
+    const containerPadding = parseFloat(containerStyles.paddingLeft) + parseFloat(containerStyles.paddingRight);
+
+    //get the container width
+    const containerWidth = typingContainerRef.current.offsetWidth - containerPadding;
+
+    //get the character width
+    const characterWidth = charRef.current.offsetWidth;
+    //calculate how many characters can fit within container
+    const charAmount = Math.floor(containerWidth/characterWidth);
+    //set characters per line
+    setCharactersPerLine(charAmount);
+
+    // const baseWordWidth = 100; // Adjust this if needed
+    // const minWords = 1;
+    // const maxWords = 12;
+  
+    // const calculatedWords = Math.max(
+    //   minWords,
+    //   Math.min(maxWords, Math.floor(containerWidth / baseWordWidth))
+    // );
+    // setWordsPerLine(calculatedWords);
+  };
+
+  //use effect for handling screensize
+  useEffect(() => {
+    handleResize();
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  },[]);
+
+  useEffect(() => {
+    handleResize(); // Run on initial render
+  }, []);
+  
+  useEffect(() => {
+    if (gameStatus) {
+      setTimeout(() => {
+        handleResize(); // Run after the game starts
+      }, 0);
+    }
+  }, [gameStatus]);
+
+
+  //function for rendering the text, will be same across all games
+  const renderGame = useMemo(() => {
+    if (charactersPerLine === 0) {
+      console.log("charactersPerLine is 0, skipping renderGame");
+      return [];
+    }
+    //used to track indexes of all characters from 0 - n characters
+    let charIndex = 0;
+    //tracks the starting position of the current word we are typing
+    let currWordIndex = 0;
+    //set curr word index - must happen only once
+    let setCurrWordIndex = false;
+    //flag to mark all words typed after incorrect character red
+    let incorrectCharFound = false;
+    //tracking which word we are on
+    let currWord = 0;
+    //current line
+    let line = [];
+    //set of lines
+    let lines = [];
+
+
+    //TODO: REWRITE RENDERING LOGIC TO DO WORDS BASED OFF CHARACTERS PER LINE
+    //Need to understand how many characters can fit per line
+    //grab characters per line
+    let charsPerLine = charactersPerLine;
+    console.log("CharactersPerLineRender: ", charactersPerLine);
+    let charsPerLineSoFar = 0;
+    let wordsOnCurrentLine = 0;
+    let visibleWords = words.slice(it, it+85);
+    //unique keys for letters in lines. Coutns number of characters total
+    let k = 0;
+
+    //set it forward if needed
+    if(currIt >= it + wordsPerLine){
+      setIt(currIt);
+    }
+
+    //iterate through all words from iterator marker onwards
+    let wordIt = 0;
+    while(wordIt < visibleWords.length && lines.length < 4){
+      if(charsPerLineSoFar + visibleWords[wordIt].length <= charsPerLine){
+        //add word length to charsPerLineSoFar
+        charsPerLineSoFar += visibleWords[wordIt].length;
+        //add every letter to line through rendering logic
+        for(let letterIt = 0; letterIt < visibleWords[wordIt].length; letterIt++){
+          //rendering logic
+          //default rendering styles
+          let styling = {};
+          let charSpan= <span></span>
+          //if word has already been typed
+          if(wordIt+it < currIt){
+            console.log("true");
+            console.log("currIt: ", currIt);
+            console.log("it: ", it);
+            console.log("wordIt: ", wordIt);
+            styling = {color: "white"};
+            charSpan=
+            <span key={k} style={styling}>
+              {visibleWords[wordIt][letterIt]}
+            </span>
+          } else {
+            if(wordIt+it === currIt){
+              if(setCurrWordIndex === false){
+                currWordIndex = k;
+                setCurrWordIndex = true;
+              }
+            }
+            
+            //check if character has been typed
+            if(k-currWordIndex < typedWord.length){
+              //if it has been typed, check if correct, if correct make it white
+              if(visibleWords[wordIt][letterIt] === typedWord[letterIt] && incorrectCharFound === false){
+                styling = {color: "white", position: 'relative'};
+              } else {
+                styling = {color: "red", position: 'relative'};
+                incorrectCharFound = true;
+              }
+            } else {
+              styling = {color: "grey", position: 'relative'};
+            }
+
+            //check whether to print cursor or not
+            if(k-currWordIndex === typedWord.length){
+              charSpan=
+              <span key={k} style={styling}>
+                {visibleWords[wordIt][letterIt]}
+                <span style={{
+                  position: 'absolute',
+                  left: -2,
+                  top: 0,
+                  bottom: 0,
+                  width: '2px',
+                  backgroundColor: 'orange',
+                  animation: 'blink 1s step-end infinite',
+                }} />
+              </span>
+            } else {
+              charSpan=
+              <span key={k} style={styling}>
+                {visibleWords[wordIt][letterIt]}
+              </span>
+            }
+          }
+          line.push(charSpan);
+          //increment unique key
+          k++;
+        }
+        //increment wordIt;
+        wordIt++;
+        //increment words on current line
+        wordsOnCurrentLine++;
+      } else {
+        //push the line of words into lines
+        lines.push(<div key={lines.length}>{line}</div>);
+        //reset charsperlinesofar and line and wordsOnCurrentline
+        if(lines.length == 1){
+          setWordsPerLine(wordsOnCurrentLine);
+        }
+        charsPerLineSoFar = 0;
+        line = [];
+        wordsOnCurrentLine = 0;
+      }
+      // for(let letterIt = 0; letterIt < charsPerLine; letterIt++){
+      //   line.push(<span key={letterIt}>a</span>);
+      // }
+    }
+
+    return lines;
+  }, [words, it, typedWord, wordsPerLine, charactersPerLine]);
+
+  return (
     <div className="container-fluid d-flex flex-column flex-grow-1 align-items-center m-5">
       <div className="row w-75 rounded p-4 theme-l2 fw-bold mb-4">
         <div className="col-12 col-lg-4 text-center mt-2 mb-2 fs-5">Mode: {mode}</div>
@@ -179,79 +378,13 @@ const GamePage = () => {
       </div>
       {/*Conditionally render game is game is running or not*/}
       {gameStatus &&
-        <div className="w-75 p-5 fs-5">
-          {/*Print the words and their typed state*/}
-          {words.map((word, i) => {
-            //print already typed words as green because they have been successfully completed
-            if(i < it){
-              return(
-                <span key={i} style={{color: "white"}}>
-                  {word + ' '}
-                </span>
-              )
-            } 
-            //if on current word, style character by character
-            //TODO: Finish function
-            else if(i === it){
-              //split current word
-              let chars = word.split('');
-              console.log(chars);
-
-              //map all the words and store in object
-              let completedWord = chars.map((char, j) => {
-                let styling = "";
-                //if character is less than typedWord.length, it's already been typed, check if correct
-                if(j < typedWord.length){
-                  if(typedWord[j] == char){
-                    styling = "white";
-                  } else {
-                    styling = "red";
-                  }
-                } else {
-                  styling = 'gray';
-                }
-                //Print the caret
-                //Ripped straight from chatgpt, will update with my own version once I understand this one
-                /*TODO-update with own <version></version>
-                /***********************************/
-                if(j == typedWord.length){
-                  return (
-                    <span key={j} style={{color: `gray`, position: 'relative', display: 'inline-block'}}>
-                      {char}
-                      <span style={{
-                        position: 'absolute',
-                        left: -2,
-                        top: 0,
-                        bottom: 0,
-                        width: '2px',
-                        backgroundColor: 'orange',
-                        animation: 'blink 1s step-end infinite',
-                      }} />
-                    </span>
-                  );
-                }
-                /***********************************/
-                return(
-                  <span key={j} style={{color: `${styling}`}}>
-                    {char}
-                  </span>
-                )
-              })
-              return(
-                <span key={i}>
-                  {completedWord}{' '}
-                </span>
-              )
-            }
-            //otherwise print word with no styling
-            else {
-              return (
-                <span key={i} style={{color: 'grey'}}>
-                  {word + ' '}
-                </span>
-              );
-            }
-          })}
+        <div ref={typingContainerRef} className="w-75 p-5 fs-5 font-monospace">
+          <div ref={charRef} style={{visibility: 'hidden', position: 'absolute' }}>
+            <span>a</span>
+          </div>
+          <div>
+            {renderGame}
+          </div>
         </div>
       }
       {gameStatus&&
@@ -267,6 +400,7 @@ const GamePage = () => {
         <button onClick={()=>start()} className="btn btn-lg custom-btn theme-l2 mb-3 fw-bold">Start</button>}
         <button onClick={() => handleClick('/Home')} className="btn btn-lg custom-btn theme-l2 mb-3 fw-bold">Home</button>
       </div>
+      {/*Hidden character reference used to calculating width of a character*/}
     </div>
   )
 }
