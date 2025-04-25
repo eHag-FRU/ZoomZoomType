@@ -85,6 +85,9 @@ const LogInPage = ({ updateAvgWPM, cookie, setLoginCookie }) => {
             //Set the WPM global state
             updateAvgWPM(userAvgWPM.data.avgWPM);
 
+            //Add the wpm to the cookie
+            cookieJSON.avgWPM = userAvgWPM;
+
             console.log(userAvgWPM.data.avgWPM);
 
             console.log(`userAvgWPM: {userAvgWPM}`);
