@@ -7,6 +7,7 @@ import NavBar from './components/NavBar.jsx';
 import FaQ from './components/FaQ.jsx';
 import About from './components/About.jsx';
 import ProfilePage from './components/ProfilePage.jsx';
+import EditProfile from './components/EditProfile.jsx';
 import GamePage from './components/GamePage.jsx';
 import Footer from './components/Footer.jsx';
 
@@ -45,6 +46,7 @@ function App() {
           <Route path='/About' element={<About/>}/>
           <Route path='/FaQ' element={<FaQ/>}/>
           <Route path='/ProfilePage' element={<ProfilePage/>}/>
+          <Route path='/EditProfile' element={<EditProfile setWMP={setAvgWPM} deleteCookie={deleteCookie}/>}/>
           <Route path='/leaderBoard' element={<Leaderboard/>}/>
           <Route path='/GamePage' element={<GamePage/>}/>
           <Route path='/login' element={<LogInPage updateAvgWPM={setAvgWPM} cookie={cookie} setLoginCookie={setCookies}/>} />

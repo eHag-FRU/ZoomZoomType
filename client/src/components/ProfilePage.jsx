@@ -2,189 +2,125 @@ import React, { useEffect, useState, useRef } from 'react';
 import { useNavigate, useLocation, Navigate } from 'react-router-dom';
 import axios from 'axios';
 
-//Importing what is needed to get the cookie
 import { useCookies} from 'react-cookie';
 
-async function gamePlayedDictExampleFunction(cookie) {
-    //Here is how you use the gamesPlayed endpoint to get overall wpm and games played
+async function getProfileData(cookie) {
 
-    //Make a variable to hold the returning dictionary
-    let gamesPlayedDict = null;
+    return [
+        {
+            RaceNumber:1,
+            Speed: 57,
+            Accuracy: 96.1,
+            Place: 2,
+            Date: "3/20/2025"
+        },
 
-    console.log(`gamePlayedDictExampleFunction: cookie.userID: ${cookie.userID}`)
-
-    //Put the axios call into an try/catch ==> Axios call needs to be in try catch
-    try {
-        gamesPlayedDict = await axios.get("http://localhost:3000/api/gamesPlayed", {params: {ID: cookie.userID}})
-    } catch (e) {
-        console.log(`gamesPlayed API endpoint: ${e}`)
-    }
-
-    //Print the values here
-    console.log(`gamePlayedDictExampleFunction: ${gamesPlayedDict.data}`);
-    console.log(`gamePlayedDictExampleFunction: gamesPlayed ${gamesPlayedDict.data.gamesPlayed}`);
-    console.log(`gamePlayedDictExampleFunction: wpmTotal ${gamesPlayedDict.data.wpmTotal}`);
-
-    return gamesPlayedDict.data
-
+        {
+            RaceNumber:2,
+            Speed: 64,
+            Accuracy: 97.8,
+            Place: 4,
+            Date: "4/23/2025"
+        },
+    ];
 }
 
-const ProfilePage = ({setWPM, deleteCookie}) => {
-    //Grab the cookie
+const ProfilePage = () => {
+
     const cookie = (useCookies(['usr'])[0]).usr;
 
-    //Use the useNaivgate, allows for redirection
+
+
+    const [statData, setStatData] = useState([]);
+    const [fullAverage, setFullAverage] = useState(0);
+    const [bestRace, setBestRace] = useState(0);
+    const [raceCount, setRaceCount] = useState(0);
+
     const navigate = useNavigate();
-
-
-    //Use a state to handle new email update
-    const [newEmail, setNewEmail] = useState("");
-
-    const [newUsername, setUsername] = useState("");
-
-    const [newPassword, setPassword] = useState("");
-
-
-    const [gamesPlayed, setGamesPlayed] = useState(0);
-    const [wpmTotal, setWpmTotal] = useState(0);
-
+    const handleEditOnClick = () => {
+        navigate('/EditProfile');
+    }
 
     useEffect(() => {
         if (cookie?.userID) {
-            gamePlayedDictExampleFunction(cookie).then(data => {
-                setGamesPlayed(data.gamesPlayed);
-                setWpmTotal(data.wpmTotal);
+            getProfileData(cookie).then(data => {
+                var sData = data;
+
+                var rCount = sData.length;
+                var fa = 0;
+                var br = 0;
+        
+                for (var i = 0; i < rCount; i++) {
+                    fa += sData[i].Speed;
+                    if (sData[i].Speed > br)
+                        br = sData[i].Speed;
+                }
+        
+                if (rCount > 0)
+                    fa = fa/rCount;
+        
+                setStatData(sData);
+                setRaceCount(rCount);
+                setFullAverage(fa);
+                setBestRace(br);        
             });
         }
-    }, [cookie]); // call once on mount or if cookie changes
 
-    //Handles the email update
-    function handleEmailUpdateChange(e) {
-        setNewEmail(e.target.value);
-    }
-
-    //Handles the username update
-    function handleUsernameUpdateChange(e) {
-        setUsername(e.target.value);
-    }
-
-    //Handles the password update
-    function handlePasswordUpdateChange(e) {
-        setPassword(e.target.value);
-    }
-
-
-
-    const handleDeleteAccount = async (e) => {
-        //TEST function for the delete button back end
-        //Seeing if can grab cookies in the express.js backend
-        //Have to send the cookie over
-
-        //THIS IS HOW YOU DELETE AN ACCOUNT, this is tied to an button currently
-
-        //Print the cookie out
-        console.log("The cookie grabbed: ", cookie);
-        console.log("The cookie ID grabbed: ", cookie.userID);
-
-        let response = null
-
-        try {
-
-            response = await axios.delete("http://localhost:3000/api/deleteaccount", {data: {id: cookie.userID}});
-        } catch (e) {
-            console.log("FAILED to reach handleDeleteAccount backend: ", e);
-        }
-
-        //Now that its handled, set the state of the WPM to 0
-        setWPM(0);
-
-
-        //Delete the cookie
-        deleteCookie('usr', {path: '/'});
-
-        //Redirect to the homepage
-        navigate('/');
-    }
-
-
-    //Email Update handler example
-    const handleEmailUpdate = async (e) => {
-        //Prevent the default button behaviour
-        e.preventDefault();
-
-        console.log("Handling email update!");
-
-        let response = null;
-
-        try {
-            response = await axios.post("http://localhost:3000/api/updateEmail", {id: cookie.userID, email: newEmail});
-        } catch (e) {
-            console.log(`handleEmailUpdate: POST error: ${e}`);
-        }
-
-    }
-
-    //Username update handler example
-    const handleUsernameUpdate = async (e) => {
-        //Prevent the default
-        e.preventDefault();
-
-        console.log("Handling username update!");
-
-        let response = null;
-
-        try {
-            response = await axios.post("http://localhost:3000/api/updateUsername", {id: cookie.userID, username: newUsername});
-        } catch (e) {
-            console.log(`handleEmailUpdate: POST error: ${e}`);
-        }
-    }
-
-
-    //handle the Password update click
-    const handlePasswordUpdate = async (e) => {
-        //Prevent the default
-        e.preventDefault();
-
-        console.log("Handling password update!");
-
-        let response = null;
-
-        try {
-            response = await axios.post("http://localhost:3000/api/updatePassword", {id: cookie.userID, password: newPassword});
-        } catch (e) {
-            console.log(`handlePasswordUpdate: POST error: ${e}`);
-        }
-    }
+       
+    }, [cookie]);
 
     return (
-        <div>
-            
-
-            <div>
-                <p>Total Games played: {gamesPlayed}</p>
-                <p>Total WPM: {wpmTotal}</p>
+       <div className='profile-page'>
+            <div className='profile-page-header'>
+                <span> Your Profile</span>
+                <button className='edit-profile-button' onClick={handleEditOnClick}>Edit Profile</button>
             </div>
-
-            <div>
-                <input placeholder='New Email' onChange={handleEmailUpdateChange}></input>
-                <button onClick={handleEmailUpdate}>UPDATE EMAIL TEST</button>
+            <div className='profile-page-summary'>
+                <img className='profile-page-image' src='https://img.freepik.com/premium-vector/people-profile-graphic_24911-21373.jpg' />
+                <div className='profile-page-summary-item'>
+                    {fullAverage} WPM
+                    <br/>
+                    Full Avg
+                </div>
+                <div className='profile-page-summary-item'>
+                    {bestRace} WPM
+                    <br/>
+                    Best Race
+                </div>
+                <div className='profile-page-summary-item'>
+                    {raceCount}
+                    <br/>
+                    Races
+                </div>
             </div>
-
-            <div>
-                <input placeholder='New username' onChange={handleUsernameUpdateChange}></input>
-                <button onClick={handleUsernameUpdate}>UPDATE USERNAME TEST</button>
+            <div className='profile-page-details'>
+            <span>Your Latest Race Results</span>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Race</th>
+                            <th>Speed</th>
+                            <th>Accuracy</th>
+                            <th>Place</th>
+                            <th>Date</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {
+                            statData.sort((i1, i2) => i2.RaceNumber - i1.RaceNumber).map((item) => (
+                              <tr key={item.RaceNumber}>
+                                <td>{item.RaceNumber}</td>
+                                <td>{item.Speed}</td>
+                                <td>{item.Accuracy}</td>
+                                <td>{item.Place}</td>
+                                <td>{item.Date}</td>
+                              </tr>  
+                            ))
+                        }
+                    </tbody>
+                </table>
             </div>
-
-            <div>
-                <input placeholder='New password' onChange={handlePasswordUpdateChange} type='password'></input>
-                <button onClick={handlePasswordUpdate}>UPDATE PASSWORD TEST</button>
-            </div>
-
-            <br></br>
-
-            <button onClick={handleDeleteAccount}>DELETE ACCOUNT TEST</button>
-        </div>
+       </div>
     )
 }
 
