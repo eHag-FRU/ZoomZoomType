@@ -186,10 +186,20 @@ const GamePage = () => {
   }, [correctChars])
 
   const handleResize = () => {
-    if (!typingContainerRef.curren || !charRef.current) return;
-  
+    console.log("resize triggered");
+    if (!typingContainerRef.current || !charRef.current){
+      console.log("One or both refs are null");
+      return;
+    }
+
+    //get container padding
+    const containerElement = typingContainerRef.current;
+    const containerStyles = window.getComputedStyle(containerElement);
+    const containerPadding = parseFloat(containerStyles.paddingLeft) + parseFloat(containerStyles.paddingRight);
+
     //get the container width
-    const containerWidth = typingContainerRef.current.offsetWidth;
+    const containerWidth = typingContainerRef.current.offsetWidth - containerPadding;
+
     //get the character width
     const characterWidth = charRef.current.offsetWidth;
     //calculate how many characters can fit within container
@@ -197,16 +207,15 @@ const GamePage = () => {
     //set characters per line
     setCharactersPerLine(charAmount);
 
-    const baseWordWidth = 100; // Adjust this if needed
-    const minWords = 1;
-    const maxWords = 12;
+    // const baseWordWidth = 100; // Adjust this if needed
+    // const minWords = 1;
+    // const maxWords = 12;
   
-    const calculatedWords = Math.max(
-      minWords,
-      Math.min(maxWords, Math.floor(containerWidth / baseWordWidth))
-    );
-    console.log(calculatedWords);
-    setWordsPerLine(calculatedWords);
+    // const calculatedWords = Math.max(
+    //   minWords,
+    //   Math.min(maxWords, Math.floor(containerWidth / baseWordWidth))
+    // );
+    // setWordsPerLine(calculatedWords);
   };
 
   //use effect for handling screensize
@@ -216,9 +225,25 @@ const GamePage = () => {
     return () => window.removeEventListener('resize', handleResize);
   },[]);
 
+  useEffect(() => {
+    handleResize(); // Run on initial render
+  }, []);
+  
+  useEffect(() => {
+    if (gameStatus) {
+      setTimeout(() => {
+        handleResize(); // Run after the game starts
+      }, 0);
+    }
+  }, [gameStatus]);
+
 
   //function for rendering the text, will be same across all games
   const renderGame = useMemo(() => {
+    if (charactersPerLine === 0) {
+      console.log("charactersPerLine is 0, skipping renderGame");
+      return [];
+    }
     //used to track indexes of all characters from 0 - n characters
     let charIndex = 0;
     //tracks the starting position of the current word we are typing
@@ -239,162 +264,110 @@ const GamePage = () => {
     //Need to understand how many characters can fit per line
     //grab characters per line
     let charsPerLine = charactersPerLine;
+    console.log("CharactersPerLineRender: ", charactersPerLine);
     let charsPerLineSoFar = 0;
     let wordsOnCurrentLine = 0;
-    let visibleWords = words.slice(it);
-    console.log("here");
-    while(lines.length != 4){
-      //figure out how many words we can map onto current line looking ahead
-      for(let i = 0; i < visibleWords.length && lines.length < 4; i++){
-        //get word length
-        let wordLength = visibleWords[i].length;
-        if(charsPerLineSoFar + wordLength <= charsPerLine || wordsOnCurrentLine == 0){
-          //add the amount of chars per line
-          charsPerLineSoFar += wordLength;
-          //push the word onto the line with the rendering logic
-          for(let j = 0; j < visibleWords[i].length; j++){
-            //intial styling for class
-            let styling = "";
-            //result span which will be appened to complete word
-            let charSpan = <span></span>;
-            if(i + it < currIt){
-              styling = {color: "white"};
-              charSpan=
-                <span key={j} style={styling}>
-                  {char}
-                </span>
-            }
-            else{
+    let visibleWords = words.slice(it, it+85);
+    //unique keys for letters in lines. Coutns number of characters total
+    let k = 0;
 
-            }
-            wordsOnCurrentLine += 1;
-            line.push(charSpan);
-            console.log(visibleWords[i][j]);
-          }
-        }
-        //break if adding 
-        else{
-          //add current line to lines
-          lines.push(<div>{line}</div>);
-          //reset line
-          line = [];
-          //reset charactersPerLineSoFar
-          charsPerLineSoFar = 0;
-          //check if first line so we can define the stopping point
-          if(line.length == 1){
-            setWordsPerLine(wordsOnCurrentLine);
-          }
-          wordsOnCurrentLine = 0;
-          break;
-        }
-      }
-      
-
-      //reset chars per line
-      charsPerLineSoFar = 0;
-      //reset wordsOnCurrentLine
-      wordsOnCurrentLine = 0;
-      break;
-    }
-
-
-    //return lines;
-    if (currIt >= it + wordsPerLine) {
+    //set it forward if needed
+    if(currIt >= it + wordsPerLine){
       setIt(currIt);
     }
 
-    visibleWords = words.slice(it, it+wordsPerLine*4);
-
-    //map all the words to lines
-    visibleWords.map((word, i) => {
-      //split each word into its character components
-      let chars = word.split('');
-      //map the characters in each completed work to a <span> class
-      let completedWord = chars.map((char, j) => {
-        //intial styling for class
-        let styling = "";
-        //result span which will be appened to complete word
-        let charSpan = <span></span>;
-        //all previously typed chars are render with white styling
-        if(i+it < currIt){
-          styling = {color: "white"};
-          charSpan=
-            <span key={j} style={styling}>
-              {char}
-            </span>
-        }
-        //all currently typed or future chars will have variable styling which is handled in this else statement 
-        else {
-          if(i+it === currIt){
-            //set wordIndex if it hasn't already been set
-            if(setCurrWordIndex === false){
-              currWordIndex = charIndex;
-              setCurrWordIndex = true;
-            }
-          }
-          //check if character has been typed
-          if(charIndex-currWordIndex < typedWord.length){
-            //if it has been typed and is correct, make character white
-            if(typedWord[j] === char && incorrectCharFound === false){
-              styling = {color: "white", position: 'relative'};
-            }
-            //if it has been typed but is not correct, make it red
-            else {
-              styling = {color: "red", position: 'relative'};
-              incorrectCharFound = true;
-            }
-          }
-          //if character hasn't been typed yet, make it grey 
-          else {
-            styling = {color: "grey", position: 'relative'}
-          }
-
-          //check whether to print cursor
-          if(charIndex-currWordIndex == typedWord.length){
+    //iterate through all words from iterator marker onwards
+    let wordIt = 0;
+    while(wordIt < visibleWords.length && lines.length < 4){
+      if(charsPerLineSoFar + visibleWords[wordIt].length <= charsPerLine){
+        //add word length to charsPerLineSoFar
+        charsPerLineSoFar += visibleWords[wordIt].length;
+        //add every letter to line through rendering logic
+        for(let letterIt = 0; letterIt < visibleWords[wordIt].length; letterIt++){
+          //rendering logic
+          //default rendering styles
+          let styling = {};
+          let charSpan= <span></span>
+          //if word has already been typed
+          if(wordIt+it < currIt){
+            console.log("true");
+            console.log("currIt: ", currIt);
+            console.log("it: ", it);
+            console.log("wordIt: ", wordIt);
+            styling = {color: "white"};
             charSpan=
-            <span key={j} style={styling}>
-              {char}
-              <span style={{
-                position: 'absolute',
-                left: -2,
-                top: 0,
-                bottom: 0,
-                width: '2px',
-                backgroundColor: 'orange',
-                animation: 'blink 1s step-end infinite',
-              }} />
+            <span key={k} style={styling}>
+              {visibleWords[wordIt][letterIt]}
             </span>
-          }
-          //otherwise just print without cursor 
-          else {
-            charSpan=
-            <span key={j} style={styling}>
-              {char}
-            </span>
-          }
-        }
-        //increment current char index
-        charIndex = charIndex+1;
-        //return current charspan
-        return(
-          charSpan
-        );
-      })
-      //increment current word
-      currWord = currWord + 1;
+          } else {
+            if(wordIt+it === currIt){
+              if(setCurrWordIndex === false){
+                currWordIndex = k;
+                setCurrWordIndex = true;
+              }
+            }
+            
+            //check if character has been typed
+            if(k-currWordIndex < typedWord.length){
+              //if it has been typed, check if correct, if correct make it white
+              if(visibleWords[wordIt][letterIt] === typedWord[letterIt] && incorrectCharFound === false){
+                styling = {color: "white", position: 'relative'};
+              } else {
+                styling = {color: "red", position: 'relative'};
+                incorrectCharFound = true;
+              }
+            } else {
+              styling = {color: "grey", position: 'relative'};
+            }
 
-      //render the completed word
-      line.push(<span key={i}>{completedWord}</span>);
-      //check if you need to print a new line
-      if ((currWord % wordsPerLine === 0) || i === visibleWords.length - 1){
-        lines.push(
-          <div>{line}</div>
-        );
+            //check whether to print cursor or not
+            if(k-currWordIndex === typedWord.length){
+              charSpan=
+              <span key={k} style={styling}>
+                {visibleWords[wordIt][letterIt]}
+                <span style={{
+                  position: 'absolute',
+                  left: -2,
+                  top: 0,
+                  bottom: 0,
+                  width: '2px',
+                  backgroundColor: 'orange',
+                  animation: 'blink 1s step-end infinite',
+                }} />
+              </span>
+            } else {
+              charSpan=
+              <span key={k} style={styling}>
+                {visibleWords[wordIt][letterIt]}
+              </span>
+            }
+          }
+          line.push(charSpan);
+          //increment unique key
+          k++;
+        }
+        //increment wordIt;
+        wordIt++;
+        //increment words on current line
+        wordsOnCurrentLine++;
+      } else {
+        //push the line of words into lines
+        lines.push(<div key={lines.length}>{line}</div>);
+        //reset charsperlinesofar and line and wordsOnCurrentline
+        if(lines.length == 1){
+          setWordsPerLine(wordsOnCurrentLine);
+        }
+        charsPerLineSoFar = 0;
         line = [];
-      } 
-    })
-    return(lines);
-  }, [words, it, typedWord, wordsPerLine]);
+        wordsOnCurrentLine = 0;
+      }
+      // for(let letterIt = 0; letterIt < charsPerLine; letterIt++){
+      //   line.push(<span key={letterIt}>a</span>);
+      // }
+    }
+
+    return lines;
+  }, [words, it, typedWord, wordsPerLine, charactersPerLine]);
 
   return (
     <div className="container-fluid d-flex flex-column flex-grow-1 align-items-center m-5">
@@ -406,7 +379,12 @@ const GamePage = () => {
       {/*Conditionally render game is game is running or not*/}
       {gameStatus &&
         <div ref={typingContainerRef} className="w-75 p-5 fs-5 font-monospace">
-          {renderGame}
+          <div ref={charRef} style={{visibility: 'hidden', position: 'absolute' }}>
+            <span>a</span>
+          </div>
+          <div>
+            {renderGame}
+          </div>
         </div>
       }
       {gameStatus&&
@@ -423,9 +401,6 @@ const GamePage = () => {
         <button onClick={() => handleClick('/Home')} className="btn btn-lg custom-btn theme-l2 mb-3 fw-bold">Home</button>
       </div>
       {/*Hidden character reference used to calculating width of a character*/}
-      <div ref={charRef} className="d-none fs-5">
-          a
-      </div>
     </div>
   )
 }
