@@ -1,0 +1,25 @@
+BEGIN TRANSACTION;
+CREATE TABLE IF NOT EXISTS "avgWPM" (
+	"avgwpmid"	INTEGER NOT NULL UNIQUE,
+	"avgwmp"	INTEGER NOT NULL,
+	"userID"	INTEGER NOT NULL,
+	"gamesPlayed"	INTEGER NOT NULL,
+	PRIMARY KEY("avgwmp" AUTOINCREMENT),
+	CONSTRAINT "userID" FOREIGN KEY("userID") REFERENCES ""
+);
+CREATE TABLE IF NOT EXISTS "leaderBoard" (
+	"leaderBoardID"	INTEGER NOT NULL UNIQUE,
+	"userID"	INTEGER NOT NULL,
+	"wpm"	INTEGER NOT NULL,
+	PRIMARY KEY("leaderBoardID" AUTOINCREMENT),
+	CONSTRAINT "userID" FOREIGN KEY("userID") REFERENCES ""
+);
+CREATE TABLE IF NOT EXISTS "users" (
+	"userID"	INTEGER NOT NULL UNIQUE,
+	"userEmail"	TEXT NOT NULL UNIQUE,
+	"userPassword"	TEXT NOT NULL,
+	"userUsername"	TEXT NOT NULL,
+	PRIMARY KEY("userID" AUTOINCREMENT)
+);
+INSERT INTO "users" ("userID","userEmail","userPassword","userUsername") VALUES (1,'test@test.com','12345','test');
+COMMIT;
