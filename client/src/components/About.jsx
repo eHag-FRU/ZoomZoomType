@@ -21,7 +21,7 @@ const About = () => {
             <div className="container text-white">
                 <div className="row align-items-stretch">
                     {/* Image on the left */}
-                    <div className="col-12 col-md-11 col-lg-4 pt-5 mx-auto">
+                    <div className="col-12 col-md-11 col-lg-4 pt-5 ms-5 ps-3">
                         <div className="h-12 objext-contain d-flex mt-2">
                             <img
                                 src={reactLogo}
@@ -34,12 +34,12 @@ const About = () => {
 
                         
                     {/* Text on the right — restored to original column with padding */}
-                    <div className="col-12 col-md-11 col-lg-7 pt-5 ps-lg-4">
+                    <div className="col-12 col-md-11 col-lg-6 pt-5 ps-lg-12 mx-auto">
                         <div>
-                            <p style={{ fontSize: "1.1em" }}>
+                            <p className="text-center" style={{ fontSize: "1.1em" }}>
                             ZoomZoomType is an interactive web-based typing game 
                             designed to challenge users to improve their typing 
-                            speed and accuracy. Players race against the 
+                            speed and accuracy. Players can race against the 
                             clock — or against each other — by typing given 
                             passages as quickly and precisely as possible.
 
@@ -60,14 +60,14 @@ const About = () => {
             { /* Another text section? */ }
             <div className="container text-white pt-5 mt-4">
                 <div className="row justify-content-center">
-                    <div className="col-12 col-lg-11 mx-auto">
-                        <p style={{ fontSize: "1.1em"}}>
+                    <div className="col-12 col-md-11 col-lg-11 mx-auto">
+                        <p className="text-center" style={{ fontSize: "1.1em"}}>
                         The platform tracks detailed performance statistics like words 
                         per minute (WPM) and accuracy, giving players a way to monitor 
-                        their progress, climb leaderboards, and sharpen their skills 
-                        over time. Built with a focus on fast-paced gameplay and 
+                        their progress and climb leaderboards. Built with a focus on 
+                        fast-paced gameplay and 
                         community-driven competition, ZoomZoomType makes improving your 
-                        typing skills both fun and rewarding.
+                        typing skills both fun and rewarding. 
                         </p>
                     </div>
                 </div>
