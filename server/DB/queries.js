@@ -125,6 +125,47 @@ function getGamesPlayedAndWPMByUserID(userID) {
     return result[0];
 }
 
+function getProfileDataByID(userID) {
+    //Ensure the userID is not null
+    if (userID == null) {
+        throw "getProfileDataByID: userID can not be null";
+    }
+
+    //Now that the userID is not null, the query can be executed
+    //THIS IS A LONG QUERY!!!!!!
+    let result = db.query(`SELECT 
+        ranked.rank AS ranking,
+        ranked.wpm,
+        CASE
+         WHEN ranked.mode = 1 THEN 'Classic'
+         WHEN ranked.mode = 2 THEN 'Memorize'
+         WHEN ranked.mode = 3 THEN 'Quote'
+         WHEN ranked.mode = 4 THEN 'Look-Ahead'
+        END AS mode,
+        ranked.time,
+        ranked.dateOfGame,
+        ranked.accuracy
+        FROM (
+            SELECT 
+            leaderBoardID,
+            userID,
+            wpm,
+            mode,
+            time,
+            quoteID,
+            dateOfGame,
+            accuracy,
+            RANK() OVER (ORDER BY wpm DESC) AS rank
+            FROM leaderBoard
+        ) AS ranked
+        LEFT JOIN quotes ON ranked.quoteID = quotes.quoteID
+        WHERE ranked.userID = ?;`, [userID]);
+
+    console.log(result);
+
+    return result;
+}
+
 function getLeaderBoardResults(gameMode) {
     //Will hold the top 10 results for the mode
     top10 = null;
@@ -373,5 +414,6 @@ module.exports = {
     updateUserNameByID,
     getQuoteLeaderBoardByID,
     getAllQuotes,
-    getRandomQuote
+    getRandomQuote,
+    getProfileDataByID,
 }
