@@ -22,7 +22,7 @@ const About = () => {
                 <div className="row align-items-stretch">
                     {/* Image on the left */}
                     <div className="col-12 col-md-11 col-lg-4 pt-5 mx-auto">
-                        <div className="h-12 objext-contain d-flex">
+                        <div className="h-12 objext-contain d-flex mt-2">
                             <img
                                 src={reactLogo}
                                 alt="Logo"
