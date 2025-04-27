@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 
-const Leaderboard = () => {
+const Leaderboard = ({theme}) => {
   const gameModes = ["Classic", "Memorize", "Quotes", "Look-Ahead"];
   const [activeTab, setActiveTab] = useState("Classic");
   const [leaderboardData, setLeaderboardData] = useState({});
@@ -86,7 +86,7 @@ const Leaderboard = () => {
             border: "1px solid white",
           }}
         >
-          <thead style={{ position: "sticky", top: 0, zIndex: 1 }}>
+          <thead className={`accent-${theme}`} style={{ position: "sticky", top: 0, zIndex: 1 }}>
             <tr>
               <th style={cellStyle}>Rank</th>
               <th style={cellStyle}>Username</th>
@@ -129,7 +129,7 @@ const Leaderboard = () => {
               {gameModes.map((mode) => (
                 <button
                   key={mode}
-                  className={`nav-link ${activeTab === mode ? "active" : ""}`}
+                  className={`nav-link ${activeTab === mode ? "active" : ""} accent-${theme}`}
                   onClick={() => {
                     setActiveTab(mode);
                     setSelectedQuote("");
@@ -162,7 +162,7 @@ const Leaderboard = () => {
 
           {/* Scrollable Table Container - Fixed Height */}
           <div
-            className="mx-auto table-responsive"
+            className={`mx-auto table-responsive accent-${theme}`}
             style={{
               width: "100%",
               maxWidth: "800px",

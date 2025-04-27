@@ -32,7 +32,7 @@ library.add(faCarOn, faCrown, faKeyboard, faCircleInfo, faGear, faCircleUser, fa
 
 function App() {
   //Settings States
-  const [theme, setTheme] = useState("theme-blue");
+  const [theme, setTheme] = useState("theme-blue1");
   const [font, setFont] = useState("Arial");
 
   //Adding the avg WPM state
@@ -46,16 +46,16 @@ function App() {
       <NavBar wpm={avgWPM} setWPM={setAvgWPM} cookie={cookie} deleteCookie={deleteCookie} theme={theme}></NavBar>
       <div className="d-flex flex-grow-1 justify-content-center">
         <Routes>
-          <Route path="/" element={<Home />} />
-          <Route path="/Home" element={<Home />} />
-          <Route path="/About" element={<About />} />
-          <Route path="/FaQ" element={<FaQ />} />
-          <Route path="/ProfilePage" element={<ProfilePage />} />
-          <Route path="/leaderBoard" element={<Leaderboard />} />
-          <Route path="/ClassicGame" element={<ClassicGame cookie={cookie} />} />
-          <Route path="/QuoteGame" element={<QuoteGame cookie={cookie} />} />
+          <Route path="/" element={<Home theme={theme} />} />
+          <Route path="/Home" element={<Home theme={theme} />} />
+          <Route path="/About" element={<About theme={theme} />} />
+          <Route path="/FaQ" element={<FaQ theme={theme} />} />
+          <Route path="/ProfilePage" element={<ProfilePage theme={theme}/>} />
+          <Route path="/leaderBoard" element={<Leaderboard theme={theme} />} />
+          <Route path="/ClassicGame" element={<ClassicGame cookie={cookie} theme={theme} />} />
+          <Route path="/QuoteGame" element={<QuoteGame cookie={cookie} theme={theme} />} />
           <Route path="/Settings" element={<Settings font={font} setFont={setFont} theme={theme} setTheme={setTheme} />} />
-          <Route path="/GameModes" element={<GameModes />} />
+          <Route path="/GameModes" element={<GameModes theme={theme} />} />
           <Route path="/login" element={<LogInPage updateAvgWPM={setAvgWPM} cookie={cookie} setLoginCookie={setCookies} />} />
         </Routes>
       </div>

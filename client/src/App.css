@@ -153,71 +153,134 @@
 }
 
 /* Themes for settings testing */
-.theme-blue {
+.theme-blue1 {
   color: white !important;
-  background-color: #0055a5 !important;
+  background-color: #002f5c !important;
   border-color: white !important;
   outline-color: white !important;
 }
 
-.theme-green {
+.theme-green1 {
   color: white !important;
-  background-color: #006507 !important;
+  background-color: #182c25 !important;
   border-color: white !important;
   outline-color: white !important;
 }
 
-.theme-red {
+.theme-red1 {
   color: white !important;
-  background-color: #a50000 !important;
+  background-color: #de2a36 !important;
   border-color: white !important;
   outline-color: white !important;
 }
 
-.theme-yellow {
+.theme-yellow1 {
   color: black !important;
-  background-color: #ffeb3b !important;
+  background-color: #ffee8c !important;
   border-color: black !important;
   outline-color: black !important;
 }
 
-.theme-blue .btn {
+.accent-theme-blue1 {
   color: white !important;
   border-color: white !important;
-  background-color: transparent;
+  background-color:#b45f06 !important;
 }
 
-.theme-green .btn {
+.btn-theme-blue1 {
   color: white !important;
   border-color: white !important;
-  background-color: transparent;
+  background-color:#b45f06 !important;
 }
 
-.theme-red .btn {
+.btn-theme-blue1:hover {
+  color:black !important;
+  background-color:#c98032 !important;
+}
+
+.accent-theme-green1 {
   color: white !important;
   border-color: white !important;
-  background-color: transparent;
+  background-color: #306844 !important;
 }
 
-.theme-yellow .btn {
+.btn-theme-green1 {
+  color: white !important;
+  border-color: white !important;
+  background-color: #306844 !important;
+}
+
+.btn-theme-green1:hover {
+  color: white !important;
+  background-color: #478b5f !important;
+}
+
+.accent-theme-red1 {
+  color: black !important;
+  outline: black !important;
+  border-color: black !important;
+  background-color: #b4aba2 !important;
+}
+
+.btn-theme-red1 {
   color: black !important;
   border-color: black !important;
-  background-color: transparent;
+  background-color: #b4aba2 !important;
 }
 
-.icon-theme-blue {
+.btn-theme-red1:hover {
+  color: black !important;
+  border-color: black !important;
+  background-color: #e7e0d9 !important;
+}
+
+.accent-theme-yellow1 {
+  color: black !important;
+  border-color: black !important;
+  background-color: #8A804C !important;
+}
+
+.btn-theme-yellow1 {
+  color: black !important;
+  border-color: black !important;
+  background-color: #8A804C !important;
+}
+
+.btn-theme-yellow1:hover {
+  color: white !important;
+  border-color: white !important;
+  background-color: #615A35 !important;
+}
+
+.icon-theme-blue1 {
   color: white;
 }
 
-.icon-theme-green {
+.icon-theme-green1 {
   color: white;
 }
 
-.icon-theme-red {
+.icon-theme-red1 {
   color: white;
 }
 
-.icon-theme-yellow {
+.icon-theme-yellow1:hover {
+  color: black;
+}
+
+.icon-theme-blue1:hover {
+  color: white;
+}
+
+.icon-theme-green1:hover {
+  color: white;
+}
+
+.icon-theme-red1:hover {
+  color: white;
+}
+
+.icon-theme-yellow1:hover {
   color: black;
 }
 
