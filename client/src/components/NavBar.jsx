@@ -21,7 +21,7 @@ const NavBar = ({ wpm, setWPM, cookie, deleteCookie, theme }) => {
             <h5 className="mb-0">Zoom Zoom Type</h5>
           </Link>
           <Link
-            className="nav-anchor-visited nav-anchor-hover text-white"
+            className="nav-anchor-visited nav-anchor-hover text-white mx-2"
             to="/GamePage"
           >
             <FontAwesomeIcon
@@ -31,7 +31,7 @@ const NavBar = ({ wpm, setWPM, cookie, deleteCookie, theme }) => {
             />
           </Link>
           <Link
-            className="nav-anchor-visited nav-anchor-hover text-white"
+            className="nav-anchor-visited nav-anchor-hover text-white mx-2"
             to="/leaderBoard"
           >
             <FontAwesomeIcon
@@ -40,7 +40,10 @@ const NavBar = ({ wpm, setWPM, cookie, deleteCookie, theme }) => {
               className={`icon-${theme}`}
             />
           </Link>
-          <Link className="nav-anchor-visited nav-anchor-hover" to="/about">
+          <Link
+            className="nav-anchor-visited nav-anchor-hover mx-2"
+            to="/about"
+          >
             <FontAwesomeIcon
               icon="fas fa-info-circle"
               style={{ fontSize: "1.5em" }}

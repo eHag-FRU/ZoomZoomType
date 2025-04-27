@@ -385,7 +385,7 @@ const ClassicGame = ({ cookie }) => {
 
   return (
     <div className="container-fluid d-flex flex-column flex-grow-1 align-items-center m-5">
-      <div className="row w-75 rounded p-4 bg-transparent fw-bold mb-4">
+      <div className="row w-75 rounded border p-4 bg-transparent fw-bold mb-4">
         <div className="col-12 col-lg-4 text-center mt-2 mb-2 fs-5">
           Mode: {mode}
         </div>

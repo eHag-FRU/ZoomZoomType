@@ -67,14 +67,22 @@ const Settings = ({ font, setFont, theme, setTheme }) => {
   // buttons: Options inside of the segment
   // content: The text presented in the button
   const blockData = [
-    {
+    /* might save this for later. */
+    /*{
       title: "Keyboard Layout",
       context: "Changes the keyboard format (only while the game is running)",
-      buttons: [{ content: "QWERTY" }, { content: "Colemak" }, { content: "Dvorak" }, { content: "Workman" }, { content: "QWERTZ" }],
-    },
+      buttons: [
+        { content: "QWERTY" },
+        { content: "Colemak" },
+        { content: "Dvorak" },
+        { content: "Workman" },
+        { content: "QWERTZ" },
+      ],
+    },*/
     {
       title: "Font",
-      context: "Style up the play field with a funky font!",
+      context:
+        "Style up the website with a funky font! (does not effect play area)",
       buttons: [
         { content: "Arial" },
         { content: "Consolas" },

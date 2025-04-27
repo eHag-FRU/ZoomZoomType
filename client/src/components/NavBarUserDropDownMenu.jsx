@@ -26,7 +26,7 @@ function NavBarUserDropDownMenu({
   return (
     <div className="d-flex align-items-center gap-3 ms-md-3 mt-2 mt-md-0 position-relative">
       <Link
-        className={`nav-anchor-visited nav-anchor-hover icon-${theme}`}
+        className={`nav-anchor-visited nav-anchor-hover mx-2 icon-${theme}`}
         to="/settings"
       >
         <FontAwesomeIcon
@@ -38,7 +38,7 @@ function NavBarUserDropDownMenu({
 
       <div className="position-relative">
         <div
-          className={`nav-anchor-visited nav-anchor-hover icon-${theme}`}
+          className={`nav-anchor-visited nav-anchor-hover mx-2 icon-${theme}`}
           onClick={() => setShowDropdown(!showDropdown)}
           style={{ cursor: "pointer" }}
         >

@@ -10,7 +10,7 @@ const Home = () => {
 
   return (
     <div className="container-fluid d-flex flex-column flex-grow-1 justify-content-center align-items-center bg-transparent text-center pb-5">
-      <h1 className="border-bottom border-3 d-inline display-2 fw-bold mb-5">
+      <h1 className="d-inline display-2 fw-bold mb-5">
         <FontAwesomeIcon icon="fa-solid fa-car-on" /> Zoom Zoom Type
       </h1>
       <p className="align-items-center fs-2 mb-5">
