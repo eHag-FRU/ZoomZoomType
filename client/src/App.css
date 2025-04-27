@@ -76,14 +76,13 @@
 }
 
 .hover-theme:hover {
-  color: #fff !important;
-  background-color: #0060ba !important;
+  -webkit-filter: invert(1);
 }
 .hover-text-theme:hover {
-  color: #0060ba !important;
+  -webkit-filter: invert(1);
 }
 .hover-border-theme:hover {
-  border-color: #0060ba !important;
+  -webkit-filter: invert(1);
 }
 
 .nav-anchor-visited:visited {
@@ -91,22 +90,22 @@
   text-decoration: none;
 }
 .nav-anchor-hover:hover {
-  color: #b45f06 !important;
+  -webkit-filter: invert(1);
   text-decoration: none;
 }
 
 .nav-logo:hover,
 :visited {
-  color: #fff !important;
+  -webkit-filter: invert(1);
   text-decoration: none;
 }
 .nav-anchor-hover:hover {
-  color: #0060ba !important;
+  -webkit-filter: invert(1);
   text-decoration: none;
 }
 
 .nav-achor-hover:hover * {
-  color: #b45f06 !important;
+  -webkit-filter: invert(1);
 }
 
 .nav-logo:hover,
@@ -115,11 +114,11 @@
 }
 
 .registerLink-hover:hover {
-  color: #cc6e09 !important;
+  -webkit-filter: invert(1);
 }
 
 .footer-anchor-hover:hover {
-  color: #b45f06 !important;
+  -webkit-filter: invert(1) !important;
   text-decoration: none;
 }
 
@@ -131,7 +130,7 @@
 }
 
 .custom-accent-btn:hover {
-  background-color: #cc6e09 !important;
+  -webkit-filter: invert(1);
 }
 
 .custom-btn {
@@ -157,21 +156,65 @@
 .theme-blue {
   color: white !important;
   background-color: #0055a5 !important;
+  border-color: white !important;
 }
 
 .theme-green {
   color: white !important;
   background-color: #00a555 !important;
+  border-color: white !important;
 }
 
 .theme-red {
   color: white !important;
   background-color: #a50000 !important;
+  border-color: white !important;
 }
 
 .theme-yellow {
   color: black !important;
   background-color: #cbc600 !important;
+  border-color: black !important;
+}
+
+.theme-blue .btn {
+  color: white !important;
+  border-color: white !important;
+  background-color: transparent;
+}
+
+.theme-green .btn {
+  color: white !important;
+  border-color: white !important;
+  background-color: transparent;
+}
+
+.theme-red .btn {
+  color: white !important;
+  border-color: white !important;
+  background-color: transparent;
+}
+
+.theme-yellow .btn {
+  color: black !important;
+  border-color: black !important;
+  background-color: transparent;
+}
+
+.icon-theme-blue {
+  color: white;
+}
+
+.icon-theme-green {
+  color: white;
+}
+
+.icon-theme-red {
+  color: white;
+}
+
+.icon-theme-yellow {
+  color: black;
 }
 
 .special-gothic-expanded-one-regular {

@@ -15,7 +15,7 @@ import { useNavigate, useLocation } from "react-router-dom";
 
 // SettingsBlock takes a title and however many buttons inside
 // Dynamically creates a segment for each section of the settings
-const SettingsBlock = ({ title, context, buttons, onButtonClick }) => (
+const SettingsBlock = ({ title, context, buttons, theme, onButtonClick }) => (
   <li className="settings-block my-3">
     <div className="d-grid py-3">
       <div className="block-header">
@@ -28,7 +28,12 @@ const SettingsBlock = ({ title, context, buttons, onButtonClick }) => (
     <ul className="row g-2">
       {buttons.map((button, index) => (
         <li className="col-3 list-unstyled">
-          <button key={index} type="button" className="btn btn-outline-light w-100" onClick={() => onButtonClick(title, button.content)}>
+          <button
+            key={index}
+            type="button"
+            className={`btn btn-outline-light w-100 btn-${theme}`}
+            onClick={() => onButtonClick(title, button.content)}
+          >
             {button.content}
           </button>
         </li>
@@ -87,7 +92,11 @@ const Settings = ({ font, setFont, theme, setTheme }) => {
       title: "Theme",
       context: "Changes the theme colors of the website.",
       buttons: [
-        { content: "theme-d5" },
+        { content: "theme-blue" },
+        { content: "theme-green" },
+        { content: "theme-red" },
+        { content: "theme-yellow" },
+        /*{ content: "theme-d5" },
         { content: "theme-d4" },
         { content: "theme-d3" },
         { content: "theme-d2" },
@@ -96,11 +105,7 @@ const Settings = ({ font, setFont, theme, setTheme }) => {
         { content: "theme-l4" },
         { content: "theme-l3" },
         { content: "theme-l2" },
-        { content: "theme-l1" },
-        { content: "theme-blue" },
-        { content: "theme-green" },
-        { content: "theme-red" },
-        { content: "theme-yellow" },
+        { content: "theme-l1" },*/
       ],
     },
   ];
@@ -114,7 +119,14 @@ const Settings = ({ font, setFont, theme, setTheme }) => {
       </div>
       <ul className="list-unstyled">
         {blockData.map((block, index) => (
-          <SettingsBlock key={index} title={block.title} context={block.context} buttons={block.buttons} onButtonClick={handleButtonClick} />
+          <SettingsBlock
+            key={index}
+            title={block.title}
+            context={block.context}
+            buttons={block.buttons}
+            theme={theme}
+            onButtonClick={handleButtonClick}
+          />
         ))}
       </ul>
     </div>

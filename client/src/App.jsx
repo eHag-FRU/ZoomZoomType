@@ -27,7 +27,7 @@ library.add(faCarOn, faCrown, faKeyboard, faCircleInfo, faGear, faCircleUser, fa
 
 function App() {
   //Settings States
-  const [theme, setTheme] = useState("theme-d5");
+  const [theme, setTheme] = useState("theme-blue");
   const [font, setFont] = useState("Arial");
 
   //Adding the avg WPM state
@@ -38,7 +38,7 @@ function App() {
 
   return (
     <div className={`app-container min-vh-100 d-flex flex-column ${theme}`} style={{ fontFamily: font }}>
-      <NavBar wpm={avgWPM} setWPM={setAvgWPM} cookie={cookie} deleteCookie={deleteCookie}></NavBar>
+      <NavBar wpm={avgWPM} setWPM={setAvgWPM} cookie={cookie} deleteCookie={deleteCookie} theme={theme}></NavBar>
       <div className="d-flex flex-grow-1">
         <Routes>
           <Route path="/" element={<Home />} />
@@ -46,13 +46,13 @@ function App() {
           <Route path="/About" element={<About />} />
           <Route path="/FaQ" element={<FaQ />} />
           <Route path="/ProfilePage" element={<ProfilePage />} />
-          <Route path="/GamePage" element={<GamePage />} />
+          <Route path="/GamePage" element={<GamePage theme={theme} />} />
           <Route path="/Settings" element={<Settings font={font} setFont={setFont} theme={theme} setTheme={setTheme} />} />
           <Route path="/GameModes" element={<GameModes />} />
           <Route path="/login" element={<LogInPage updateAvgWPM={setAvgWPM} cookie={cookie} setLoginCookie={setCookies} />} />
         </Routes>
       </div>
-      <Footer></Footer>
+      <Footer theme={theme}></Footer>
     </div>
   );
 }

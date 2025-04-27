@@ -5,7 +5,7 @@ import { generate, count } from "random-words";
 const NUMB_OF_WORD = 170;
 const SECONDS = 60;
 
-const GamePage = () => {
+const GamePage = ({ theme }) => {
   //used placeholder for future gamemodes
   const [mode, setMode] = useState("Random Lowercase Words");
   //place holder for ability to set time
@@ -99,7 +99,6 @@ const GamePage = () => {
 
   //useEffect hooks for game logic
   //This hook generates initial text when page first loads
-  // BEN'S CHANGES: Adds event listener for when the user types a key
   useEffect(() => {
     generateWords();
   }, []);
