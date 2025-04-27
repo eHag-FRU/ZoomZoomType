@@ -6,7 +6,7 @@ import axios from 'axios';
 const NUMB_OF_WORD = 170;
 const SECONDS = 60;
 
-const GamePage = ({cookie}) => {
+const ClassicGame = ({cookie}) => {
   //used placeholder for future gamemodes
   const [mode, setMode] = useState("Random Lowercase Words");
   //place holder for ability to set time
@@ -409,4 +409,4 @@ const GamePage = ({cookie}) => {
   )
 }
 
-export default GamePage
+export default ClassicGame;

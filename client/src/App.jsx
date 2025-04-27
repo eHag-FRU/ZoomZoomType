@@ -8,6 +8,10 @@ import FaQ from './components/FaQ.jsx';
 import About from './components/About.jsx';
 import ProfilePage from './components/ProfilePage.jsx';
 import GamePage from './components/GamePage.jsx';
+import ClassicGame from './components/ClassicGame.jsx';
+import QuoteGame from './components/QuoteGame.jsx';
+//add imports here
+//add imports here
 import Footer from './components/Footer.jsx';
 
 
@@ -47,7 +51,10 @@ function App() {
           <Route path='/ProfilePage' element={<ProfilePage/>}/>
           <Route path='/leaderBoard' element={<Leaderboard/>}/>
           <Route path='/GamePage' element={<GamePage cookie={cookie}/>}/>
+          <Route path='/ClassicGame' element={<ClassicGame cookie={cookie}/>}/>
+          <Route path='/QuoteGame' element={<QuoteGame cookie={cookie}/>}/>
           <Route path='/login' element={<LogInPage updateAvgWPM={setAvgWPM} cookie={cookie} setLoginCookie={setCookies}/>} />
+
         </Routes>
       </div>
       <Footer></Footer>
