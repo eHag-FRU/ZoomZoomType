@@ -57,7 +57,7 @@ function App() {
           <Route path="/QuoteGame" element={<QuoteGame cookie={cookie} theme={theme} />} />
           <Route path="/Settings" element={<Settings font={font} setFont={setFont} theme={theme} setTheme={setTheme} />} />
           <Route path="/GameModes" element={<GameModes theme={theme} />} />
-          <Route path="/login" element={<LogInPage updateAvgWPM={setAvgWPM} cookie={cookie} setLoginCookie={setCookies} />} />
+          <Route path="/login" element={<LogInPage updateAvgWPM={setAvgWPM} cookie={cookie} setLoginCookie={setCookies} theme={theme} />} />
         </Routes>
       </div>
       <Footer theme={theme}></Footer>

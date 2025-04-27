@@ -2,7 +2,7 @@ import React, { useEffect, useState, useRef } from "react";
 import { useNavigate, useLocation, redirect, Navigate, Route } from "react-router-dom";
 import axios from "axios";
 
-const LogInPage = ({ updateAvgWPM, cookie, setLoginCookie }) => {
+const LogInPage = ({ updateAvgWPM, cookie, setLoginCookie, theme }) => {
   //Set up the navigate object
   const navigate = useNavigate();
 
@@ -21,7 +21,9 @@ const LogInPage = ({ updateAvgWPM, cookie, setLoginCookie }) => {
   function LoginErrorMessage({ error }) {
     if (error) {
       return (
-        <p className="error-text-theme" id="incorrectLogin">Either the username or password is incorrect or an account does not exist under the provided email, please try again</p>
+        <p className="error-text-theme" id="incorrectLogin">
+          Either the username or password is incorrect or an account does not exist under the provided email, please try again
+        </p>
       );
     } else {
       return null;
@@ -119,21 +121,44 @@ const LogInPage = ({ updateAvgWPM, cookie, setLoginCookie }) => {
                 <label htmlFor="email" style={{ textAlign: "left" }}>
                   Email{" "}
                 </label>
-                <input type="text" name="email" id="email" className="form-control" style={{ backgroundColor: "#ffff" }} value={formValue.email} onChange={handleFormEmailChange}></input>
+                <input
+                  type="text"
+                  name="email"
+                  id="email"
+                  className="form-control"
+                  style={{ backgroundColor: "#ffff" }}
+                  value={formValue.email}
+                  onChange={handleFormEmailChange}
+                ></input>
               </div>
 
               <br />
 
               <div className="form-group text-start">
                 <label htmlFor="password">Password </label>
-                <input type="password" name="password" id="password" className="form-control" style={{ flexGrow: 0 }} value={formValue.password} onChange={handleFormPasswordChange}></input>
+                <input
+                  type="password"
+                  name="password"
+                  id="password"
+                  className="form-control"
+                  style={{ flexGrow: 0 }}
+                  value={formValue.password}
+                  onChange={handleFormPasswordChange}
+                ></input>
               </div>
 
               <br />
 
               <div className="text-center">
-                <button type="submit" className="btn btn-lg custom-btn bg-transparent mb-3 fw-bold">Login</button>
-                <p>Need an account?{" "}<a className="mb-3 registerLink-hover" href="register">Register Here</a></p>
+                <button type="submit" className={`btn btn-lg btn-${theme} mb-3 fw-bold`}>
+                  Login
+                </button>
+                <p>
+                  Need an account?{" "}
+                  <a className="mb-3 registerLink-hover" href="register">
+                    Register Here
+                  </a>
+                </p>
               </div>
             </form>
           </div>
