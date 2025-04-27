@@ -10,7 +10,7 @@ const Home = ({theme}) => {
 
     return (
     <div className="container-fluid d-flex flex-column flex-grow-1 justify-content-center align-items-center text-center pb-5">
-        <h1 className="border-bottom border-3 d-inline display-2 fw-bold mb-5">
+        <h1 className="d-inline display-2 fw-bold mb-5">
             <FontAwesomeIcon icon="fa-solid fa-car-on"/> Zoom Zoom Type
         </h1>
         <p className='align-items-center fs-2 mb-5'>
@@ -19,7 +19,7 @@ const Home = ({theme}) => {
         <div className="row w-100">
             <div className="container-fluid d-flex justify-content-between gap-4 w-25">
                 <button onClick={() => handleClick('/ClassicGame')} className={`btn btn-lg btn-${theme} mb-3 fw-bold`}>Play Now</button>
-                <button className={`btn btn-lg btn-${theme} mb-3 fw-bold`}>Modes</button>
+                <button onClick={() => handleClick('/GameModes')} className={`btn btn-lg btn-${theme} mb-3 fw-bold`}>Modes</button>
             </div>
         </div>
     </div>
