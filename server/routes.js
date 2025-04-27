@@ -172,6 +172,27 @@ router.get('/logout', (res, req) => {
     }
 });
 
+//Command will look like const result = await axios.get("http://localhost:3000/api/profileData", {"userID": user_id_here});
+router.get("/profileData", (req, res) => {
+    //Need to grab the userID from the request
+    const userID = req.body.userID;
+
+    //Ensure the useID is retrieved, this ensures the user is also logged in too
+    if (userID == null) {
+        throw "profileData: userID can not be null or has not been provided in the request's body";
+    }
+
+
+
+    //Now execute the query
+    let result = queries.getProfileDataByID(userID);
+
+    console.log(result);
+
+
+    //Send an HTTP 200 OK and the data back
+    res.status(200).send(result);
+});
 
 router.get("/getAvgWPM", (res, req) => {
     //Grab the users email
