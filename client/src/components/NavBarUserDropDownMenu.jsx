@@ -19,12 +19,12 @@ function NavBarUserDropDownMenu({ isLoggedIn, deleteCookie, wpm, setWPM, theme }
 
   return (
     <div className="d-flex align-items-center gap-3 ms-md-3 mt-2 mt-md-0 position-relative">
-      <Link className={`nav-anchor-visited nav-anchor-hover mx-2 icon-${theme}`} to="/settings">
+      <Link className={`mx-2 icon-${theme}`} to="/settings">
         <FontAwesomeIcon icon="fas fa-cog" style={{ fontSize: "1.5em" }} className={`icon-${theme}`} />
       </Link>
 
       <div className="position-relative">
-        <div className={`nav-anchor-visited nav-anchor-hover mx-2 icon-${theme}`} onClick={() => setShowDropdown(!showDropdown)} style={{ cursor: "pointer" }}>
+        <div className={`mx-2 icon-${theme}`} onClick={() => setShowDropdown(!showDropdown)} style={{ cursor: "pointer" }}>
           <FontAwesomeIcon icon="fas fa-circle-user" style={{ fontSize: "1.5em" }} />
         </div>
 

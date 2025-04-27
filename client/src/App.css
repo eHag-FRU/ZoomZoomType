@@ -264,24 +264,24 @@
   color: white;
 }
 
-.icon-theme-yellow1:hover {
+.icon-theme-yellow1 {
   color: black;
 }
 
 .icon-theme-blue1:hover {
-  color: white;
+  color: #b45f06;
 }
 
 .icon-theme-green1:hover {
-  color: white;
+  color: #306844;
 }
 
 .icon-theme-red1:hover {
-  color: white;
+  color: #b4aba2;
 }
 
 .icon-theme-yellow1:hover {
-  color: black;
+  color: #8A804C;
 }
 
 .special-gothic-expanded-one-regular {

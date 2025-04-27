@@ -8,13 +8,13 @@ const NavBar = ({ wpm, setWPM, cookie, deleteCookie, theme }) => {
     <div className={`bg-transparent ${theme} icon-${theme} px-3 py-2`}>
       <div className="d-flex flex-column flex-md-row justify-content-between align-items-start align-items-md-center gap-2">
         <div className="d-flex flex-wrap align-items-center gap-2">
-          <Link className={`d-flex gap-2 me-2 nav-anchor-visited nav-achor-hover icon-${theme}`} to="/" style={{ textDecoration: "none" }}>
+          <Link className={`d-flex gap-2 me-2 icon-${theme}`} to="/" style={{ textDecoration: "none" }}>
             <FontAwesomeIcon icon="fa-solid fa-car-on" style={{ fontSize: "1.5em" }} className={`icon-${theme}`} />
             <h5 className="mb-0">Zoom Zoom Type</h5>
           </Link>
-          <Link className="nav-anchor-visited nav-anchor-hover text-white mx-2" to="/GamePage"><FontAwesomeIcon icon="fa-solid fa-keyboard" style={{ fontSize: "1.5em" }} className={`icon-${theme}`} /></Link>
-          <Link className="nav-anchor-visited nav-anchor-hover text-white mx-2" to="/leaderBoard"><FontAwesomeIcon icon="fas fa-crown" style={{ fontSize: "1.5em" }} className={`icon-${theme}`} /></Link>
-          <Link className="nav-anchor-visited nav-anchor-hover mx-2" to="/about"><FontAwesomeIcon icon="fas fa-info-circle" style={{ fontSize: "1.5em" }} className={`icon-${theme}`} /></Link>
+          <Link className="text-white mx-2" to="/GamePage"><FontAwesomeIcon icon="fa-solid fa-keyboard" style={{ fontSize: "1.5em" }} className={`icon-${theme}`} /></Link>
+          <Link className="text-white mx-2" to="/leaderBoard"><FontAwesomeIcon icon="fas fa-crown" style={{ fontSize: "1.5em" }} className={`icon-${theme}`} /></Link>
+          <Link className="mx-2" to="/about"><FontAwesomeIcon icon="fas fa-info-circle" style={{ fontSize: "1.5em" }} className={`icon-${theme}`} /></Link>
           <span className="ms-2 d-flex flex-row">Average WPM:&nbsp;<strong><p id="highestUserWPM">{wpm}</p></strong>
           </span>
         </div>
