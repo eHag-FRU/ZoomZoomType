@@ -28,12 +28,7 @@ const SettingsBlock = ({ title, context, buttons, theme, onButtonClick }) => (
     <ul className="row g-2">
       {buttons.map((button, index) => (
         <li className="col-3 list-unstyled">
-          <button
-            key={index}
-            type="button"
-            className={`btn btn-outline-light w-100 btn-${theme}`}
-            onClick={() => onButtonClick(title, button.content)}
-          >
+          <button key={index} type="button" className={`btn btn-outline-light w-100 btn-${theme}`} onClick={() => onButtonClick(title, button.content)}>
             {button.content}
           </button>
         </li>
@@ -81,8 +76,7 @@ const Settings = ({ font, setFont, theme, setTheme }) => {
     },*/
     {
       title: "Font",
-      context:
-        "Style up the website with a funky font! (does not effect play area)",
+      context: "Style up the website with a funky font! (does not effect play area)",
       buttons: [
         { content: "Arial" },
         { content: "Consolas" },
@@ -127,14 +121,7 @@ const Settings = ({ font, setFont, theme, setTheme }) => {
       </div>
       <ul className="list-unstyled">
         {blockData.map((block, index) => (
-          <SettingsBlock
-            key={index}
-            title={block.title}
-            context={block.context}
-            buttons={block.buttons}
-            theme={theme}
-            onButtonClick={handleButtonClick}
-          />
+          <SettingsBlock key={index} title={block.title} context={block.context} buttons={block.buttons} theme={theme} onButtonClick={handleButtonClick} />
         ))}
       </ul>
     </div>

@@ -55,10 +55,7 @@ const ClassicGame = ({ cookie }) => {
   function formatTime(time) {
     const minutes = Math.floor(time / 60);
     const seconds = time % 60;
-    return `${String(minutes).padStart(2, "0")}:${String(seconds).padStart(
-      2,
-      "0"
-    )}`;
+    return `${String(minutes).padStart(2, "0")}:${String(seconds).padStart(2, "0")}`;
   }
 
   const navigate = useNavigate();
@@ -219,13 +216,10 @@ const ClassicGame = ({ cookie }) => {
     //get container padding
     const containerElement = typingContainerRef.current;
     const containerStyles = window.getComputedStyle(containerElement);
-    const containerPadding =
-      parseFloat(containerStyles.paddingLeft) +
-      parseFloat(containerStyles.paddingRight);
+    const containerPadding = parseFloat(containerStyles.paddingLeft) + parseFloat(containerStyles.paddingRight);
 
     //get the container width
-    const containerWidth =
-      typingContainerRef.current.offsetWidth - containerPadding;
+    const containerWidth = typingContainerRef.current.offsetWidth - containerPadding;
 
     //get the character width
     const characterWidth = charRef.current.offsetWidth;
@@ -292,11 +286,7 @@ const ClassicGame = ({ cookie }) => {
         //add word length to charsPerLineSoFar
         charsPerLineSoFar += visibleWords[wordIt].length;
         //add every letter to line through rendering logic
-        for (
-          let letterIt = 0;
-          letterIt < visibleWords[wordIt].length;
-          letterIt++
-        ) {
+        for (let letterIt = 0; letterIt < visibleWords[wordIt].length; letterIt++) {
           //rendering logic
           //default rendering styles
           let styling = {};
@@ -320,10 +310,7 @@ const ClassicGame = ({ cookie }) => {
             //check if character has been typed
             if (k - currWordIndex < typedWord.length) {
               //if it has been typed, check if correct, if correct make it white
-              if (
-                visibleWords[wordIt][letterIt] === typedWord[letterIt] &&
-                incorrectCharFound === false
-              ) {
+              if (visibleWords[wordIt][letterIt] === typedWord[letterIt] && incorrectCharFound === false) {
                 styling = { color: "white", position: "relative" };
               } else {
                 styling = { color: "red", position: "relative" };
@@ -386,51 +373,23 @@ const ClassicGame = ({ cookie }) => {
   return (
     <div className="container-fluid d-flex flex-column flex-grow-1 align-items-center m-5">
       <div className="row w-75 rounded border p-4 bg-transparent fw-bold mb-4">
-        <div className="col-12 col-lg-4 text-center mt-2 mb-2 fs-5">
-          Mode: {mode}
-        </div>
-        <div className="col-12 col-lg-4 text-center mt-2 mb-2 fs-5">
-          Time: {formatTime(time)}
-        </div>
-        <div className="col-12 col-lg-4 text-center mt-2 mb-2 fs-5">
-          wpm: {wpm}
-        </div>
+        <div className="col-12 col-lg-4 text-center mt-2 mb-2 fs-5">Mode: {mode}</div>
+        <div className="col-12 col-lg-4 text-center mt-2 mb-2 fs-5">Time: {formatTime(time)}</div>
+        <div className="col-12 col-lg-4 text-center mt-2 mb-2 fs-5">wpm: {wpm}</div>
       </div>
       {/*Conditionally render game is game is running or not*/}
       {gameStatus && (
         <div ref={typingContainerRef} className="w-75 p-5 fs-5 font-monospace">
-          <div
-            ref={charRef}
-            style={{ visibility: "hidden", position: "absolute" }}
-          >
+          <div ref={charRef} style={{ visibility: "hidden", position: "absolute" }}>
             <span>a</span>
           </div>
           <div>{renderGame}</div>
         </div>
       )}
-      {gameStatus && (
-        <input
-          ref={inputRef}
-          className="w-50 m-6"
-          value={typedWord}
-          onChange={(event) => handleTypedInput(event)}
-        />
-      )}
+      {gameStatus && <input ref={inputRef} className="w-50 m-6" value={typedWord} onChange={(event) => handleTypedInput(event)} />}
       <div className="container mt-5 d-flex flex-row gap-3 justify-content-center">
-        {gameStatus === false && (
-          <button
-            onClick={() => start()}
-            className="btn btn-lg custom-btn bg-transparent mb-3 fw-bold"
-          >
-            Start
-          </button>
-        )}
-        <button
-          onClick={() => handleClick("/Home")}
-          className="btn btn-lg custom-btn bg-transparent mb-3 fw-bold"
-        >
-          Home
-        </button>
+        {gameStatus === false && (<button onClick={() => start()} className="btn btn-lg custom-btn bg-transparent mb-3 fw-bold">Start</button>)}
+        <button onClick={() => handleClick("/Home")} className="btn btn-lg custom-btn bg-transparent mb-3 fw-bold">Home</button>
       </div>
       {/*Hidden character reference used to calculating width of a character*/}
     </div>

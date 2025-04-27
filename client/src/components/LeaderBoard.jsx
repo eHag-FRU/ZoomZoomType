@@ -39,22 +39,17 @@ const Leaderboard = () => {
   const fetchLeaderboard = async (quoteId = "") => {
     setLoading(true);
     try {
-      const response = await axios.get(
-        "http://localhost:3000/api/leaderboard",
-        {
-          params: { mode: activeTab, quote: quoteId },
-        }
-      );
-      const key =
-        activeTab === "Quotes" ? `${activeTab}-${quoteId}` : activeTab;
+      const response = await axios.get("http://localhost:3000/api/leaderboard", {
+        params: { mode: activeTab, quote: quoteId },
+      });
+      const key = activeTab === "Quotes" ? `${activeTab}-${quoteId}` : activeTab;
       setLeaderboardData((prev) => ({
         ...prev,
         [key]: response.data,
       }));
     } catch (err) {
       console.error(`Error fetching leaderboard for ${activeTab}:`, err);
-      const key =
-        activeTab === "Quotes" ? `${activeTab}-${quoteId}` : activeTab;
+      const key = activeTab === "Quotes" ? `${activeTab}-${quoteId}` : activeTab;
       setLeaderboardData((prev) => ({
         ...prev,
         [key]: [],
@@ -64,8 +59,7 @@ const Leaderboard = () => {
   };
 
   const renderTable = () => {
-    const key =
-      activeTab === "Quotes" ? `${activeTab}-${selectedQuote}` : activeTab;
+    const key = activeTab === "Quotes" ? `${activeTab}-${selectedQuote}` : activeTab;
     const data = leaderboardData[key] || [];
 
     if (loading) {
@@ -73,11 +67,7 @@ const Leaderboard = () => {
     }
 
     if (data.length === 0) {
-      return (
-        <p className="mt-3 text-white text-center">
-          No data available for this mode.
-        </p>
-      );
+      return <p className="mt-3 text-white text-center">No data available for this mode.</p>;
     }
 
     const cellStyle = {
@@ -87,10 +77,7 @@ const Leaderboard = () => {
     };
 
     return (
-      <div
-        className="table-responsive"
-        style={{ maxHeight: "400px", overflowY: "auto" }}
-      >
+      <div className="table-responsive" style={{ maxHeight: "400px", overflowY: "auto" }}>
         <table
           className="table text-white"
           style={{
@@ -132,10 +119,7 @@ const Leaderboard = () => {
       }}
     >
       <div className="w-100" style={{ maxWidth: "900px" }}>
-        <div
-          className="d-flex flex-column align-items-center text-center"
-          style={{ width: "100%" }}
-        >
+        <div className="d-flex flex-column align-items-center text-center" style={{ width: "100%" }}>
           {/* Fixed Header and Tabs */}
           <h2 className="text-white mb-4">Leaderboard</h2>
 
@@ -153,8 +137,7 @@ const Leaderboard = () => {
                   style={{
                     flex: 1,
                     border: "2px solid white",
-                    borderBottom:
-                      activeTab === mode ? "none" : "2px solid white",
+                    borderBottom: activeTab === mode ? "none" : "2px solid white",
                     fontWeight: "bold",
                   }}
                 >
@@ -166,18 +149,11 @@ const Leaderboard = () => {
 
           <div className="mb-4 w-100" style={{ height: "60px" }}>
             {activeTab === "Quotes" ? (
-              <select
-                className="form-select mx-auto"
-                value={selectedQuote}
-                onChange={(e) => setSelectedQuote(e.target.value)}
-                style={{ maxWidth: "500px" }}
-              >
+              <select className="form-select mx-auto" value={selectedQuote} onChange={(e) => setSelectedQuote(e.target.value)} style={{ maxWidth: "500px" }}>
                 <option value="">Select a quote</option>
                 {quotesList.map((quote) => (
                   <option key={quote.quoteID} value={quote.quoteID}>
-                    {quote.quote.length > 60
-                      ? quote.quote.slice(0, 60) + "..."
-                      : quote.quote}
+                    {quote.quote.length > 60 ? quote.quote.slice(0, 60) + "..." : quote.quote}
                   </option>
                 ))}
               </select>
