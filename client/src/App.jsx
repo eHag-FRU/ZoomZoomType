@@ -1,15 +1,14 @@
 import { useState } from "react";
 import "./App.css";
 import { Routes, Route } from "react-router-dom";
-import { useCookies } from "react-cookie";
-import Home from "./components/Home.jsx";
-import NavBar from "./components/NavBar.jsx";
-import FaQ from "./components/FaQ.jsx";
-import About from "./components/About.jsx";
-import ProfilePage from "./components/ProfilePage.jsx";
-import GamePage from "./components/GamePage.jsx";
-import ClassicGame from "./components/ClassicGame.jsx";
-import QuoteGame from "./components/QuoteGame.jsx";
+import { useCookies } from 'react-cookie';
+import Home from './components/Home.jsx';
+import NavBar from './components/NavBar.jsx';
+import FaQ from './components/FaQ.jsx';
+import About from './components/About.jsx';
+import ProfilePage from './components/ProfilePage.jsx';
+import ClassicGame from './components/ClassicGame.jsx';
+import QuoteGame from './components/QuoteGame.jsx';
 import Settings from "./components/Settings.jsx";
 import GameModes from "./components/GameModes.jsx";
 //add imports here
@@ -71,35 +70,17 @@ function App() {
       ></NavBar>
       <div className="d-flex flex-grow-1 justify-content-center">
         <Routes>
-          <Route path="/" element={<Home />} />
-          <Route path="/Home" element={<Home />} />
-          <Route path="/About" element={<About />} />
-          <Route path="/FaQ" element={<FaQ />} />
-          <Route path="/ProfilePage" element={<ProfilePage />} />
-          <Route path="/leaderBoard" element={<Leaderboard />} />
-          <Route
-            path="/GamePage"
-            element={<GamePage cookie={cookie} theme={theme} />}
-          />
-          <Route
-            path="/ClassicGame"
-            element={<ClassicGame cookie={cookie} />}
-          />
-          <Route path="/QuoteGame" element={<QuoteGame cookie={cookie} />} />
-          <Route
-            path="/Settings"
-            element={
-              <Settings
-                font={font}
-                setFont={setFont}
-                theme={theme}
-                setTheme={setTheme}
-              />
-            }
-          />
+          <Route path='/' element={<Home/>}/>
+          <Route path='/Home' element={<Home/>}/>
+          <Route path='/About' element={<About/>}/>
+          <Route path='/FaQ' element={<FaQ/>}/>
+          <Route path='/ProfilePage' element={<ProfilePage/>}/>
+          <Route path='/leaderBoard' element={<Leaderboard/>}/>
+          <Route path='/ClassicGame' element={<ClassicGame cookie={cookie}/>}/>
+          <Route path='/QuoteGame' element={<QuoteGame cookie={cookie}/>}/>
+          <Route path="/Settings" element={<Settings font={font} setFont={setFont} theme={theme} setTheme={setTheme} />} />
           <Route path="/GameModes" element={<GameModes />} />
-          <Route
-            path="/login"
+          <Route path="/login"
             element={
               <LogInPage
                 updateAvgWPM={setAvgWPM}
