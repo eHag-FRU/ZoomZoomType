@@ -1,12 +1,12 @@
-import React, {useState, useEffect, useRef, useMemo} from 'react';
-import { useNavigate } from 'react-router-dom';
-import {generate, count} from 'random-words';
-import axios from 'axios';
+import React, { useState, useEffect, useRef, useMemo } from "react";
+import { useNavigate } from "react-router-dom";
+import { generate, count } from "random-words";
+import axios from "axios";
 
 const NUMB_OF_WORD = 170;
 const SECONDS = 60;
 
-const GamePage = ({cookie, theme}) => {
+const GamePage = ({ cookie, theme }) => {
   //used placeholder for future gamemodes
   const [mode, setMode] = useState("Random Lowercase Words");
   //place holder for ability to set time
@@ -55,7 +55,10 @@ const GamePage = ({cookie, theme}) => {
   function formatTime(time) {
     const minutes = Math.floor(time / 60);
     const seconds = time % 60;
-    return `${String(minutes).padStart(2, "0")}:${String(seconds).padStart(2, "0")}`;
+    return `${String(minutes).padStart(2, "0")}:${String(seconds).padStart(
+      2,
+      "0"
+    )}`;
   }
 
   const navigate = useNavigate();
@@ -68,22 +71,22 @@ const GamePage = ({cookie, theme}) => {
     setGameStatus(true);
   }
 
-  async function postGameData(finalWpm){
+  async function postGameData(finalWpm) {
     console.log("posting game data");
     //get user information
     let userData = cookie.usr;
     //store data in object
     const data = {
-      "userID": userData.userID,
-      "wpm": finalWpm,
-      "time": 60,
-      "mode": 1,
-    }
+      userID: userData.userID,
+      wpm: finalWpm,
+      time: 60,
+      mode: 1,
+    };
     //post
-    try{
-      await axios.post('http://localhost:3000/api/postNewGame', data);
-    } catch(e){
-      console.log('Error posting game data')
+    try {
+      await axios.post("http://localhost:3000/api/postNewGame", data);
+    } catch (e) {
+      console.log("Error posting game data");
     }
   }
 
@@ -94,7 +97,7 @@ const GamePage = ({cookie, theme}) => {
 
     //add character to typed word
     setTypedWord(typedPhrase);
-    if(typedPhrase === words[currIt]){
+    if (typedPhrase === words[currIt]) {
       //if game is running, allow characters to be recorded
       if (gameStatus === true) {
         //get correct characters typed so far
@@ -105,11 +108,10 @@ const GamePage = ({cookie, theme}) => {
         setCorrectChars(charsTyped);
       }
       //increment the word
-      setCurrIt(currIt+1);
+      setCurrIt(currIt + 1);
 
       //set input word to nothing
       setTypedWord("");
-
     }
   }
 
@@ -177,7 +179,7 @@ const GamePage = ({cookie, theme}) => {
         //decrement timer
         tempTime = tempTime - 1;
         //when timer hits zero, game is over
-        if(tempTime <= 0){
+        if (tempTime <= 0) {
           //get final wpm
           //disable the timer
           clearInterval(timer);
@@ -188,9 +190,8 @@ const GamePage = ({cookie, theme}) => {
           //get wpm
           const finalWpm_ = finalWpmRef.current;
           //check if user is logged in
-          if(cookie.usr){
-            postGameData(finalWpm_).then(() => {
-            });
+          if (cookie.usr) {
+            postGameData(finalWpm_).then(() => {});
           }
         }
         //set time to new time
@@ -203,7 +204,7 @@ const GamePage = ({cookie, theme}) => {
   useEffect(() => {
     let tmpCorrectChars = correctChars;
     let tmpWpm = calWPM(tmpCorrectChars, time);
-    if(tmpWpm != 0){
+    if (tmpWpm != 0) {
       finalWpmRef.current = Math.round(tmpWpm);
     }
     setWpm(Math.round(tmpWpm));
@@ -211,7 +212,7 @@ const GamePage = ({cookie, theme}) => {
   }, [correctChars]);
 
   const handleResize = () => {
-    if (!typingContainerRef.current || !charRef.current){
+    if (!typingContainerRef.current || !charRef.current) {
       console.log("One or both refs are null");
       return;
     }
@@ -219,15 +220,18 @@ const GamePage = ({cookie, theme}) => {
     //get container padding
     const containerElement = typingContainerRef.current;
     const containerStyles = window.getComputedStyle(containerElement);
-    const containerPadding = parseFloat(containerStyles.paddingLeft) + parseFloat(containerStyles.paddingRight);
+    const containerPadding =
+      parseFloat(containerStyles.paddingLeft) +
+      parseFloat(containerStyles.paddingRight);
 
     //get the container width
-    const containerWidth = typingContainerRef.current.offsetWidth - containerPadding;
+    const containerWidth =
+      typingContainerRef.current.offsetWidth - containerPadding;
 
     //get the character width
     const characterWidth = charRef.current.offsetWidth;
     //calculate how many characters can fit within container
-    const charAmount = Math.floor(containerWidth/characterWidth);
+    const charAmount = Math.floor(containerWidth / characterWidth);
     //set characters per line
     setCharactersPerLine(charAmount);
   };
@@ -235,14 +239,14 @@ const GamePage = ({cookie, theme}) => {
   //use effect for handling screensize
   useEffect(() => {
     handleResize();
-    window.addEventListener('resize', handleResize);
-    return () => window.removeEventListener('resize', handleResize);
-  },[]);
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
 
   useEffect(() => {
     handleResize(); // Run on initial render
   }, []);
-  
+
   useEffect(() => {
     if (gameStatus) {
       setTimeout(() => {
@@ -250,7 +254,6 @@ const GamePage = ({cookie, theme}) => {
       }, 0);
     }
   }, [gameStatus]);
-
 
   //function for rendering the text, will be same across all games
   const renderGame = useMemo(() => {
@@ -274,75 +277,87 @@ const GamePage = ({cookie, theme}) => {
     let charsPerLine = charactersPerLine;
     let charsPerLineSoFar = 0;
     let wordsOnCurrentLine = 0;
-    let visibleWords = words.slice(it, it+85);
+    let visibleWords = words.slice(it, it + 85);
     //unique keys for letters in lines. Coutns number of characters total
     let k = 0;
 
     //set it forward if needed
-    if(currIt >= it + wordsPerLine){
+    if (currIt >= it + wordsPerLine) {
       setIt(currIt);
     }
 
     //iterate through all words from iterator marker onwards
     let wordIt = 0;
-    while(wordIt < visibleWords.length && lines.length < 4){
-      if(charsPerLineSoFar + visibleWords[wordIt].length <= charsPerLine){
+    while (wordIt < visibleWords.length && lines.length < 4) {
+      if (charsPerLineSoFar + visibleWords[wordIt].length <= charsPerLine) {
         //add word length to charsPerLineSoFar
         charsPerLineSoFar += visibleWords[wordIt].length;
         //add every letter to line through rendering logic
-        for(let letterIt = 0; letterIt < visibleWords[wordIt].length; letterIt++){
+        for (
+          let letterIt = 0;
+          letterIt < visibleWords[wordIt].length;
+          letterIt++
+        ) {
           //rendering logic
           //default rendering styles
           let styling = {};
-          let charSpan= <span></span>
+          let charSpan = <span></span>;
           //if word has already been typed
-          if(wordIt+it < currIt){
-            styling = {color: "white"};
-            charSpan=
-            <span key={k} style={styling}>
-              {visibleWords[wordIt][letterIt]}
-            </span>
+          if (wordIt + it < currIt) {
+            styling = { color: "white" };
+            charSpan = (
+              <span key={k} style={styling}>
+                {visibleWords[wordIt][letterIt]}
+              </span>
+            );
           } else {
-            if(wordIt+it === currIt){
-              if(setCurrWordIndex === false){
+            if (wordIt + it === currIt) {
+              if (setCurrWordIndex === false) {
                 currWordIndex = k;
                 setCurrWordIndex = true;
               }
             }
-            
+
             //check if character has been typed
-            if(k-currWordIndex < typedWord.length){
+            if (k - currWordIndex < typedWord.length) {
               //if it has been typed, check if correct, if correct make it white
-              if(visibleWords[wordIt][letterIt] === typedWord[letterIt] && incorrectCharFound === false){
-                styling = {color: "white", position: 'relative'};
+              if (
+                visibleWords[wordIt][letterIt] === typedWord[letterIt] &&
+                incorrectCharFound === false
+              ) {
+                styling = { color: "white", position: "relative" };
               } else {
-                styling = {color: "red", position: 'relative'};
+                styling = { color: "red", position: "relative" };
                 incorrectCharFound = true;
               }
             } else {
-              styling = {color: "grey", position: 'relative'};
+              styling = { color: "grey", position: "relative" };
             }
 
             //check whether to print cursor or not
-            if(k-currWordIndex === typedWord.length){
-              charSpan=
-              <span key={k} style={styling}>
-                {visibleWords[wordIt][letterIt]}
-                <span style={{
-                  position: 'absolute',
-                  left: -2,
-                  top: 0,
-                  bottom: 0,
-                  width: '2px',
-                  backgroundColor: 'orange',
-                  animation: 'blink 1s step-end infinite',
-                }} />
-              </span>
+            if (k - currWordIndex === typedWord.length) {
+              charSpan = (
+                <span key={k} style={styling}>
+                  {visibleWords[wordIt][letterIt]}
+                  <span
+                    style={{
+                      position: "absolute",
+                      left: -2,
+                      top: 0,
+                      bottom: 0,
+                      width: "2px",
+                      backgroundColor: "orange",
+                      animation: "blink 1s step-end infinite",
+                    }}
+                  />
+                </span>
+              );
             } else {
-              charSpan=
-              <span key={k} style={styling}>
-                {visibleWords[wordIt][letterIt]}
-              </span>
+              charSpan = (
+                <span key={k} style={styling}>
+                  {visibleWords[wordIt][letterIt]}
+                </span>
+              );
             }
           }
           line.push(charSpan);
@@ -357,7 +372,7 @@ const GamePage = ({cookie, theme}) => {
         //push the line of words into lines
         lines.push(<div key={lines.length}>{line}</div>);
         //reset charsperlinesofar and line and wordsOnCurrentline
-        if(lines.length == 1){
+        if (lines.length == 1) {
           setWordsPerLine(wordsOnCurrentLine);
         }
         charsPerLineSoFar = 0;
@@ -372,29 +387,49 @@ const GamePage = ({cookie, theme}) => {
   return (
     <div className="container-fluid d-flex flex-column flex-grow-1 align-items-center m-5">
       <div className="row w-75 rounded p-4 theme-l2 fw-bold mb-4">
-        <div className="col-12 col-lg-4 text-center mt-2 mb-2 fs-5">Mode: {mode}</div>
-        <div className="col-12 col-lg-4 text-center mt-2 mb-2 fs-5">Time: {formatTime(time)}</div>
-        <div className="col-12 col-lg-4 text-center mt-2 mb-2 fs-5">wpm: {wpm}</div>
+        <div className="col-12 col-lg-4 text-center mt-2 mb-2 fs-5">
+          Mode: {mode}
+        </div>
+        <div className="col-12 col-lg-4 text-center mt-2 mb-2 fs-5">
+          Time: {formatTime(time)}
+        </div>
+        <div className="col-12 col-lg-4 text-center mt-2 mb-2 fs-5">
+          wpm: {wpm}
+        </div>
       </div>
       {/*Conditionally render game is game is running or not*/}
-      {gameStatus &&
+      {gameStatus && (
         <div ref={typingContainerRef} className="w-75 p-5 fs-5 font-monospace">
-          <div ref={charRef} style={{visibility: 'hidden', position: 'absolute' }}>
+          <div
+            ref={charRef}
+            style={{ visibility: "hidden", position: "absolute" }}
+          >
             <span>a</span>
           </div>
-          <div>
-            {renderGame}
-          </div>
+          <div>{renderGame}</div>
         </div>
       )}
-      {gameStatus && <input ref={inputRef} className="w-50 m-6" value={typedWord} onChange={(event) => handleTypedInput(event)} />}
+      {gameStatus && (
+        <input
+          ref={inputRef}
+          className="w-50 m-6"
+          value={typedWord}
+          onChange={(event) => handleTypedInput(event)}
+        />
+      )}
       <div className="container mt-5 d-flex flex-row gap-3">
         {gameStatus === false && (
-          <button onClick={() => start()} className="btn btn-lg custom-btn theme-l2 mb-3 fw-bold">
+          <button
+            onClick={() => start()}
+            className="btn btn-lg custom-btn theme-l2 mb-3 fw-bold"
+          >
             Start
           </button>
         )}
-        <button onClick={() => handleClick("/Home")} className="btn btn-lg custom-btn theme-l2 mb-3 fw-bold">
+        <button
+          onClick={() => handleClick("/Home")}
+          className="btn btn-lg custom-btn theme-l2 mb-3 fw-bold"
+        >
           Home
         </button>
       </div>
