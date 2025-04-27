@@ -184,18 +184,18 @@
 .accent-theme-blue1 {
   color: white !important;
   border-color: white !important;
-  background-color:#b45f06 !important;
+  background-color: #b45f06 !important;
 }
 
 .btn-theme-blue1 {
   color: white !important;
   border-color: white !important;
-  background-color:#b45f06 !important;
+  background-color: #b45f06 !important;
 }
 
 .btn-theme-blue1:hover {
-  color:black !important;
-  background-color:#c98032 !important;
+  color: black !important;
+  background-color: #c98032 !important;
 }
 
 .accent-theme-green1 {
@@ -237,19 +237,19 @@
 .accent-theme-yellow1 {
   color: black !important;
   border-color: black !important;
-  background-color: #8A804C !important;
+  background-color: #8a804c !important;
 }
 
 .btn-theme-yellow1 {
   color: black !important;
   border-color: black !important;
-  background-color: #8A804C !important;
+  background-color: #8a804c !important;
 }
 
 .btn-theme-yellow1:hover {
   color: white !important;
   border-color: white !important;
-  background-color: #615A35 !important;
+  background-color: #615a35 !important;
 }
 
 .icon-theme-blue1 {
@@ -281,7 +281,7 @@
 }
 
 .icon-theme-yellow1:hover {
-  color: #8A804C;
+  color: #8a804c;
 }
 
 .special-gothic-expanded-one-regular {
@@ -320,7 +320,7 @@
   font-weight: 400;
   font-style: normal;
 }
-=======
+
 /*profle page styling*/
 .profile-page {
   width: 100%;
@@ -330,7 +330,7 @@
   border-bottom: 3px solid white;
   margin: 5px;
   padding: 5px;
-  min-height:60px;
+  min-height: 60px;
   display: flex;
   justify-content: space-between;
 }
@@ -358,7 +358,6 @@
   box-shadow: 3px 3px 0 black;
 }
 
-
 .profile-page-summary {
   border-bottom: 3px solid white;
   margin: 5px;
@@ -368,7 +367,6 @@
   align-items: center;
   justify-content: flex-start;
   gap: 20px;
-
 }
 
 .profile-page-image {
@@ -400,7 +398,7 @@
 
 .profile-page-details span {
   font-weight: bold;
-  margin-bottom: 10px; 
+  margin-bottom: 10px;
   display: inline-block;
   margin-left: 5px;
 }
@@ -415,7 +413,7 @@
   font-size: 14px;
 }
 
-.profile-page-details th, 
+.profile-page-details th,
 .profile-page-details td {
   padding: 10px;
   text-align: center;
