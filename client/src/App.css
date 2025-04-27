@@ -1,69 +1,148 @@
+/* Massive ass google font import link */
+@import url("https://fonts.googleapis.com/css2?family=Coral+Pixels&family=Galindo&family=Poiret+One&family=Space+Grotesk&family=Special+Gothic+Expanded+One&family=Style+Script&display=swap");
+
 /*The color pallet for the application*/
-.theme-l5 {color:#000 !important; background-color:#ebf6ff !important}
-.theme-l4 {color:#000 !important; background-color:#bedfff !important}
-.theme-l3 {color:#000 !important; background-color:#7cc0ff !important}
-.theme-l2 {color:#fff !important; background-color:#3ba0ff !important}
-.theme-l1 {color:#fff !important; background-color:#0081f9 !important}
-.theme-d1 {color:#fff !important; background-color:#0055a5 !important}
-.theme-d2 {color:#fff !important; background-color:#004c93 !important}
-.theme-d3 {color:#fff !important; background-color:#004281 !important}
-.theme-d4 {color:#fff !important; background-color:#00396e !important}
-.theme-d5 {color:#fff !important; background-color:#002f5c !important}
-
-.theme-accent{color: #fff !important; background-color: #b45f06}
-
-.theme-light {color:#000 !important; background-color:#ebf6ff !important}
-.theme-dark {color:#fff !important; background-color:#002f5c !important}
-.theme-action {color:#fff !important; background-color:#002f5c !important}
-
-.theme {color:#fff !important; background-color:#0060ba !important}
-.text-theme {color:#0060ba !important}
-.error-text-theme {color: #b45f06 !important}
-.border-theme {border-color:#0060ba !important}
-
-.hover-theme:hover {color:#fff !important; background-color:#0060ba !important}
-.hover-text-theme:hover {color:#0060ba !important}
-.hover-border-theme:hover {border-color:#0060ba !important}
-
-.nav-anchor-visited:visited {color: #fff !important; text-decoration: none;}
-.nav-anchor-hover:hover {color:#b45f06 !important; text-decoration: none;}
-
-.nav-logo:hover,:visited {color: #fff !important; text-decoration: none;}
-.nav-anchor-hover:hover {color:#0060ba !important; text-decoration: none;}
-
-.nav-achor-hover:hover *{
-  color:#b45f06 !important;
+.theme-l5 {
+  color: #000 !important;
+  background-color: #ebf6ff !important;
+}
+.theme-l4 {
+  color: #000 !important;
+  background-color: #bedfff !important;
+}
+.theme-l3 {
+  color: #000 !important;
+  background-color: #7cc0ff !important;
+}
+.theme-l2 {
+  color: #fff !important;
+  background-color: #3ba0ff !important;
+}
+.theme-l1 {
+  color: #fff !important;
+  background-color: #0081f9 !important;
+}
+.theme-d1 {
+  color: #fff !important;
+  background-color: #0055a5 !important;
+}
+.theme-d2 {
+  color: #fff !important;
+  background-color: #004c93 !important;
+}
+.theme-d3 {
+  color: #fff !important;
+  background-color: #004281 !important;
+}
+.theme-d4 {
+  color: #fff !important;
+  background-color: #00396e !important;
+}
+.theme-d5 {
+  color: #fff !important;
+  background-color: #002f5c !important;
 }
 
-.nav-logo:hover,:visited {color: #fff !important;}
+.theme-accent {
+  color: #fff !important;
+  background-color: #b45f06;
+}
+
+.theme-light {
+  color: #000 !important;
+  background-color: #ebf6ff !important;
+}
+.theme-dark {
+  color: #fff !important;
+  background-color: #002f5c !important;
+}
+.theme-action {
+  color: #fff !important;
+  background-color: #002f5c !important;
+}
+
+.theme {
+  color: #fff !important;
+  background-color: #0060ba !important;
+}
+.text-theme {
+  color: #0060ba !important;
+}
+.error-text-theme {
+  color: #b45f06 !important;
+}
+.border-theme {
+  border-color: #0060ba !important;
+}
+
+.hover-theme:hover {
+  filter: invert(1);
+}
+.hover-text-theme:hover {
+  filter: invert(1);
+}
+.hover-border-theme:hover {
+  filter: invert(1);
+}
+
+.nav-anchor-visited:visited {
+  color: #fff !important;
+  text-decoration: none;
+}
+.nav-anchor-hover:hover {
+  filter: invert(1);
+  text-decoration: none;
+}
+
+.nav-logo:hover,
+:visited {
+  filter: invert(1);
+  text-decoration: none;
+}
+.nav-anchor-hover:hover {
+  filter: invert(1);
+  text-decoration: none;
+}
+
+.nav-achor-hover:hover * {
+  filter: invert(1);
+}
+
+.nav-logo:hover,
+:visited {
+  color: #fff !important;
+}
 
 .registerLink-hover:hover {
-  color: #cc6e09 !important;
+  filter: invert(1);
 }
 
-.footer-anchor-hover:hover {color:#b45f06 !important; text-decoration: none;}
+.footer-anchor-hover:hover {
+  filter: invert(1) !important;
+  text-decoration: none;
+}
 
-.custom-accent-btn{
-  color: #fff !important; 
+.custom-accent-btn {
+  color: #fff !important;
   background-color: #b45f06 !important;
   border: none;
   width: 160px;
 }
 
-.custom-accent-btn:hover{
-  background-color: #cc6e09 !important;
+.custom-accent-btn:hover {
+  filter: invert(1);
 }
 
-.custom-btn{
+.custom-btn {
   border: none;
   width: 160px;
 }
 
-.custom-btn:hover{
+.custom-btn:hover {
   background-color: #7cc0ff !important;
 }
 
-.custom-caret{
+.custom-caret {
   border-right: solid 1px black;
 }
 
@@ -71,4 +150,106 @@
   50% {
     opacity: 0;
   }
+}
+
+/* Themes for settings testing */
+.theme-blue {
+  color: white !important;
+  background-color: #0055a5 !important;
+  border-color: white !important;
+}
+
+.theme-green {
+  color: white !important;
+  background-color: #00a555 !important;
+  border-color: white !important;
+}
+
+.theme-red {
+  color: white !important;
+  background-color: #a50000 !important;
+  border-color: white !important;
+}
+
+.theme-yellow {
+  color: black !important;
+  background-color: #cbc600 !important;
+  border-color: black !important;
+}
+
+.theme-blue .btn {
+  color: white !important;
+  border-color: white !important;
+  background-color: transparent;
+}
+
+.theme-green .btn {
+  color: white !important;
+  border-color: white !important;
+  background-color: transparent;
+}
+
+.theme-red .btn {
+  color: white !important;
+  border-color: white !important;
+  background-color: transparent;
+}
+
+.theme-yellow .btn {
+  color: black !important;
+  border-color: black !important;
+  background-color: transparent;
+}
+
+.icon-theme-blue {
+  color: white;
+}
+
+.icon-theme-green {
+  color: white;
+}
+
+.icon-theme-red {
+  color: white;
+}
+
+.icon-theme-yellow {
+  color: black;
+}
+
+.special-gothic-expanded-one-regular {
+  font-family: "Special Gothic Expanded One", sans-serif;
+  font-weight: 400;
+  font-style: normal;
+}
+
+.coral-pixels-regular {
+  font-family: "Coral Pixels", serif;
+  font-weight: 400;
+  font-style: normal;
+}
+
+.space-grotesk {
+  font-family: "Space Grotesk", sans-serif;
+  font-optical-sizing: auto;
+  font-weight: 400;
+  font-style: normal;
+}
+
+.style-script-regular {
+  font-family: "Style Script", cursive;
+  font-weight: 400;
+  font-style: normal;
+}
+
+.galindo-regular {
+  font-family: "Galindo", sans-serif;
+  font-weight: 400;
+  font-style: normal;
+}
+
+.poiret-one-regular {
+  font-family: "Poiret One", sans-serif;
+  font-weight: 400;
+  font-style: normal;
 }

@@ -6,7 +6,7 @@ import axios from 'axios';
 const NUMB_OF_WORD = 170;
 const SECONDS = 60;
 
-const GamePage = ({cookie}) => {
+const GamePage = ({cookie, theme}) => {
   //used placeholder for future gamemodes
   const [mode, setMode] = useState("Random Lowercase Words");
   //place holder for ability to set time
@@ -20,7 +20,7 @@ const GamePage = ({cookie}) => {
   //Game status
   const [gameStatus, setGameStatus] = useState(false);
   //IsTextGenerated?
-  const[textGenerated, setTextGenerated] = useState(true);
+  const [textGenerated, setTextGenerated] = useState(true);
   //iterator for tracking which word user is at in word array
   const [it, setIt] = useState(0);
   //correct characters typed
@@ -41,26 +41,26 @@ const GamePage = ({cookie}) => {
   const finalWpmRef = useRef(0);
 
   //Auxiliary functions to help with game
-  function generateWords(){
+  function generateWords() {
     //generate list of words
     let tempWords = generate(NUMB_OF_WORD);
     //add a space to every word except for the last one
-    for(let i = 0; i < tempWords.length-1; i++){
-      tempWords[i] = tempWords[i] + ' ';
+    for (let i = 0; i < tempWords.length - 1; i++) {
+      tempWords[i] = tempWords[i] + " ";
     }
     setWords(tempWords);
   }
 
   //got this from chatgpt
-  function formatTime(time){
-    const minutes = Math.floor(time/60);
-    const seconds = time%60;
-    return `${String(minutes).padStart(2,'0')}:${String(seconds).padStart(2,'0')}`;
+  function formatTime(time) {
+    const minutes = Math.floor(time / 60);
+    const seconds = time % 60;
+    return `${String(minutes).padStart(2, "0")}:${String(seconds).padStart(2, "0")}`;
   }
 
   const navigate = useNavigate();
-  function handleClick(page){
-      navigate(page);
+  function handleClick(page) {
+    navigate(page);
   }
 
   //handles starting the game from the start game button
@@ -88,7 +88,7 @@ const GamePage = ({cookie}) => {
   }
 
   //checks if typed input matches current word
-  function handleTypedInput(event){
+  function handleTypedInput(event) {
     //grab typed input
     let typedPhrase = event.target.value;
 
@@ -96,7 +96,7 @@ const GamePage = ({cookie}) => {
     setTypedWord(typedPhrase);
     if(typedPhrase === words[currIt]){
       //if game is running, allow characters to be recorded
-      if(gameStatus === true){
+      if (gameStatus === true) {
         //get correct characters typed so far
         let charsTyped = correctChars;
         //add current typedPhrase length to charsTyped
@@ -106,42 +106,40 @@ const GamePage = ({cookie}) => {
       }
       //increment the word
       setCurrIt(currIt+1);
+
       //set input word to nothing
       setTypedWord("");
 
     }
   }
 
-
-
   //calculate words per minute which is characters per second divided by 5
-  function calWPM(numChars, time){
+  function calWPM(numChars, time) {
     //convert characters to words
-    let words_ = numChars/5;
-    //calculate wpm if 
-    if(SECONDS-time != 0){
+    let words_ = numChars / 5;
+    //calculate wpm if
+    if (SECONDS - time != 0) {
       //calculate seconds elapsed
-      let secondsElapsed = SECONDS-time;
+      let secondsElapsed = SECONDS - time;
       //convert secondsElapsed to minutes elapsed
-      let minutesElapsed = secondsElapsed/60;
+      let minutesElapsed = secondsElapsed / 60;
       //return wpm which is words/minutes
-      return words_/minutesElapsed;
+      return words_ / minutesElapsed;
     }
     //return 0 if no time has passed
     return 0;
   }
 
-
   //useEffect hooks for game logic
   //This hook generates initial text when page first loads
   useEffect(() => {
     generateWords();
-  }, [])
+  }, []);
 
   //This hook is responsible for generating text when the game starts and resetting it
   useEffect(() => {
     //checks if gameStatus is true and runs the text generation if it is true
-    if(gameStatus === true){
+    if (gameStatus === true) {
       //set text counter to 0
       setIt(0);
       //set currIt counter to 0
@@ -149,7 +147,7 @@ const GamePage = ({cookie}) => {
       //set typed word to nothing
       setTypedWord("");
       //if text is not generated, generate the text
-      if(textGenerated===false){
+      if (textGenerated === false) {
         generateWords();
         setTextGenerated(true);
       }
@@ -164,9 +162,8 @@ const GamePage = ({cookie}) => {
     }
 
     //hook runs when game Status updates
-  }, [gameStatus])
+  }, [gameStatus]);
 
-  
   //home responsible for managing the timer --will merge with first hook
   //will also post scores when game ends
   useEffect(() => {
@@ -178,7 +175,7 @@ const GamePage = ({cookie}) => {
       //set timer that updates code roughly every second
       const timer = setInterval(() => {
         //decrement timer
-        tempTime = tempTime-1;
+        tempTime = tempTime - 1;
         //when timer hits zero, game is over
         if(tempTime <= 0){
           //get final wpm
@@ -195,11 +192,10 @@ const GamePage = ({cookie}) => {
             postGameData(finalWpm_).then(() => {
             });
           }
-
         }
         //set time to new time
         setTime(tempTime);
-      }, 1000);  
+      }, 1000);
     }
   }, [gameStatus]);
 
@@ -212,7 +208,7 @@ const GamePage = ({cookie}) => {
     }
     setWpm(Math.round(tmpWpm));
     //useeffect function runs when correctChars changes
-  }, [correctChars])
+  }, [correctChars]);
 
   const handleResize = () => {
     if (!typingContainerRef.current || !charRef.current){
@@ -390,23 +386,21 @@ const GamePage = ({cookie}) => {
             {renderGame}
           </div>
         </div>
-      }
-      {gameStatus&&
-        <input
-          ref={inputRef} 
-          className="w-50 m-6"
-          value={typedWord}
-          onChange={(event) => handleTypedInput(event)}
-        />
-      }
+      )}
+      {gameStatus && <input ref={inputRef} className="w-50 m-6" value={typedWord} onChange={(event) => handleTypedInput(event)} />}
       <div className="container mt-5 d-flex flex-row gap-3">
-        {gameStatus === false &&
-        <button onClick={()=>start()} className="btn btn-lg custom-btn theme-l2 mb-3 fw-bold">Start</button>}
-        <button onClick={() => handleClick('/Home')} className="btn btn-lg custom-btn theme-l2 mb-3 fw-bold">Home</button>
+        {gameStatus === false && (
+          <button onClick={() => start()} className="btn btn-lg custom-btn theme-l2 mb-3 fw-bold">
+            Start
+          </button>
+        )}
+        <button onClick={() => handleClick("/Home")} className="btn btn-lg custom-btn theme-l2 mb-3 fw-bold">
+          Home
+        </button>
       </div>
       {/*Hidden character reference used to calculating width of a character*/}
     </div>
-  )
-}
+  );
+};
 
-export default GamePage
+export default GamePage;
