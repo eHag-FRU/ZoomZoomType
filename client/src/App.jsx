@@ -58,18 +58,18 @@ function App() {
           <Route path="/QuoteGame" element={<QuoteGame cookie={cookie} theme={theme} />} />
           <Route path="/Settings" element={<Settings font={font} setFont={setFont} theme={theme} setTheme={setTheme} />} />
           <Route path="/GameModes" element={<GameModes theme={theme} />} />
-          <Route path="/login" element={<LogInPage updateAvgWPM={setAvgWPM} cookie={cookie} setLoginCookie={setCookies} />} />
+          <Route path="/login" element={<LogInPage updateAvgWPM={setAvgWPM} cookie={cookie} setLoginCookie={setCookies} theme={theme} />} />
           
-          //Put the routes from Main into comments incase something breaks
-          //<Route path='/' element={<Home/>}/>
-          //<Route path='/Home' element={<Home/>}/>
-          //<Route path='/About' element={<About/>}/>
-          //<Route path='/FaQ' element={<FaQ/>}/>
-          //<Route path='/ProfilePage' element={<ProfilePage/>}/>
-          //<Route path='/EditProfile' element={<EditProfile setWMP={setAvgWPM} deleteCookie={deleteCookie}/>}/>
-          //<Route path='/leaderBoard' element={<Leaderboard/>}/>
-          //<Route path='/GamePage' element={<GamePage/>}/>
-          //<Route path='/login' element={<LogInPage updateAvgWPM={setAvgWPM} cookie={cookie} setLoginCookie={setCookies}/>} />
+         {/* Put the routes from Main into comments incase something breaks */}
+          {/* <Route path='/' element={<Home/>}/> */}
+          {/* <Route path='/Home' element={<Home/>}/> */}
+          {/* <Route path='/About' element={<About/>}/> */}
+          {/* <Route path='/FaQ' element={<FaQ/>}/> */}
+          {/* <Route path='/ProfilePage' element={<ProfilePage/>}/> */}
+          {/* <Route path='/EditProfile' element={<EditProfile setWMP={setAvgWPM} deleteCookie={deleteCookie}/>}/> */}
+          {/* <Route path='/leaderBoard' element={<Leaderboard/>}/> */}
+          {/* <Route path='/GamePage' element={<GamePage/>}/> */}
+          {/* <Route path='/login' element={<LogInPage updateAvgWPM={setAvgWPM} cookie={cookie} setLoginCookie={setCookies}/>} /> */}
         </Routes>
       </div>
       <Footer theme={theme}></Footer>

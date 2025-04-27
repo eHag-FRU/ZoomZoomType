@@ -2,7 +2,7 @@ import React, { useEffect, useState, useRef } from "react";
 import { useNavigate, useLocation, redirect, Navigate, Route } from "react-router-dom";
 import axios from "axios";
 
-const LogInPage = ({ updateAvgWPM, cookie, setLoginCookie }) => {
+const LogInPage = ({ updateAvgWPM, cookie, setLoginCookie, theme }) => {
   //Set up the navigate object
   const navigate = useNavigate();
 
@@ -132,7 +132,7 @@ const LogInPage = ({ updateAvgWPM, cookie, setLoginCookie }) => {
               <br />
 
               <div className="text-center">
-                <button type="submit" className="btn btn-lg custom-btn bg-transparent mb-3 fw-bold">Login</button>
+                <button type="submit" className={`btn btn-lg btn-${theme} mb-3 fw-bold`}>Login</button>
                 <p>Need an account?{" "}<a className="mb-3 registerLink-hover" href="register">Register Here</a></p>
               </div>
             </form>
