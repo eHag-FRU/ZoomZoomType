@@ -76,13 +76,13 @@
 }
 
 .hover-theme:hover {
-  -webkit-filter: invert(1);
+  filter: invert(1);
 }
 .hover-text-theme:hover {
-  -webkit-filter: invert(1);
+  filter: invert(1);
 }
 .hover-border-theme:hover {
-  -webkit-filter: invert(1);
+  filter: invert(1);
 }
 
 .nav-anchor-visited:visited {
@@ -90,22 +90,22 @@
   text-decoration: none;
 }
 .nav-anchor-hover:hover {
-  -webkit-filter: invert(1);
+  filter: invert(1);
   text-decoration: none;
 }
 
 .nav-logo:hover,
 :visited {
-  -webkit-filter: invert(1);
+  filter: invert(1);
   text-decoration: none;
 }
 .nav-anchor-hover:hover {
-  -webkit-filter: invert(1);
+  filter: invert(1);
   text-decoration: none;
 }
 
 .nav-achor-hover:hover * {
-  -webkit-filter: invert(1);
+  filter: invert(1);
 }
 
 .nav-logo:hover,
@@ -114,11 +114,11 @@
 }
 
 .registerLink-hover:hover {
-  -webkit-filter: invert(1);
+  filter: invert(1);
 }
 
 .footer-anchor-hover:hover {
-  -webkit-filter: invert(1) !important;
+  filter: invert(1) !important;
   text-decoration: none;
 }
 
@@ -130,7 +130,7 @@
 }
 
 .custom-accent-btn:hover {
-  -webkit-filter: invert(1);
+  filter: invert(1);
 }
 
 .custom-btn {
