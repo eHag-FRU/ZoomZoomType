@@ -16,6 +16,7 @@ import About from './components/About.jsx';
 import ProfilePage from './components/ProfilePage.jsx';
 import EditProfile from './components/EditProfile.jsx';
 import GamePage from './components/GamePage.jsx';
+import Register from './components/Register.jsx';
 
 //Importing Bootstrap
 import "bootstrap/dist/css/bootstrap.min.css";
@@ -59,6 +60,7 @@ function App() {
           <Route path="/Settings" element={<Settings font={font} setFont={setFont} theme={theme} setTheme={setTheme} />} />
           <Route path="/GameModes" element={<GameModes theme={theme} />} />
           <Route path="/login" element={<LogInPage updateAvgWPM={setAvgWPM} cookie={cookie} setLoginCookie={setCookies} theme={theme} />} />
+          <Route path='/Register' element={<Register/>}/>
           
          {/* Put the routes from Main into comments incase something breaks */}
           {/* <Route path='/' element={<Home/>}/> */}
@@ -73,6 +75,7 @@ function App() {
         </Routes>
       </div>
       <Footer theme={theme}></Footer>
+
     </div>
   );
 }
