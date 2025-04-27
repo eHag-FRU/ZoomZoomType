@@ -1,3 +1,442 @@
+/* Massive ass google font import link */
+@import url("https://fonts.googleapis.com/css2?family=Coral+Pixels&family=Galindo&family=Poiret+One&family=Space+Grotesk&family=Special+Gothic+Expanded+One&family=Style+Script&display=swap");
+
+/*The color pallet for the application*/
+.theme-l5 {
+  color: #000 !important;
+  background-color: #ebf6ff !important;
+}
+.theme-l4 {
+  color: #000 !important;
+  background-color: #bedfff !important;
+}
+.theme-l3 {
+  color: #000 !important;
+  background-color: #7cc0ff !important;
+}
+.theme-l2 {
+  color: #fff !important;
+  background-color: #3ba0ff !important;
+}
+.theme-l1 {
+  color: #fff !important;
+  background-color: #0081f9 !important;
+}
+.theme-d1 {
+  color: #fff !important;
+  background-color: #0055a5 !important;
+}
+.theme-d2 {
+  color: #fff !important;
+  background-color: #004c93 !important;
+}
+.theme-d3 {
+  color: #fff !important;
+  background-color: #004281 !important;
+}
+.theme-d4 {
+  color: #fff !important;
+  background-color: #00396e !important;
+}
+.theme-d5 {
+  color: #fff !important;
+  background-color: #002f5c !important;
+}
+
+.theme-accent {
+  color: #fff !important;
+  background-color: #b45f06;
+}
+
+.theme-light {
+  color: #000 !important;
+  background-color: #ebf6ff !important;
+}
+.theme-dark {
+  color: #fff !important;
+  background-color: #002f5c !important;
+}
+.theme-action {
+  color: #fff !important;
+  background-color: #002f5c !important;
+}
+
+.theme {
+  color: #fff !important;
+  background-color: #0060ba !important;
+}
+.text-theme {
+  color: #0060ba !important;
+}
+.error-text-theme {
+  color: #b45f06 !important;
+}
+.border-theme {
+  border-color: #0060ba !important;
+}
+
+.hover-theme:hover {
+  filter: invert(1);
+}
+.hover-text-theme:hover {
+  filter: invert(1);
+}
+.hover-border-theme:hover {
+  filter: invert(1);
+}
+
+.nav-anchor-visited:visited {
+  color: #fff !important;
+  text-decoration: none;
+}
+.nav-anchor-hover:hover {
+  filter: invert(1);
+  text-decoration: none;
+}
+
+.nav-logo:hover,
+:visited {
+  filter: invert(1);
+  text-decoration: none;
+}
+.nav-anchor-hover:hover {
+  filter: invert(1);
+  text-decoration: none;
+}
+
+.nav-achor-hover:hover * {
+  filter: invert(1);
+}
+
+.nav-logo:hover,
+:visited {
+  color: #fff !important;
+}
+
+.registerLink-hover:hover {
+  filter: invert(1);
+}
+
+.footer-anchor-hover:hover {
+  filter: invert(1) !important;
+  text-decoration: none;
+}
+
+.custom-accent-btn {
+  color: #fff !important;
+  background-color: #b45f06 !important;
+  border: none;
+  width: 160px;
+}
+
+.custom-accent-btn:hover {
+  filter: invert(1);
+}
+
+.custom-btn {
+  border: none;
+  width: 160px;
+}
+
+.custom-btn:hover {
+  filter: invert(1);
+}
+
+.custom-caret {
+  border-right: solid 1px black;
+}
+
+@keyframes blink {
+  50% {
+    opacity: 0;
+  }
+}
+
+/* Themes for settings testing */
+.theme-blue1 {
+  color: white !important;
+  background-color: #002f5c !important;
+  border-color: white !important;
+  outline-color: white !important;
+}
+
+.theme-green1 {
+  color: white !important;
+  background-color: #182c25 !important;
+  border-color: white !important;
+  outline-color: white !important;
+}
+
+.theme-red1 {
+  color: white !important;
+  background-color: #de2a36 !important;
+  border-color: white !important;
+  outline-color: white !important;
+}
+
+.theme-yellow1 {
+  color: black !important;
+  background-color: #ffee8c !important;
+  border-color: black !important;
+  outline-color: black !important;
+}
+
+.accent-theme-blue1 {
+  color: white !important;
+  border-color: white !important;
+  background-color:#b45f06 !important;
+}
+
+.btn-theme-blue1 {
+  color: white !important;
+  border-color: white !important;
+  background-color:#b45f06 !important;
+}
+
+.btn-theme-blue1:hover {
+  color:black !important;
+  background-color:#c98032 !important;
+}
+
+.accent-theme-green1 {
+  color: white !important;
+  border-color: white !important;
+  background-color: #306844 !important;
+}
+
+.btn-theme-green1 {
+  color: white !important;
+  border-color: white !important;
+  background-color: #306844 !important;
+}
+
+.btn-theme-green1:hover {
+  color: white !important;
+  background-color: #478b5f !important;
+}
+
+.accent-theme-red1 {
+  color: black !important;
+  outline: black !important;
+  border-color: black !important;
+  background-color: #b4aba2 !important;
+}
+
+.btn-theme-red1 {
+  color: black !important;
+  border-color: black !important;
+  background-color: #b4aba2 !important;
+}
+
+.btn-theme-red1:hover {
+  color: black !important;
+  border-color: black !important;
+  background-color: #e7e0d9 !important;
+}
+
+.accent-theme-yellow1 {
+  color: black !important;
+  border-color: black !important;
+  background-color: #8A804C !important;
+}
+
+.btn-theme-yellow1 {
+  color: black !important;
+  border-color: black !important;
+  background-color: #8A804C !important;
+}
+
+.btn-theme-yellow1:hover {
+  color: white !important;
+  border-color: white !important;
+  background-color: #615A35 !important;
+}
+
+.icon-theme-blue1 {
+  color: white;
+}
+
+.icon-theme-green1 {
+  color: white;
+}
+
+.icon-theme-red1 {
+  color: white;
+}
+
+.icon-theme-yellow1 {
+  color: black;
+}
+
+.icon-theme-blue1:hover {
+  color: #b45f06;
+}
+
+.icon-theme-green1:hover {
+  color: #306844;
+}
+
+.icon-theme-red1:hover {
+  color: #b4aba2;
+}
+
+.icon-theme-yellow1:hover {
+  color: #8A804C;
+}
+
+.special-gothic-expanded-one-regular {
+  font-family: "Special Gothic Expanded One", sans-serif;
+  font-weight: 400;
+  font-style: normal;
+}
+
+.coral-pixels-regular {
+  font-family: "Coral Pixels", serif;
+  font-weight: 400;
+  font-style: normal;
+}
+
+.space-grotesk {
+  font-family: "Space Grotesk", sans-serif;
+  font-optical-sizing: auto;
+  font-weight: 400;
+  font-style: normal;
+}
+
+.style-script-regular {
+  font-family: "Style Script", cursive;
+  font-weight: 400;
+  font-style: normal;
+}
+
+.galindo-regular {
+  font-family: "Galindo", sans-serif;
+  font-weight: 400;
+  font-style: normal;
+}
+
+.poiret-one-regular {
+  font-family: "Poiret One", sans-serif;
+  font-weight: 400;
+  font-style: normal;
+}
+=======
+/*profle page styling*/
+.profile-page {
+  width: 100%;
+}
+
+.profile-page-header {
+  border-bottom: 3px solid white;
+  margin: 5px;
+  padding: 5px;
+  min-height:60px;
+  display: flex;
+  justify-content: space-between;
+}
+
+.profile-page-header span {
+  margin-top: auto;
+  font-weight: bold;
+  font-size: 40px;
+}
+.edit-profile-button {
+  background-color: #007bff; /* Blue */
+  color: white;
+  font-weight: bold;
+  padding: 10px 20px;
+  border: 2px solid black;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: all 0.2s ease-in-out;
+  box-shadow: 2px 2px 0 black;
+}
+
+.edit-profile-button:hover {
+  background-color: #0056b3; /* Darker blue on hover */
+  transform: translate(-1px, -1px);
+  box-shadow: 3px 3px 0 black;
+}
+
+
+.profile-page-summary {
+  border-bottom: 3px solid white;
+  margin: 5px;
+  padding: 5px;
+  min-height: 100px;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 20px;
+
+}
+
+.profile-page-image {
+  width: 20%;
+}
+
+.profile-page-summary-item {
+  background-color: #007bff; /* Blue */
+  color: white;
+  font-weight: bold;
+  border: 2px solid black;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 10px;
+  color: white;
+  height: 100px;
+  width: 100px;
+  text-align: center;
+}
+
+.profile-page-details {
+  margin: 5px;
+  padding: 10px;
+  min-height: 100px;
+  border-radius: 10px;
+  overflow-x: auto;
+}
+
+.profile-page-details span {
+  font-weight: bold;
+  margin-bottom: 10px; 
+  display: inline-block;
+  margin-left: 5px;
+}
+
+.profile-page-details table {
+  width: 100%;
+  border-collapse: collapse;
+  background-color: white;
+  border-radius: 8px;
+  overflow: hidden;
+  font-family: sans-serif;
+  font-size: 14px;
+}
+
+.profile-page-details th, 
+.profile-page-details td {
+  padding: 10px;
+  text-align: center;
+  border-bottom: 1px solid #ddd;
+  color: black;
+}
+
+.profile-page-details th {
+  background-color: #f4f4f4;
+  color: #333;
+  font-weight: bold;
+}
+
+.profile-page-details tr:nth-child(even) {
+  background-color: #f9f9f9;
+}
+
+.profile-page-details tr:hover {
+  background-color: #e0f7fa;
+}
+=======
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
