@@ -6,11 +6,11 @@ import axios from 'axios';
 const NUMB_OF_WORD = 170;
 const SECONDS = 60;
 
-const GamePage = ({cookie, theme}) => {
+const QuoteGame = ({cookie}) => {
   //used placeholder for future gamemodes
-  const [mode, setMode] = useState("Random Lowercase Words");
+  const [mode, setMode] = useState("Random Quote");
   //place holder for ability to set time
-  const [time, setTime] = useState(60);
+  const [time, setTime] = useState(0);
   //future calculated wpm
   const [wpm, setWpm] = useState(0);
   //const [targetText, setTargetText] = useState("Lorem ipsum dolor sit amet consectetur adipiscing elit. Quisque faucibus ex sapien vitae pellentesque sem placerat. In id cursus mi pretium tellus duis convallis. Tempus leo eu aenean sed diam urna tempor. Pulvinar vivamus fringilla lacus nec metus bibendum egestas. Iaculis massa nisl malesuada lacinia integer nunc posuere. Ut hendrerit semper vel class aptent taciti sociosqu. Ad litora torquent per conubia nostra inceptos himenaeos");
@@ -20,7 +20,7 @@ const GamePage = ({cookie, theme}) => {
   //Game status
   const [gameStatus, setGameStatus] = useState(false);
   //IsTextGenerated?
-  const [textGenerated, setTextGenerated] = useState(true);
+  const[textGenerated, setTextGenerated] = useState(true);
   //iterator for tracking which word user is at in word array
   const [it, setIt] = useState(0);
   //correct characters typed
@@ -39,28 +39,44 @@ const GamePage = ({cookie, theme}) => {
   const charRef = useRef(null);
   //state fortracking final wpm, never gets set to zero
   const finalWpmRef = useRef(0);
+  //state for tracking when to stop timer
+  const endTime = useRef(false);
 
   //Auxiliary functions to help with game
-  function generateWords() {
-    //generate list of words
-    let tempWords = generate(NUMB_OF_WORD);
-    //add a space to every word except for the last one
-    for (let i = 0; i < tempWords.length - 1; i++) {
-      tempWords[i] = tempWords[i] + " ";
+  async function getRandomQuote(){
+    try{
+      //get the quote from the server
+      const response = await axios.get('http://localhost:3000/api/randomQuote');
+      //turn it into text
+      const quote = response.data.quote;
+      //parse the words
+      const parsedQuote = quote.split(" ").map((word,index,array) => {
+        return index < array.length-1? word+" " : word;
+      });
+      setWords(parsedQuote);
+      console.log(parsedQuote)
+    } catch (error) {
+      console.error("Error fetching random quote from server")
+      //turn it into text
+      const quote = "The Quote does not exist but it will exist soon.";
+      //parse the words
+      const parsedQuote = quote.split(" ").map((word,index,array) => {
+        return index < array.length-1? word+" " : word;
+      });
+      setWords(parsedQuote);
     }
-    setWords(tempWords);
   }
 
   //got this from chatgpt
-  function formatTime(time) {
-    const minutes = Math.floor(time / 60);
-    const seconds = time % 60;
-    return `${String(minutes).padStart(2, "0")}:${String(seconds).padStart(2, "0")}`;
+  function formatTime(time){
+    const minutes = Math.floor(time/60);
+    const seconds = time%60;
+    return `${String(minutes).padStart(2,'0')}:${String(seconds).padStart(2,'0')}`;
   }
 
   const navigate = useNavigate();
-  function handleClick(page) {
-    navigate(page);
+  function handleClick(page){
+      navigate(page);
   }
 
   //handles starting the game from the start game button
@@ -73,11 +89,13 @@ const GamePage = ({cookie, theme}) => {
     //get user information
     let userData = cookie.usr;
     //store data in object
+    //grab time
+    let timeTaken = time;
     const data = {
       "userID": userData.userID,
       "wpm": finalWpm,
-      "time": 60,
-      "mode": 1,
+      "time": timeTaken,
+      "mode": 3,
     }
     //post
     try{
@@ -88,7 +106,7 @@ const GamePage = ({cookie, theme}) => {
   }
 
   //checks if typed input matches current word
-  function handleTypedInput(event) {
+  function handleTypedInput(event){
     //grab typed input
     let typedPhrase = event.target.value;
 
@@ -96,7 +114,7 @@ const GamePage = ({cookie, theme}) => {
     setTypedWord(typedPhrase);
     if(typedPhrase === words[currIt]){
       //if game is running, allow characters to be recorded
-      if (gameStatus === true) {
+      if(gameStatus === true){
         //get correct characters typed so far
         let charsTyped = correctChars;
         //add current typedPhrase length to charsTyped
@@ -106,40 +124,42 @@ const GamePage = ({cookie, theme}) => {
       }
       //increment the word
       setCurrIt(currIt+1);
-
       //set input word to nothing
       setTypedWord("");
 
     }
   }
 
+
+
   //calculate words per minute which is characters per second divided by 5
-  function calWPM(numChars, time) {
+  function calWPM(numChars, time){
     //convert characters to words
-    let words_ = numChars / 5;
-    //calculate wpm if
-    if (SECONDS - time != 0) {
+    let words_ = numChars/5;
+    //calculate wpm if 
+    if(time != 0){
       //calculate seconds elapsed
-      let secondsElapsed = SECONDS - time;
+      let secondsElapsed = time;
       //convert secondsElapsed to minutes elapsed
-      let minutesElapsed = secondsElapsed / 60;
+      let minutesElapsed = secondsElapsed/60;
       //return wpm which is words/minutes
-      return words_ / minutesElapsed;
+      return words_/minutesElapsed;
     }
     //return 0 if no time has passed
     return 0;
   }
 
+
   //useEffect hooks for game logic
   //This hook generates initial text when page first loads
   useEffect(() => {
-    generateWords();
-  }, []);
+    getRandomQuote();
+  }, [])
 
   //This hook is responsible for generating text when the game starts and resetting it
   useEffect(() => {
     //checks if gameStatus is true and runs the text generation if it is true
-    if (gameStatus === true) {
+    if(gameStatus === true){
       //set text counter to 0
       setIt(0);
       //set currIt counter to 0
@@ -147,8 +167,8 @@ const GamePage = ({cookie, theme}) => {
       //set typed word to nothing
       setTypedWord("");
       //if text is not generated, generate the text
-      if (textGenerated === false) {
-        generateWords();
+      if(textGenerated===false){
+        getRandomQuote();
         setTextGenerated(true);
       }
       //set wpm
@@ -162,40 +182,42 @@ const GamePage = ({cookie, theme}) => {
     }
 
     //hook runs when game Status updates
-  }, [gameStatus]);
+  }, [gameStatus])
 
+  
   //home responsible for managing the timer --will merge with first hook
   //will also post scores when game ends
   useEffect(() => {
     if (gameStatus === true) {
       //set time for timer to value of global variable SECONDS
-      let tempTime = SECONDS;
+      let tempTime = 0;
       //set time to temp time before timer runs
       setTime(tempTime);
       //set timer that updates code roughly every second
       const timer = setInterval(() => {
-        //decrement timer
-        tempTime = tempTime - 1;
+        //increment timer
+        tempTime = tempTime+1;
         //when timer hits zero, game is over
-        if(tempTime <= 0){
-          //get final wpm
+        if(endTime.current === true){
           //disable the timer
           clearInterval(timer);
-          //set gameStatus to false
-          setGameStatus(false);
-          //set textGenerated to false so new text can generate
-          setTextGenerated(false);
-          //get wpm
-          const finalWpm_ = finalWpmRef.current;
-          //check if user is logged in
-          if(cookie.usr){
-            postGameData(finalWpm_).then(() => {
-            });
-          }
+          
+          // //set gameStatus to false
+          // setGameStatus(false);
+          // //set textGenerated to false so new text can generate
+          // setTextGenerated(false);
+          // //get wpm
+          // const finalWpm_ = finalWpmRef.current;
+          // //check if user is logged in
+          // if(cookie.usr){
+          //   postGameData(finalWpm_).then(() => {
+          //   });
+          // }
+
         }
         //set time to new time
         setTime(tempTime);
-      }, 1000);
+      }, 1000);  
     }
   }, [gameStatus]);
 
@@ -208,7 +230,7 @@ const GamePage = ({cookie, theme}) => {
     }
     setWpm(Math.round(tmpWpm));
     //useeffect function runs when correctChars changes
-  }, [correctChars]);
+  }, [correctChars])
 
   const handleResize = () => {
     if (!typingContainerRef.current || !charRef.current){
@@ -366,6 +388,11 @@ const GamePage = ({cookie, theme}) => {
       }
     }
 
+    //Push remaining characters onto lines
+    if (line.length > 0) {
+      lines.push(<div key={lines.length}>{line}</div>);
+    }
+
     return lines;
   }, [words, it, typedWord, wordsPerLine, charactersPerLine]);
 
@@ -386,21 +413,23 @@ const GamePage = ({cookie, theme}) => {
             {renderGame}
           </div>
         </div>
-      )}
-      {gameStatus && <input ref={inputRef} className="w-50 m-6" value={typedWord} onChange={(event) => handleTypedInput(event)} />}
+      }
+      {gameStatus&&
+        <input
+          ref={inputRef} 
+          className="w-50 m-6"
+          value={typedWord}
+          onChange={(event) => handleTypedInput(event)}
+        />
+      }
       <div className="container mt-5 d-flex flex-row gap-3">
-        {gameStatus === false && (
-          <button onClick={() => start()} className="btn btn-lg custom-btn theme-l2 mb-3 fw-bold">
-            Start
-          </button>
-        )}
-        <button onClick={() => handleClick("/Home")} className="btn btn-lg custom-btn theme-l2 mb-3 fw-bold">
-          Home
-        </button>
+        {gameStatus === false &&
+        <button onClick={()=>start()} className="btn btn-lg custom-btn theme-l2 mb-3 fw-bold">Start</button>}
+        <button onClick={() => handleClick('/Home')} className="btn btn-lg custom-btn theme-l2 mb-3 fw-bold">Home</button>
       </div>
       {/*Hidden character reference used to calculating width of a character*/}
     </div>
-  );
-};
+  )
+}
 
-export default GamePage;
+export default QuoteGame;
