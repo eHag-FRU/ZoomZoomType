@@ -39,6 +39,8 @@ const GamePage = ({cookie}) => {
   const typingContainerRef = useRef(null);
   //char reference used for calculating character width which is using for the purposes of resizing typing container
   const charRef = useRef(null);
+  //state fortracking final wpm, never gets set to zero
+  const finalWpmRef = useRef(0);
 
   //Auxiliary functions to help with game
   function generateWords(){
@@ -72,11 +74,6 @@ const GamePage = ({cookie}) => {
     console.log("posting game data");
     //get user information
     let userData = cookie.usr;
-    console.log(userData.userID);
-    let wordsPerMinute = wpm;
-    console.log("wpm: ", wordsPerMinute);
-    wordsPerMinute = calWPM(correctChars, 60);
-    console.log("wpm2: ", wordsPerMinute);
     //store data in object
     const data = {
       "userID": userData.userID,
@@ -113,6 +110,7 @@ const GamePage = ({cookie}) => {
       setCurrIt(currIt+1);
       //set input word to nothing
       setTypedWord("");
+
     }
   }
 
@@ -161,7 +159,6 @@ const GamePage = ({cookie}) => {
       setWpm(0);
       //set counted characters
       setCorrectChars(0);
-      console.log("game being reset");
     }
     //auto focus on input bar so user doesn't have to manually click it after game starts
     if (gameStatus === true && inputRef.current) {
@@ -185,9 +182,8 @@ const GamePage = ({cookie}) => {
         //decrement timer
         tempTime = tempTime-1;
         //when timer hits zero, game is over
-        //reset the game settings and record user wpm in database
         if(tempTime <= 0){
-          const finalWpm = calWPM(correctChars, SECONDS);
+          //get final wpm
           //disable the timer
           clearInterval(timer);
           //set gameStatus to false
@@ -195,12 +191,10 @@ const GamePage = ({cookie}) => {
           //set textGenerated to false so new text can generate
           setTextGenerated(false);
           //get wpm
+          const finalWpm_ = finalWpmRef.current;
           //check if user is logged in
-          console.log("useEffect wpm: ", finalWpm);
           if(cookie.usr){
-            console.log("user is logged in");
-            postGameData(finalWpm).then(() => {
-              console.log("Finished posting data");
+            postGameData(finalWpm_).then(() => {
             });
           }
 
@@ -215,6 +209,9 @@ const GamePage = ({cookie}) => {
   useEffect(() => {
     let tmpCorrectChars = correctChars;
     let tmpWpm = calWPM(tmpCorrectChars, time);
+    if(tmpWpm != 0){
+      finalWpmRef.current = Math.round(tmpWpm);
+    }
     setWpm(Math.round(tmpWpm));
     //useeffect function runs when correctChars changes
   }, [correctChars])
