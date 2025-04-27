@@ -7,7 +7,6 @@ import NavBar from './components/NavBar.jsx';
 import FaQ from './components/FaQ.jsx';
 import About from './components/About.jsx';
 import ProfilePage from './components/ProfilePage.jsx';
-import GamePage from './components/GamePage.jsx';
 import ClassicGame from './components/ClassicGame.jsx';
 import QuoteGame from './components/QuoteGame.jsx';
 import Settings from "./components/Settings.jsx";
@@ -53,7 +52,6 @@ function App() {
           <Route path='/FaQ' element={<FaQ/>}/>
           <Route path='/ProfilePage' element={<ProfilePage/>}/>
           <Route path='/leaderBoard' element={<Leaderboard/>}/>
-          <Route path='/GamePage' element={<GamePage cookie={cookie} theme={theme}/>}/>
           <Route path='/ClassicGame' element={<ClassicGame cookie={cookie}/>}/>
           <Route path='/QuoteGame' element={<QuoteGame cookie={cookie}/>}/>
           <Route path="/Settings" element={<Settings font={font} setFont={setFont} theme={theme} setTheme={setTheme} />} />
