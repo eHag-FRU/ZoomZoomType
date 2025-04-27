@@ -5,13 +5,15 @@ import axios from 'axios';
 import { useCookies} from 'react-cookie';
 
 async function getProfileData(cookie) {
-    const result = await axios.get("http://localhost:3000/api/profileData", {"userID": cookie.userID});
+    console.log(`getProfileData(cookie): ${cookie.userID}`);
+    const result = await axios.get("http://localhost:3000/api/profileData", {params:{"userID": cookie.userID}});
     return result;
 }
 
 const ProfilePage = () => {
 
     const cookie = (useCookies(['usr'])[0]).usr;
+    console.log(`ProfilePage: cookie: ${cookie.userID}`);
 
 
 
