@@ -13,7 +13,7 @@ import Settings from "./components/Settings.jsx";
 import GameModes from "./components/GameModes.jsx";
 //add imports here
 //add imports here
-import Footer from './components/Footer.jsx';
+import Footer from "./components/Footer.jsx";
 
 //Importing Bootstrap
 import "bootstrap/dist/css/bootstrap.min.css";
@@ -21,14 +21,29 @@ import "bootstrap/dist/js/bootstrap.bundle.min";
 
 // Importing FontAwesome to allow for icons
 
-import { library } from '@fortawesome/fontawesome-svg-core';
-import {faCarOn, faCrown, faKeyboard, faCircleInfo, faGear, faCircleUser} from '@fortawesome/free-solid-svg-icons'; 
-import {faGithub} from '@fortawesome/free-brands-svg-icons'; 
-import LogInPage from './components/loginPage.jsx';
-import Leaderboard from './components/LeaderBoard.jsx';
+import { library } from "@fortawesome/fontawesome-svg-core";
+import {
+  faCarOn,
+  faCrown,
+  faKeyboard,
+  faCircleInfo,
+  faGear,
+  faCircleUser,
+} from "@fortawesome/free-solid-svg-icons";
+import { faGithub } from "@fortawesome/free-brands-svg-icons";
+import LogInPage from "./components/loginPage.jsx";
+import Leaderboard from "./components/LeaderBoard.jsx";
 
 //Adding in the icons
-library.add(faCarOn, faCrown, faKeyboard, faCircleInfo, faGear, faCircleUser, faGithub);
+library.add(
+  faCarOn,
+  faCrown,
+  faKeyboard,
+  faCircleInfo,
+  faGear,
+  faCircleUser,
+  faGithub
+);
 
 function App() {
   //Settings States
@@ -42,9 +57,18 @@ function App() {
   const [cookie, setCookies, deleteCookie] = useCookies(["usr"]);
 
   return (
-    <div className={`app-container min-vh-100 d-flex flex-column ${theme}`} style={{ fontFamily: font }}>
-      <NavBar wpm={avgWPM} setWPM={setAvgWPM} cookie={cookie} deleteCookie={deleteCookie} theme={theme}></NavBar>
-      <div className="d-flex flex-grow-1">
+    <div
+      className={`app-container min-vh-100 d-flex flex-column ${theme}`}
+      style={{ fontFamily: font }}
+    >
+      <NavBar
+        wpm={avgWPM}
+        setWPM={setAvgWPM}
+        cookie={cookie}
+        deleteCookie={deleteCookie}
+        theme={theme}
+      ></NavBar>
+      <div className="d-flex flex-grow-1 justify-content-center">
         <Routes>
           <Route path='/' element={<Home/>}/>
           <Route path='/Home' element={<Home/>}/>
@@ -56,7 +80,15 @@ function App() {
           <Route path='/QuoteGame' element={<QuoteGame cookie={cookie}/>}/>
           <Route path="/Settings" element={<Settings font={font} setFont={setFont} theme={theme} setTheme={setTheme} />} />
           <Route path="/GameModes" element={<GameModes />} />
-          <Route path='/login' element={<LogInPage updateAvgWPM={setAvgWPM} cookie={cookie} setLoginCookie={setCookies}/>} />
+          <Route path="/login"
+            element={
+              <LogInPage
+                updateAvgWPM={setAvgWPM}
+                cookie={cookie}
+                setLoginCookie={setCookies}
+              />
+            }
+          />
         </Routes>
       </div>
       <Footer theme={theme}></Footer>

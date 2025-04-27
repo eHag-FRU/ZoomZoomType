@@ -139,7 +139,7 @@
 }
 
 .custom-btn:hover {
-  background-color: #7cc0ff !important;
+  filter: invert(1);
 }
 
 .custom-caret {
@@ -157,24 +157,28 @@
   color: white !important;
   background-color: #0055a5 !important;
   border-color: white !important;
+  outline-color: white !important;
 }
 
 .theme-green {
   color: white !important;
-  background-color: #00a555 !important;
+  background-color: #006507 !important;
   border-color: white !important;
+  outline-color: white !important;
 }
 
 .theme-red {
   color: white !important;
   background-color: #a50000 !important;
   border-color: white !important;
+  outline-color: white !important;
 }
 
 .theme-yellow {
   color: black !important;
-  background-color: #cbc600 !important;
+  background-color: #ffeb3b !important;
   border-color: black !important;
+  outline-color: black !important;
 }
 
 .theme-blue .btn {

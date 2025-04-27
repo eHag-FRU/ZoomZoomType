@@ -1,12 +1,12 @@
-import React, {useState, useEffect, useRef, useMemo} from 'react';
-import { useNavigate } from 'react-router-dom';
-import {generate, count} from 'random-words';
-import axios from 'axios';
+import React, { useState, useEffect, useRef, useMemo } from "react";
+import { useNavigate } from "react-router-dom";
+import { generate, count } from "random-words";
+import axios from "axios";
 
 const NUMB_OF_WORD = 170;
 const SECONDS = 60;
 
-const ClassicGame = ({cookie}) => {
+const ClassicGame = ({ cookie }) => {
   //used placeholder for future gamemodes
   const [mode, setMode] = useState("Random Lowercase Words");
   //place holder for ability to set time
@@ -20,7 +20,7 @@ const ClassicGame = ({cookie}) => {
   //Game status
   const [gameStatus, setGameStatus] = useState(false);
   //IsTextGenerated?
-  const[textGenerated, setTextGenerated] = useState(true);
+  const [textGenerated, setTextGenerated] = useState(true);
   //iterator for tracking which word user is at in word array
   const [it, setIt] = useState(0);
   //correct characters typed
@@ -41,26 +41,29 @@ const ClassicGame = ({cookie}) => {
   const finalWpmRef = useRef(0);
 
   //Auxiliary functions to help with game
-  function generateWords(){
+  function generateWords() {
     //generate list of words
     let tempWords = generate(NUMB_OF_WORD);
     //add a space to every word except for the last one
-    for(let i = 0; i < tempWords.length-1; i++){
-      tempWords[i] = tempWords[i] + ' ';
+    for (let i = 0; i < tempWords.length - 1; i++) {
+      tempWords[i] = tempWords[i] + " ";
     }
     setWords(tempWords);
   }
 
   //got this from chatgpt
-  function formatTime(time){
-    const minutes = Math.floor(time/60);
-    const seconds = time%60;
-    return `${String(minutes).padStart(2,'0')}:${String(seconds).padStart(2,'0')}`;
+  function formatTime(time) {
+    const minutes = Math.floor(time / 60);
+    const seconds = time % 60;
+    return `${String(minutes).padStart(2, "0")}:${String(seconds).padStart(
+      2,
+      "0"
+    )}`;
   }
 
   const navigate = useNavigate();
-  function handleClick(page){
-      navigate(page);
+  function handleClick(page) {
+    navigate(page);
   }
 
   //handles starting the game from the start game button
@@ -68,35 +71,35 @@ const ClassicGame = ({cookie}) => {
     setGameStatus(true);
   }
 
-  async function postGameData(finalWpm){
+  async function postGameData(finalWpm) {
     console.log("posting game data");
     //get user information
     let userData = cookie.usr;
     //store data in object
     const data = {
-      "userID": userData.userID,
-      "wpm": finalWpm,
-      "time": 60,
-      "mode": 1,
-    }
+      userID: userData.userID,
+      wpm: finalWpm,
+      time: 60,
+      mode: 1,
+    };
     //post
-    try{
-      await axios.post('http://localhost:3000/api/postNewGame', data);
-    } catch(e){
-      console.log('Error posting game data')
+    try {
+      await axios.post("http://localhost:3000/api/postNewGame", data);
+    } catch (e) {
+      console.log("Error posting game data");
     }
   }
 
   //checks if typed input matches current word
-  function handleTypedInput(event){
+  function handleTypedInput(event) {
     //grab typed input
     let typedPhrase = event.target.value;
 
     //add character to typed word
     setTypedWord(typedPhrase);
-    if(typedPhrase === words[currIt]){
+    if (typedPhrase === words[currIt]) {
       //if game is running, allow characters to be recorded
-      if(gameStatus === true){
+      if (gameStatus === true) {
         //get correct characters typed so far
         let charsTyped = correctChars;
         //add current typedPhrase length to charsTyped
@@ -105,43 +108,39 @@ const ClassicGame = ({cookie}) => {
         setCorrectChars(charsTyped);
       }
       //increment the word
-      setCurrIt(currIt+1);
+      setCurrIt(currIt + 1);
       //set input word to nothing
       setTypedWord("");
-
     }
   }
 
-
-
   //calculate words per minute which is characters per second divided by 5
-  function calWPM(numChars, time){
+  function calWPM(numChars, time) {
     //convert characters to words
-    let words_ = numChars/5;
-    //calculate wpm if 
-    if(SECONDS-time != 0){
+    let words_ = numChars / 5;
+    //calculate wpm if
+    if (SECONDS - time != 0) {
       //calculate seconds elapsed
-      let secondsElapsed = SECONDS-time;
+      let secondsElapsed = SECONDS - time;
       //convert secondsElapsed to minutes elapsed
-      let minutesElapsed = secondsElapsed/60;
+      let minutesElapsed = secondsElapsed / 60;
       //return wpm which is words/minutes
-      return words_/minutesElapsed;
+      return words_ / minutesElapsed;
     }
     //return 0 if no time has passed
     return 0;
   }
 
-
   //useEffect hooks for game logic
   //This hook generates initial text when page first loads
   useEffect(() => {
     generateWords();
-  }, [])
+  }, []);
 
   //This hook is responsible for generating text when the game starts and resetting it
   useEffect(() => {
     //checks if gameStatus is true and runs the text generation if it is true
-    if(gameStatus === true){
+    if (gameStatus === true) {
       //set text counter to 0
       setIt(0);
       //set currIt counter to 0
@@ -149,7 +148,7 @@ const ClassicGame = ({cookie}) => {
       //set typed word to nothing
       setTypedWord("");
       //if text is not generated, generate the text
-      if(textGenerated===false){
+      if (textGenerated === false) {
         generateWords();
         setTextGenerated(true);
       }
@@ -164,9 +163,8 @@ const ClassicGame = ({cookie}) => {
     }
 
     //hook runs when game Status updates
-  }, [gameStatus])
+  }, [gameStatus]);
 
-  
   //home responsible for managing the timer --will merge with first hook
   //will also post scores when game ends
   useEffect(() => {
@@ -178,9 +176,9 @@ const ClassicGame = ({cookie}) => {
       //set timer that updates code roughly every second
       const timer = setInterval(() => {
         //decrement timer
-        tempTime = tempTime-1;
+        tempTime = tempTime - 1;
         //when timer hits zero, game is over
-        if(tempTime <= 0){
+        if (tempTime <= 0) {
           //get final wpm
           //disable the timer
           clearInterval(timer);
@@ -191,15 +189,13 @@ const ClassicGame = ({cookie}) => {
           //get wpm
           const finalWpm_ = finalWpmRef.current;
           //check if user is logged in
-          if(cookie.usr){
-            postGameData(finalWpm_).then(() => {
-            });
+          if (cookie.usr) {
+            postGameData(finalWpm_).then(() => {});
           }
-
         }
         //set time to new time
         setTime(tempTime);
-      }, 1000);  
+      }, 1000);
     }
   }, [gameStatus]);
 
@@ -207,15 +203,15 @@ const ClassicGame = ({cookie}) => {
   useEffect(() => {
     let tmpCorrectChars = correctChars;
     let tmpWpm = calWPM(tmpCorrectChars, time);
-    if(tmpWpm != 0){
+    if (tmpWpm != 0) {
       finalWpmRef.current = Math.round(tmpWpm);
     }
     setWpm(Math.round(tmpWpm));
     //useeffect function runs when correctChars changes
-  }, [correctChars])
+  }, [correctChars]);
 
   const handleResize = () => {
-    if (!typingContainerRef.current || !charRef.current){
+    if (!typingContainerRef.current || !charRef.current) {
       console.log("One or both refs are null");
       return;
     }
@@ -223,15 +219,18 @@ const ClassicGame = ({cookie}) => {
     //get container padding
     const containerElement = typingContainerRef.current;
     const containerStyles = window.getComputedStyle(containerElement);
-    const containerPadding = parseFloat(containerStyles.paddingLeft) + parseFloat(containerStyles.paddingRight);
+    const containerPadding =
+      parseFloat(containerStyles.paddingLeft) +
+      parseFloat(containerStyles.paddingRight);
 
     //get the container width
-    const containerWidth = typingContainerRef.current.offsetWidth - containerPadding;
+    const containerWidth =
+      typingContainerRef.current.offsetWidth - containerPadding;
 
     //get the character width
     const characterWidth = charRef.current.offsetWidth;
     //calculate how many characters can fit within container
-    const charAmount = Math.floor(containerWidth/characterWidth);
+    const charAmount = Math.floor(containerWidth / characterWidth);
     //set characters per line
     setCharactersPerLine(charAmount);
   };
@@ -239,14 +238,14 @@ const ClassicGame = ({cookie}) => {
   //use effect for handling screensize
   useEffect(() => {
     handleResize();
-    window.addEventListener('resize', handleResize);
-    return () => window.removeEventListener('resize', handleResize);
-  },[]);
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
 
   useEffect(() => {
     handleResize(); // Run on initial render
   }, []);
-  
+
   useEffect(() => {
     if (gameStatus) {
       setTimeout(() => {
@@ -254,7 +253,6 @@ const ClassicGame = ({cookie}) => {
       }, 0);
     }
   }, [gameStatus]);
-
 
   //function for rendering the text, will be same across all games
   const renderGame = useMemo(() => {
@@ -278,75 +276,87 @@ const ClassicGame = ({cookie}) => {
     let charsPerLine = charactersPerLine;
     let charsPerLineSoFar = 0;
     let wordsOnCurrentLine = 0;
-    let visibleWords = words.slice(it, it+85);
+    let visibleWords = words.slice(it, it + 85);
     //unique keys for letters in lines. Coutns number of characters total
     let k = 0;
 
     //set it forward if needed
-    if(currIt >= it + wordsPerLine){
+    if (currIt >= it + wordsPerLine) {
       setIt(currIt);
     }
 
     //iterate through all words from iterator marker onwards
     let wordIt = 0;
-    while(wordIt < visibleWords.length && lines.length < 4){
-      if(charsPerLineSoFar + visibleWords[wordIt].length <= charsPerLine){
+    while (wordIt < visibleWords.length && lines.length < 4) {
+      if (charsPerLineSoFar + visibleWords[wordIt].length <= charsPerLine) {
         //add word length to charsPerLineSoFar
         charsPerLineSoFar += visibleWords[wordIt].length;
         //add every letter to line through rendering logic
-        for(let letterIt = 0; letterIt < visibleWords[wordIt].length; letterIt++){
+        for (
+          let letterIt = 0;
+          letterIt < visibleWords[wordIt].length;
+          letterIt++
+        ) {
           //rendering logic
           //default rendering styles
           let styling = {};
-          let charSpan= <span></span>
+          let charSpan = <span></span>;
           //if word has already been typed
-          if(wordIt+it < currIt){
-            styling = {color: "white"};
-            charSpan=
-            <span key={k} style={styling}>
-              {visibleWords[wordIt][letterIt]}
-            </span>
+          if (wordIt + it < currIt) {
+            styling = { color: "white" };
+            charSpan = (
+              <span key={k} style={styling}>
+                {visibleWords[wordIt][letterIt]}
+              </span>
+            );
           } else {
-            if(wordIt+it === currIt){
-              if(setCurrWordIndex === false){
+            if (wordIt + it === currIt) {
+              if (setCurrWordIndex === false) {
                 currWordIndex = k;
                 setCurrWordIndex = true;
               }
             }
-            
+
             //check if character has been typed
-            if(k-currWordIndex < typedWord.length){
+            if (k - currWordIndex < typedWord.length) {
               //if it has been typed, check if correct, if correct make it white
-              if(visibleWords[wordIt][letterIt] === typedWord[letterIt] && incorrectCharFound === false){
-                styling = {color: "white", position: 'relative'};
+              if (
+                visibleWords[wordIt][letterIt] === typedWord[letterIt] &&
+                incorrectCharFound === false
+              ) {
+                styling = { color: "white", position: "relative" };
               } else {
-                styling = {color: "red", position: 'relative'};
+                styling = { color: "red", position: "relative" };
                 incorrectCharFound = true;
               }
             } else {
-              styling = {color: "grey", position: 'relative'};
+              styling = { color: "grey", position: "relative" };
             }
 
             //check whether to print cursor or not
-            if(k-currWordIndex === typedWord.length){
-              charSpan=
-              <span key={k} style={styling}>
-                {visibleWords[wordIt][letterIt]}
-                <span style={{
-                  position: 'absolute',
-                  left: -2,
-                  top: 0,
-                  bottom: 0,
-                  width: '2px',
-                  backgroundColor: 'orange',
-                  animation: 'blink 1s step-end infinite',
-                }} />
-              </span>
+            if (k - currWordIndex === typedWord.length) {
+              charSpan = (
+                <span key={k} style={styling}>
+                  {visibleWords[wordIt][letterIt]}
+                  <span
+                    style={{
+                      position: "absolute",
+                      left: -2,
+                      top: 0,
+                      bottom: 0,
+                      width: "2px",
+                      backgroundColor: "orange",
+                      animation: "blink 1s step-end infinite",
+                    }}
+                  />
+                </span>
+              );
             } else {
-              charSpan=
-              <span key={k} style={styling}>
-                {visibleWords[wordIt][letterIt]}
-              </span>
+              charSpan = (
+                <span key={k} style={styling}>
+                  {visibleWords[wordIt][letterIt]}
+                </span>
+              );
             }
           }
           line.push(charSpan);
@@ -361,7 +371,7 @@ const ClassicGame = ({cookie}) => {
         //push the line of words into lines
         lines.push(<div key={lines.length}>{line}</div>);
         //reset charsperlinesofar and line and wordsOnCurrentline
-        if(lines.length == 1){
+        if (lines.length == 1) {
           setWordsPerLine(wordsOnCurrentLine);
         }
         charsPerLineSoFar = 0;
@@ -375,38 +385,56 @@ const ClassicGame = ({cookie}) => {
 
   return (
     <div className="container-fluid d-flex flex-column flex-grow-1 align-items-center m-5">
-      <div className="row w-75 rounded p-4 theme-l2 fw-bold mb-4">
-        <div className="col-12 col-lg-4 text-center mt-2 mb-2 fs-5">Mode: {mode}</div>
-        <div className="col-12 col-lg-4 text-center mt-2 mb-2 fs-5">Time: {formatTime(time)}</div>
-        <div className="col-12 col-lg-4 text-center mt-2 mb-2 fs-5">wpm: {wpm}</div>
+      <div className="row w-75 rounded border p-4 bg-transparent fw-bold mb-4">
+        <div className="col-12 col-lg-4 text-center mt-2 mb-2 fs-5">
+          Mode: {mode}
+        </div>
+        <div className="col-12 col-lg-4 text-center mt-2 mb-2 fs-5">
+          Time: {formatTime(time)}
+        </div>
+        <div className="col-12 col-lg-4 text-center mt-2 mb-2 fs-5">
+          wpm: {wpm}
+        </div>
       </div>
       {/*Conditionally render game is game is running or not*/}
-      {gameStatus &&
+      {gameStatus && (
         <div ref={typingContainerRef} className="w-75 p-5 fs-5 font-monospace">
-          <div ref={charRef} style={{visibility: 'hidden', position: 'absolute' }}>
+          <div
+            ref={charRef}
+            style={{ visibility: "hidden", position: "absolute" }}
+          >
             <span>a</span>
           </div>
-          <div>
-            {renderGame}
-          </div>
+          <div>{renderGame}</div>
         </div>
-      }
-      {gameStatus&&
+      )}
+      {gameStatus && (
         <input
-          ref={inputRef} 
+          ref={inputRef}
           className="w-50 m-6"
           value={typedWord}
           onChange={(event) => handleTypedInput(event)}
         />
-      }
-      <div className="container mt-5 d-flex flex-row gap-3">
-        {gameStatus === false &&
-        <button onClick={()=>start()} className="btn btn-lg custom-btn theme-l2 mb-3 fw-bold">Start</button>}
-        <button onClick={() => handleClick('/Home')} className="btn btn-lg custom-btn theme-l2 mb-3 fw-bold">Home</button>
+      )}
+      <div className="container mt-5 d-flex flex-row gap-3 justify-content-center">
+        {gameStatus === false && (
+          <button
+            onClick={() => start()}
+            className="btn btn-lg custom-btn bg-transparent mb-3 fw-bold"
+          >
+            Start
+          </button>
+        )}
+        <button
+          onClick={() => handleClick("/Home")}
+          className="btn btn-lg custom-btn bg-transparent mb-3 fw-bold"
+        >
+          Home
+        </button>
       </div>
       {/*Hidden character reference used to calculating width of a character*/}
     </div>
-  )
-}
+  );
+};
 
 export default ClassicGame;
