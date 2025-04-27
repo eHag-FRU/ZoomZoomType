@@ -41,6 +41,8 @@ const QuoteGame = ({cookie}) => {
   const finalWpmRef = useRef(0);
   //state for tracking when to stop timer
   const endTime = useRef(false);
+  //state for tracking quoteID
+  const [quoteID, setQuoteID] = useState("none");
 
   //Auxiliary functions to help with game
   async function getRandomQuote(){
@@ -49,6 +51,7 @@ const QuoteGame = ({cookie}) => {
       const response = await axios.get('http://localhost:3000/api/randomQuote');
       //turn it into text
       const quote = response.data.quote;
+      setQuoteID(response.data.quoteID);
       //parse the words
       const parsedQuote = quote.split(" ").map((word,index,array) => {
         return index < array.length-1? word+" " : word;
@@ -64,6 +67,8 @@ const QuoteGame = ({cookie}) => {
         return index < array.length-1? word+" " : word;
       });
       setWords(parsedQuote);
+      setQuoteID(response.data.quoteID);
+
     }
   }
 
@@ -82,6 +87,7 @@ const QuoteGame = ({cookie}) => {
   //handles starting the game from the start game button
   function start() {
     setGameStatus(true);
+    endTime.current=false;
   }
 
   async function postGameData(finalWpm){
@@ -96,6 +102,7 @@ const QuoteGame = ({cookie}) => {
       "wpm": finalWpm,
       "time": timeTaken,
       "mode": 3,
+      "quoteID": quoteID
     }
     //post
     try{
@@ -127,9 +134,26 @@ const QuoteGame = ({cookie}) => {
       //set input word to nothing
       setTypedWord("");
 
+      //check if user has completed all words
+      if(currIt+1 === words.length){
+        //end game
+        endGame();
+      }
+
     }
   }
 
+  function endGame(){
+    setGameStatus(false);
+    endTime.current = true;
+    const finalWpm_ = finalWpmRef.current;
+
+    if(cookie.usr){
+      postGameData(finalWpm_).then(() => {
+        console.log("Game data posted successfully.");
+      });
+    }
+  }
 
 
   //calculate words per minute which is characters per second divided by 5
@@ -379,7 +403,7 @@ const QuoteGame = ({cookie}) => {
         //push the line of words into lines
         lines.push(<div key={lines.length}>{line}</div>);
         //reset charsperlinesofar and line and wordsOnCurrentline
-        if(lines.length == 1){
+        if(lines.length === 1){
           setWordsPerLine(wordsOnCurrentLine);
         }
         charsPerLineSoFar = 0;
@@ -391,6 +415,11 @@ const QuoteGame = ({cookie}) => {
     //Push remaining characters onto lines
     if (line.length > 0) {
       lines.push(<div key={lines.length}>{line}</div>);
+
+      //set wordsPerLine if this is the first line
+      if (lines.length === 1) {
+        setWordsPerLine(wordsOnCurrentLine);
+      }
     }
 
     return lines;
