@@ -205,7 +205,7 @@ const ClassicGame = ({ cookie, theme }) => {
     }
     setWpm(Math.round(tmpWpm));
     //useeffect function runs when correctChars changes
-  }, [correctChars]);
+  }, [correctChars, time]);
 
   const handleResize = () => {
     if (!typingContainerRef.current || !charRef.current) {

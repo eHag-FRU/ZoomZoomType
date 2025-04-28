@@ -221,18 +221,6 @@ const QuoteGame = ({ cookie, theme }) => {
         if (endTime.current === true) {
           //disable the timer
           clearInterval(timer);
-
-          // //set gameStatus to false
-          // setGameStatus(false);
-          // //set textGenerated to false so new text can generate
-          // setTextGenerated(false);
-          // //get wpm
-          // const finalWpm_ = finalWpmRef.current;
-          // //check if user is logged in
-          // if(cookie.usr){
-          //   postGameData(finalWpm_).then(() => {
-          //   });
-          // }
         }
         //set time to new time
         setTime(tempTime);
@@ -249,7 +237,7 @@ const QuoteGame = ({ cookie, theme }) => {
     }
     setWpm(Math.round(tmpWpm));
     //useeffect function runs when correctChars changes
-  }, [correctChars]);
+  }, [correctChars, time]);
 
   const handleResize = () => {
     if (!typingContainerRef.current || !charRef.current) {
