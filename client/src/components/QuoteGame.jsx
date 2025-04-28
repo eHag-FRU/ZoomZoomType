@@ -1,10 +1,6 @@
 import React, { useState, useEffect, useRef, useMemo } from "react";
 import { useNavigate } from "react-router-dom";
-import { generate, count } from "random-words";
 import axios from "axios";
-
-const NUMB_OF_WORD = 170;
-const SECONDS = 60;
 
 const QuoteGame = ({ cookie, theme }) => {
   //used placeholder for future gamemodes
@@ -67,7 +63,7 @@ const QuoteGame = ({ cookie, theme }) => {
         return index < array.length - 1 ? word + " " : word;
       });
       setWords(parsedQuote);
-      setQuoteID(response.data.quoteID);
+      setQuoteID(-1);
     }
   }
 
@@ -75,7 +71,10 @@ const QuoteGame = ({ cookie, theme }) => {
   function formatTime(time) {
     const minutes = Math.floor(time / 60);
     const seconds = time % 60;
-    return `${String(minutes).padStart(2, "0")}:${String(seconds).padStart(2, "0")}`;
+    return `${String(minutes).padStart(2, "0")}:${String(seconds).padStart(
+      2,
+      "0"
+    )}`;
   }
 
   const navigate = useNavigate();
@@ -86,7 +85,7 @@ const QuoteGame = ({ cookie, theme }) => {
   //handles starting the game from the start game button
   function start() {
     setGameStatus(true);
-    endTime.current = false;
+    endTime.current=false;
   }
 
   async function postGameData(finalWpm) {
@@ -95,6 +94,7 @@ const QuoteGame = ({ cookie, theme }) => {
     let userData = cookie.usr;
     //store data in object
     //grab time
+    console.log(finalWpm);
     let timeTaken = time;
     const data = {
       userID: userData.userID,
@@ -103,6 +103,7 @@ const QuoteGame = ({ cookie, theme }) => {
       mode: 3,
       quoteID: quoteID,
     };
+
 
     //post
     try {
@@ -135,19 +136,20 @@ const QuoteGame = ({ cookie, theme }) => {
       setTypedWord("");
 
       //check if user has completed all words
-      if (currIt + 1 === words.length) {
+      if(currIt+1 === words.length){
         //end game
         endGame();
       }
+
     }
   }
 
-  function endGame() {
+  function endGame(){
     setGameStatus(false);
     endTime.current = true;
     const finalWpm_ = finalWpmRef.current;
 
-    if (cookie.usr) {
+    if(cookie.usr){
       postGameData(finalWpm_).then(() => {
         console.log("Game data posted successfully.");
       });
@@ -221,18 +223,6 @@ const QuoteGame = ({ cookie, theme }) => {
         if (endTime.current === true) {
           //disable the timer
           clearInterval(timer);
-
-          // //set gameStatus to false
-          // setGameStatus(false);
-          // //set textGenerated to false so new text can generate
-          // setTextGenerated(false);
-          // //get wpm
-          // const finalWpm_ = finalWpmRef.current;
-          // //check if user is logged in
-          // if(cookie.usr){
-          //   postGameData(finalWpm_).then(() => {
-          //   });
-          // }
         }
         //set time to new time
         setTime(tempTime);
@@ -249,7 +239,7 @@ const QuoteGame = ({ cookie, theme }) => {
     }
     setWpm(Math.round(tmpWpm));
     //useeffect function runs when correctChars changes
-  }, [correctChars]);
+  }, [correctChars, time]);
 
   const handleResize = () => {
     if (!typingContainerRef.current || !charRef.current) {
@@ -260,10 +250,13 @@ const QuoteGame = ({ cookie, theme }) => {
     //get container padding
     const containerElement = typingContainerRef.current;
     const containerStyles = window.getComputedStyle(containerElement);
-    const containerPadding = parseFloat(containerStyles.paddingLeft) + parseFloat(containerStyles.paddingRight);
+    const containerPadding =
+      parseFloat(containerStyles.paddingLeft) +
+      parseFloat(containerStyles.paddingRight);
 
     //get the container width
-    const containerWidth = typingContainerRef.current.offsetWidth - containerPadding;
+    const containerWidth =
+      typingContainerRef.current.offsetWidth - containerPadding;
 
     //get the character width
     const characterWidth = charRef.current.offsetWidth;
@@ -314,23 +307,17 @@ const QuoteGame = ({ cookie, theme }) => {
     let charsPerLine = charactersPerLine;
     let charsPerLineSoFar = 0;
     let wordsOnCurrentLine = 0;
-    let visibleWords = words.slice(it, it + 85);
     //unique keys for letters in lines. Coutns number of characters total
     let k = 0;
 
-    //set it forward if needed
-    if (currIt >= it + wordsPerLine) {
-      setIt(currIt);
-    }
-
     //iterate through all words from iterator marker onwards
     let wordIt = 0;
-    while (wordIt < visibleWords.length && lines.length < 4) {
-      if (charsPerLineSoFar + visibleWords[wordIt].length <= charsPerLine) {
+    while (wordIt < words.length) {
+      if (charsPerLineSoFar + words[wordIt].length <= charsPerLine) {
         //add word length to charsPerLineSoFar
-        charsPerLineSoFar += visibleWords[wordIt].length;
+        charsPerLineSoFar += words[wordIt].length;
         //add every letter to line through rendering logic
-        for (let letterIt = 0; letterIt < visibleWords[wordIt].length; letterIt++) {
+        for (let letterIt = 0; letterIt < words[wordIt].length; letterIt++) {
           //rendering logic
           //default rendering styles
           let styling = {};
@@ -340,7 +327,7 @@ const QuoteGame = ({ cookie, theme }) => {
             styling = { color: "white" };
             charSpan = (
               <span key={k} style={styling}>
-                {visibleWords[wordIt][letterIt]}
+                {words[wordIt][letterIt]}
               </span>
             );
           } else {
@@ -354,7 +341,10 @@ const QuoteGame = ({ cookie, theme }) => {
             //check if character has been typed
             if (k - currWordIndex < typedWord.length) {
               //if it has been typed, check if correct, if correct make it white
-              if (visibleWords[wordIt][letterIt] === typedWord[letterIt] && incorrectCharFound === false) {
+              if (
+                words[wordIt][letterIt] === typedWord[letterIt] &&
+                incorrectCharFound === false
+              ) {
                 styling = { color: "white", position: "relative" };
               } else {
                 styling = { color: "red", position: "relative" };
@@ -368,7 +358,7 @@ const QuoteGame = ({ cookie, theme }) => {
             if (k - currWordIndex === typedWord.length) {
               charSpan = (
                 <span key={k} style={styling}>
-                  {visibleWords[wordIt][letterIt]}
+                  {words[wordIt][letterIt]}
                   <span
                     style={{
                       position: "absolute",
@@ -385,7 +375,7 @@ const QuoteGame = ({ cookie, theme }) => {
             } else {
               charSpan = (
                 <span key={k} style={styling}>
-                  {visibleWords[wordIt][letterIt]}
+                  {words[wordIt][letterIt]}
                 </span>
               );
             }
@@ -403,7 +393,7 @@ const QuoteGame = ({ cookie, theme }) => {
         lines.push(<div key={lines.length}>{line}</div>);
         //reset charsperlinesofar and line and wordsOnCurrentline
 
-        if (lines.length === 1) {
+        if(lines.length === 1){
           setWordsPerLine(wordsOnCurrentLine);
         }
         charsPerLineSoFar = 0;
@@ -443,14 +433,8 @@ const QuoteGame = ({ cookie, theme }) => {
       )}
       {gameStatus && <input ref={inputRef} className="w-50 m-6" value={typedWord} onChange={(event) => handleTypedInput(event)} />}
       <div className="container mt-5 d-flex flex-row gap-3 justify-content-center">
-        {gameStatus === false && (
-          <button onClick={() => start()} className={`btn btn-lg btn-${theme} mb-3 fw-bold`}>
-            Start
-          </button>
-        )}
-        <button onClick={() => handleClick("/Home")} className={`btn btn-lg btn-${theme} mb-3 fw-bold`}>
-          Home
-        </button>
+        {gameStatus === false && (<button onClick={() => start()} className={`btn btn-lg btn-${theme} mb-3 fw-bold`}>Start</button>)}
+        <button onClick={() => handleClick("/Home")} className={`btn btn-lg btn-${theme} mb-3 fw-bold`}>Home</button>
       </div>
       {/*Hidden character reference used to calculating width of a character*/}
     </div>

@@ -3,18 +3,19 @@ import "./App.css";
 import { Routes, Route } from "react-router-dom";
 import ClassicGame from "./components/ClassicGame.jsx";
 import QuoteGame from "./components/QuoteGame.jsx";
+import MemorizeGame from "./components/MemorizeGame.jsx";
+import LookAheadGame from "./components/LookAheadGame.jsx";
 import Settings from "./components/Settings.jsx";
 import GameModes from "./components/GameModes.jsx";
-//add imports here
-//add imports here
+import Register from './components/Register.jsx';
 import Footer from "./components/Footer.jsx";
-import { useCookies } from "react-cookie";
-import Home from "./components/Home.jsx";
-import NavBar from "./components/NavBar.jsx";
-import FaQ from "./components/FaQ.jsx";
-import About from "./components/About.jsx";
-import ProfilePage from "./components/ProfilePage.jsx";
-import EditProfile from "./components/EditProfile.jsx";
+import { useCookies } from 'react-cookie';
+import Home from './components/Home.jsx';
+import NavBar from './components/NavBar.jsx';
+import FaQ from './components/FaQ.jsx';
+import About from './components/About.jsx';
+import ProfilePage from './components/ProfilePage.jsx';
+import EditProfile from './components/EditProfile.jsx';
 
 //Importing Bootstrap
 import "bootstrap/dist/css/bootstrap.min.css";
@@ -51,13 +52,30 @@ function App() {
           <Route path="/Home" element={<Home theme={theme} />} />
           <Route path="/About" element={<About theme={theme} />} />
           <Route path="/FaQ" element={<FaQ theme={theme} />} />
-          <Route path="/ProfilePage" element={<ProfilePage theme={theme} />} />
+          <Route path="/ProfilePage" element={<ProfilePage theme={theme}/>} />
+          <Route path='/EditProfile' element={<EditProfile setWMP={setAvgWPM} deleteCookie={deleteCookie}/>}/>
           <Route path="/leaderBoard" element={<Leaderboard theme={theme} />} />
           <Route path="/ClassicGame" element={<ClassicGame cookie={cookie} theme={theme} />} />
           <Route path="/QuoteGame" element={<QuoteGame cookie={cookie} theme={theme} />} />
+          <Route path="/LookAheadGame" element={<LookAheadGame cookie={cookie} theme={theme} />} />
+          <Route path="/MemorizeGame" element={<MemorizeGame cookie={cookie} theme={theme} />} />
+
           <Route path="/Settings" element={<Settings font={font} setFont={setFont} theme={theme} setTheme={setTheme} />} />
           <Route path="/GameModes" element={<GameModes theme={theme} />} />
           <Route path="/login" element={<LogInPage updateAvgWPM={setAvgWPM} cookie={cookie} setLoginCookie={setCookies} theme={theme} />} />
+          <Route path="/Register" element={<Register />} />
+
+          
+         {/* Put the routes from Main into comments incase something breaks */}
+          {/* <Route path='/' element={<Home/>}/> */}
+          {/* <Route path='/Home' element={<Home/>}/> */}
+          {/* <Route path='/About' element={<About/>}/> */}
+          {/* <Route path='/FaQ' element={<FaQ/>}/> */}
+          {/* <Route path='/ProfilePage' element={<ProfilePage/>}/> */}
+
+          {/* <Route path='/leaderBoard' element={<Leaderboard/>}/> */}
+          {/* <Route path='/GamePage' element={<GamePage/>}/> */}
+          {/* <Route path='/login' element={<LogInPage updateAvgWPM={setAvgWPM} cookie={cookie} setLoginCookie={setCookies}/>} /> */}
         </Routes>
       </div>
       <Footer theme={theme}></Footer>

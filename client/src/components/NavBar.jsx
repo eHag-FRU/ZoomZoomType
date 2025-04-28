@@ -12,7 +12,7 @@ const NavBar = ({ wpm, setWPM, cookie, deleteCookie, theme }) => {
             <FontAwesomeIcon icon="fa-solid fa-car-on" style={{ fontSize: "1.5em" }} className={`icon-${theme}`} />
             <h5 className="mb-0">Zoom Zoom Type</h5>
           </Link>
-          <Link className="text-white mx-2" to="/GamePage"><FontAwesomeIcon icon="fa-solid fa-keyboard" style={{ fontSize: "1.5em" }} className={`icon-${theme}`} /></Link>
+          <Link className="text-white mx-2" to="/GameModes"><FontAwesomeIcon icon="fa-solid fa-keyboard" style={{ fontSize: "1.5em" }} className={`icon-${theme}`} /></Link>
           <Link className="text-white mx-2" to="/leaderBoard"><FontAwesomeIcon icon="fas fa-crown" style={{ fontSize: "1.5em" }} className={`icon-${theme}`} /></Link>
           <Link className="mx-2" to="/about"><FontAwesomeIcon icon="fas fa-info-circle" style={{ fontSize: "1.5em" }} className={`icon-${theme}`} /></Link>
           <span className="ms-2 d-flex flex-row">Average WPM:&nbsp;<strong><p id="highestUserWPM">{wpm}</p></strong>

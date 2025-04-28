@@ -106,9 +106,12 @@ router.post("/createAccount", (req, res) => {
 
 router.post("/postNewGame", (req,res) => {
     //Will need the userID, wpm, time, and game mode int
-    console.log(`postNewGame : ${req.body}`);
-    console.log(`postNewGame : ${req.body.userID}`);
-    console.log(`postNewGame : ${req.body.wpm}`);
+    console.log(`postNewGame : ${JSON.stringify(req.body)}`);
+    console.log(`postNewGame : userID: ${req.body.userID}`);
+    console.log(`postNewGame : wpm: ${req.body.wpm}`);
+    console.log(`postNewGame : time: ${req.body.time}`);
+    console.log(`postNewGame : mode: ${req.body.mode}`);
+    console.log(`postNewGame : quoteID: ${req.body.quoteID}`);
 
 
     //Grab the userID, wpm, time and game mode int
@@ -175,7 +178,7 @@ router.get('/logout', (res, req) => {
 //Command will look like const result = await axios.get("http://localhost:3000/api/profileData", {"userID": user_id_here});
 router.get("/profileData", (req, res) => {
     //Need to grab the userID from the request
-    const userID = req.body.userID;
+    const userID = req.query.userID;
 
     //Ensure the useID is retrieved, this ensures the user is also logged in too
     if (userID == null) {

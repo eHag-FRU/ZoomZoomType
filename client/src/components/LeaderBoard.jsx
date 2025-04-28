@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 
 const Leaderboard = ({theme}) => {
-  const gameModes = ["Classic", "Memorize", "Quotes", "Look-Ahead"];
+  const gameModes = ["Classic", "Memorize", "Quotes"];
   const [activeTab, setActiveTab] = useState("Classic");
   const [leaderboardData, setLeaderboardData] = useState({});
   const [loading, setLoading] = useState(false);
@@ -162,7 +162,7 @@ const Leaderboard = ({theme}) => {
 
           {/* Scrollable Table Container - Fixed Height */}
           <div
-            className={`mx-auto table-responsive accent-${theme}`}
+            className={`mx-auto table-responsive`}
             style={{
               width: "100%",
               maxWidth: "800px",

@@ -150,15 +150,8 @@ const LogInPage = ({ updateAvgWPM, cookie, setLoginCookie, theme }) => {
               <br />
 
               <div className="text-center">
-                <button type="submit" className={`btn btn-lg btn-${theme} mb-3 fw-bold`}>
-                  Login
-                </button>
-                <p>
-                  Need an account?{" "}
-                  <a className="mb-3 registerLink-hover" href="register">
-                    Register Here
-                  </a>
-                </p>
+                <button type="submit" className={`btn btn-lg btn-${theme} mb-3 fw-bold`}>Login</button>
+                <p>Need an account?{" "}<a className="mb-3 registerLink-hover" href="register">Register Here</a></p>
               </div>
             </form>
           </div>
