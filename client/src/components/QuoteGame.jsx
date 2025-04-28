@@ -1,10 +1,6 @@
 import React, { useState, useEffect, useRef, useMemo } from "react";
 import { useNavigate } from "react-router-dom";
-import { generate, count } from "random-words";
 import axios from "axios";
-
-const NUMB_OF_WORD = 170;
-const SECONDS = 60;
 
 const QuoteGame = ({ cookie, theme }) => {
   //used placeholder for future gamemodes
