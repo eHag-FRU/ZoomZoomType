@@ -28,7 +28,6 @@ const ProfilePage = () => {
     useEffect(() => {
         if (cookie?.userID) {
             getProfileData(cookie).then(data => {
-                console.log(data);
                 var sData = data;
                 if (!sData)
                     sData = [];

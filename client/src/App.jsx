@@ -54,6 +54,7 @@ function App() {
           <Route path="/About" element={<About theme={theme} />} />
           <Route path="/FaQ" element={<FaQ theme={theme} />} />
           <Route path="/ProfilePage" element={<ProfilePage theme={theme}/>} />
+          <Route path='/EditProfile' element={<EditProfile setWMP={setAvgWPM} deleteCookie={deleteCookie}/>}/>
           <Route path="/leaderBoard" element={<Leaderboard theme={theme} />} />
           <Route path="/ClassicGame" element={<ClassicGame cookie={cookie} theme={theme} />} />
           <Route path="/QuoteGame" element={<QuoteGame cookie={cookie} theme={theme} />} />
@@ -69,7 +70,7 @@ function App() {
           {/* <Route path='/About' element={<About/>}/> */}
           {/* <Route path='/FaQ' element={<FaQ/>}/> */}
           {/* <Route path='/ProfilePage' element={<ProfilePage/>}/> */}
-          {/* <Route path='/EditProfile' element={<EditProfile setWMP={setAvgWPM} deleteCookie={deleteCookie}/>}/> */}
+
           {/* <Route path='/leaderBoard' element={<Leaderboard/>}/> */}
           {/* <Route path='/GamePage' element={<GamePage/>}/> */}
           {/* <Route path='/login' element={<LogInPage updateAvgWPM={setAvgWPM} cookie={cookie} setLoginCookie={setCookies}/>} /> */}
