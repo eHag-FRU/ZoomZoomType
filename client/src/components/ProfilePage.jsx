@@ -5,17 +5,15 @@ import axios from 'axios';
 import { useCookies} from 'react-cookie';
 
 async function getProfileData(cookie) {
-    console.log(`getProfileData(cookie): ${cookie.userID}`);
     const result = await axios.get("http://localhost:3000/api/profileData", {params:{"userID": cookie.userID}});
-    return result;
+    if (!result.data)
+        result.data = [];
+    return result.data;
 }
 
 const ProfilePage = () => {
 
     const cookie = (useCookies(['usr'])[0]).usr;
-    console.log(`ProfilePage: cookie: ${cookie.userID}`);
-
-
 
     const [statData, setStatData] = useState([]);
     const [fullAverage, setFullAverage] = useState(0);
@@ -30,7 +28,10 @@ const ProfilePage = () => {
     useEffect(() => {
         if (cookie?.userID) {
             getProfileData(cookie).then(data => {
+                console.log(data);
                 var sData = data;
+                if (!sData)
+                    sData = [];
 
                 var rCount = sData.length;
                 var fa = 0;
@@ -94,7 +95,7 @@ const ProfilePage = () => {
                     </thead>
                     <tbody>
                         {
-                            statData.sort((i1, i2) => i2.wpm - i1.wpm).map((item) => (
+                            statData.sort((i1, i2) => i2.wpm - i1.wpm).map((item, index) => (
                               <tr key={index}>
                                 <td>{item.time}</td>
                                 <td>{item.wpm}</td>
