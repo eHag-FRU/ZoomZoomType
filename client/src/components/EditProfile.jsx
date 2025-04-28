@@ -168,17 +168,17 @@ const EditProfilePage = ({setWPM, deleteCookie}) => {
 
             <div>
                 <input placeholder='New Email' onChange={handleEmailUpdateChange}></input>
-                <button onClick={handleEmailUpdate}>UPDATE EMAIL TEST</button>
+                <button onClick={handleEmailUpdate}>Update Email</button>
             </div>
 
             <div>
                 <input placeholder='New username' onChange={handleUsernameUpdateChange}></input>
-                <button onClick={handleUsernameUpdate}>UPDATE USERNAME TEST</button>
+                <button onClick={handleUsernameUpdate}>Update Username</button>
             </div>
 
             <div>
                 <input placeholder='New password' onChange={handlePasswordUpdateChange} type='password'></input>
-                <button onClick={handlePasswordUpdate}>UPDATE PASSWORD TEST</button>
+                <button onClick={handlePasswordUpdate}>Update Password</button>
             </div>
 
             <br></br>
