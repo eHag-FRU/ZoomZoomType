@@ -7,6 +7,7 @@ import Settings from "./components/Settings.jsx";
 import GameModes from "./components/GameModes.jsx";
 //add imports here
 //add imports here
+import Register from './components/Register.jsx';
 import Footer from "./components/Footer.jsx";
 import { useCookies } from 'react-cookie';
 import Home from './components/Home.jsx';
@@ -59,6 +60,8 @@ function App() {
           <Route path="/Settings" element={<Settings font={font} setFont={setFont} theme={theme} setTheme={setTheme} />} />
           <Route path="/GameModes" element={<GameModes theme={theme} />} />
           <Route path="/login" element={<LogInPage updateAvgWPM={setAvgWPM} cookie={cookie} setLoginCookie={setCookies} theme={theme} />} />
+          <Route path="/Register" element={<Register />} />
+
           
          {/* Put the routes from Main into comments incase something breaks */}
           {/* <Route path='/' element={<Home/>}/> */}
