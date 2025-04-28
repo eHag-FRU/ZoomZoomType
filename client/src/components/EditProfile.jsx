@@ -183,7 +183,7 @@ const EditProfilePage = ({setWPM, deleteCookie}) => {
 
             <br></br>
 
-            <button onClick={handleDeleteAccount}>DELETE ACCOUNT TEST</button>
+            <button onClick={handleDeleteAccount}>Delete Account</button>
         </div>
     )
 }
