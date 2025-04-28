@@ -237,7 +237,7 @@ const QuoteGame = ({ cookie, theme }) => {
     }
     setWpm(Math.round(tmpWpm));
     //useeffect function runs when correctChars changes
-  }, [correctChars, time]);
+  }, [correctChars]);
 
   const handleResize = () => {
     if (!typingContainerRef.current || !charRef.current) {
@@ -305,27 +305,23 @@ const QuoteGame = ({ cookie, theme }) => {
     let charsPerLine = charactersPerLine;
     let charsPerLineSoFar = 0;
     let wordsOnCurrentLine = 0;
-    let visibleWords = words.slice(it, it + 85);
+    //let visibleWords = words.slice(it, it + 85);
     //unique keys for letters in lines. Coutns number of characters total
     let k = 0;
 
     //set it forward if needed
-    if (currIt >= it + wordsPerLine) {
-      setIt(currIt);
-    }
+    // if (currIt >= it + wordsPerLine) {
+    //   setIt(currIt);
+    // }
 
     //iterate through all words from iterator marker onwards
     let wordIt = 0;
-    while (wordIt < visibleWords.length && lines.length < 4) {
-      if (charsPerLineSoFar + visibleWords[wordIt].length <= charsPerLine) {
+    while (wordIt < words.length) {
+      if (charsPerLineSoFar + words[wordIt].length <= charsPerLine) {
         //add word length to charsPerLineSoFar
-        charsPerLineSoFar += visibleWords[wordIt].length;
+        charsPerLineSoFar += words[wordIt].length;
         //add every letter to line through rendering logic
-        for (
-          let letterIt = 0;
-          letterIt < visibleWords[wordIt].length;
-          letterIt++
-        ) {
+        for (let letterIt = 0; letterIt < words[wordIt].length; letterIt++) {
           //rendering logic
           //default rendering styles
           let styling = {};
@@ -335,7 +331,7 @@ const QuoteGame = ({ cookie, theme }) => {
             styling = { color: "white" };
             charSpan = (
               <span key={k} style={styling}>
-                {visibleWords[wordIt][letterIt]}
+                {words[wordIt][letterIt]}
               </span>
             );
           } else {
@@ -350,7 +346,7 @@ const QuoteGame = ({ cookie, theme }) => {
             if (k - currWordIndex < typedWord.length) {
               //if it has been typed, check if correct, if correct make it white
               if (
-                visibleWords[wordIt][letterIt] === typedWord[letterIt] &&
+                words[wordIt][letterIt] === typedWord[letterIt] &&
                 incorrectCharFound === false
               ) {
                 styling = { color: "white", position: "relative" };
@@ -366,7 +362,7 @@ const QuoteGame = ({ cookie, theme }) => {
             if (k - currWordIndex === typedWord.length) {
               charSpan = (
                 <span key={k} style={styling}>
-                  {visibleWords[wordIt][letterIt]}
+                  {words[wordIt][letterIt]}
                   <span
                     style={{
                       position: "absolute",
@@ -383,7 +379,7 @@ const QuoteGame = ({ cookie, theme }) => {
             } else {
               charSpan = (
                 <span key={k} style={styling}>
-                  {visibleWords[wordIt][letterIt]}
+                  {words[wordIt][letterIt]}
                 </span>
               );
             }
