@@ -162,7 +162,7 @@ const Leaderboard = ({theme}) => {
 
           {/* Scrollable Table Container - Fixed Height */}
           <div
-            className={`mx-auto table-responsive accent-${theme}`}
+            className={`mx-auto table-responsive`}
             style={{
               width: "100%",
               maxWidth: "800px",
