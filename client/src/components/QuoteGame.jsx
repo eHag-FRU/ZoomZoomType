@@ -94,14 +94,16 @@ const QuoteGame = ({ cookie, theme }) => {
     let userData = cookie.usr;
     //store data in object
     //grab time
+    console.log(finalWpm);
     let timeTaken = time;
     const data = {
-      "userID": userData.userID,
-      "wpm": finalWpm,
-      "time": timeTaken,
-      "mode": 3,
-      "quoteID": quoteID
-    }
+      userID: userData.userID,
+      wpm: finalWpm,
+      time: timeTaken,
+      mode: 3,
+      quoteID: quoteID,
+    };
+
 
     //post
     try {
@@ -145,7 +147,7 @@ const QuoteGame = ({ cookie, theme }) => {
   function endGame(){
     setGameStatus(false);
     endTime.current = true;
-    const finalWpm_ = finalWpmRef;
+    const finalWpm_ = finalWpmRef.current;
 
     if(cookie.usr){
       postGameData(finalWpm_).then(() => {

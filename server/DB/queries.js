@@ -333,6 +333,7 @@ function updatePasswordByID(ID, newPassword) {
 
 function addScoreToDatabase(userID, wpm, mode, time, quoteID=null) {
     //Send this to the database, this is any mode
+    console.log(`addScoreToDatabase: userID: ${userID} | wpm: ${wpm} | mode: ${mode} | time: ${time} | quoteID: ${quoteID}`);
     //BUT NOT QUOTE (3)
     if (quoteID == null && mode != 3) {
         db.noReturnQuery("INSERT INTO leaderBoard (userID, wpm, mode, time) VALUES (?, ?, ?, ?);", [userID, wpm, mode, time]);
