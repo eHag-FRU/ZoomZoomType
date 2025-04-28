@@ -1,24 +1,24 @@
 import React, { useEffect, useState, useRef } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
-import {FontAwesomeIcon} from "@fortawesome/react-fontawesome"
-import 'bootstrap/dist/css/bootstrap.min.css';
-import reactLogo from '../assets/logo.png'
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import "bootstrap/dist/css/bootstrap.min.css";
+import reactLogo from "../assets/logo.png";
 
-const About = () => {
+const About = ({theme}) => {
 
     return (
-        <div className="container-fluid" style={{ backgroundColor: "#002F5C", minHeight: "100vh" }}>
+        <div className={`container-fluid ${theme}`} style={{ minHeight: "100vh" }}>
             
             { /* About page header*/ }
             <div className="container py-2">
-                <h1 className="text-center" style={{ color: "#ffffff" }}>About Us</h1>
-                <p className="text-center" style={{ color: "#FF9900" }}>ZoomZoomType</p>
+                <h1 className="text-center">About Us</h1>
+                <p className="text-center">ZoomZoomType</p>
             </div>
             <hr style={{ border: "0.15em solid black" }} />
             
 
             { /* About our group, how the idea started etc. */ }
-            <div className="container-fluid text-white">
+            <div className="container-fluid">
                 <div className="row align-items-stretch">
                     {/* Image on the left */}
                     <div className="col-12 col-md-11 col-lg-4 pt-5 ms-5 ps-3">
@@ -58,7 +58,7 @@ const About = () => {
 
 
             { /* Another text section? */ }
-            <div className="container-fluid text-white pt-5 mt-4">
+            <div className="container-fluid pt-5 mt-4">
                 <div className="row justify-content-center">
                     <div className="col-12 col-md-11 col-lg-11 mx-auto">
                         <p className="text-center" style={{ fontSize: "1.1em"}}>

@@ -21,7 +21,9 @@ const LogInPage = ({ updateAvgWPM, cookie, setLoginCookie, theme }) => {
   function LoginErrorMessage({ error }) {
     if (error) {
       return (
-        <p className="error-text-theme" id="incorrectLogin">Either the username or password is incorrect or an account does not exist under the provided email, please try again</p>
+        <p className="error-text-theme" id="incorrectLogin">
+          Either the username or password is incorrect or an account does not exist under the provided email, please try again
+        </p>
       );
     } else {
       return null;
@@ -119,14 +121,30 @@ const LogInPage = ({ updateAvgWPM, cookie, setLoginCookie, theme }) => {
                 <label htmlFor="email" style={{ textAlign: "left" }}>
                   Email{" "}
                 </label>
-                <input type="text" name="email" id="email" className="form-control" style={{ backgroundColor: "#ffff" }} value={formValue.email} onChange={handleFormEmailChange}></input>
+                <input
+                  type="text"
+                  name="email"
+                  id="email"
+                  className="form-control"
+                  style={{ backgroundColor: "#ffff" }}
+                  value={formValue.email}
+                  onChange={handleFormEmailChange}
+                ></input>
               </div>
 
               <br />
 
               <div className="form-group text-start">
                 <label htmlFor="password">Password </label>
-                <input type="password" name="password" id="password" className="form-control" style={{ flexGrow: 0 }} value={formValue.password} onChange={handleFormPasswordChange}></input>
+                <input
+                  type="password"
+                  name="password"
+                  id="password"
+                  className="form-control"
+                  style={{ flexGrow: 0 }}
+                  value={formValue.password}
+                  onChange={handleFormPasswordChange}
+                ></input>
               </div>
 
               <br />
