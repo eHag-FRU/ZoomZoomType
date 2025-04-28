@@ -16,7 +16,6 @@ import FaQ from './components/FaQ.jsx';
 import About from './components/About.jsx';
 import ProfilePage from './components/ProfilePage.jsx';
 import EditProfile from './components/EditProfile.jsx';
-import GamePage from './components/GamePage.jsx';
 
 //Importing Bootstrap
 import "bootstrap/dist/css/bootstrap.min.css";
