@@ -237,7 +237,7 @@ const QuoteGame = ({ cookie, theme }) => {
     }
     setWpm(Math.round(tmpWpm));
     //useeffect function runs when correctChars changes
-  }, [correctChars]);
+  }, [correctChars, time]);
 
   const handleResize = () => {
     if (!typingContainerRef.current || !charRef.current) {
@@ -305,14 +305,8 @@ const QuoteGame = ({ cookie, theme }) => {
     let charsPerLine = charactersPerLine;
     let charsPerLineSoFar = 0;
     let wordsOnCurrentLine = 0;
-    //let visibleWords = words.slice(it, it + 85);
     //unique keys for letters in lines. Coutns number of characters total
     let k = 0;
-
-    //set it forward if needed
-    // if (currIt >= it + wordsPerLine) {
-    //   setIt(currIt);
-    // }
 
     //iterate through all words from iterator marker onwards
     let wordIt = 0;
