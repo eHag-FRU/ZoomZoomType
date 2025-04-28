@@ -64,7 +64,7 @@ const ProfilePage = () => {
             <div className='profile-page-summary'>
                 <img className='profile-page-image' src='https://img.freepik.com/premium-vector/people-profile-graphic_24911-21373.jpg' />
                 <div className='profile-page-summary-item'>
-                    {fullAverage} WPM
+                {fullAverage.toFixed(1)} WPM
                     <br/>
                     Full Avg
                 </div>
