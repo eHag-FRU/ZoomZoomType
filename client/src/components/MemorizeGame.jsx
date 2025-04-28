@@ -10,7 +10,7 @@ const MemorizeGame = ({ cookie, theme }) => {
   //used placeholder for future gamemodes
   const [mode, setMode] = useState("Memorize");
   //place holder for ability to set time
-  const [time, setTime] = useState(0);
+  const [time, setTime] = useState(SECONDS);
   //future calculated wpm
   const [wpm, setWpm] = useState(0);
   //const [targetText, setTargetText] = useState("Lorem ipsum dolor sit amet consectetur adipiscing elit. Quisque faucibus ex sapien vitae pellentesque sem placerat. In id cursus mi pretium tellus duis convallis. Tempus leo eu aenean sed diam urna tempor. Pulvinar vivamus fringilla lacus nec metus bibendum egestas. Iaculis massa nisl malesuada lacinia integer nunc posuere. Ut hendrerit semper vel class aptent taciti sociosqu. Ad litora torquent per conubia nostra inceptos himenaeos");
@@ -30,7 +30,7 @@ const MemorizeGame = ({ cookie, theme }) => {
   //current word iterator
   const [currIt, setCurrIt] = useState(0);
   //state for words per line so we can have dynamic screen sizes
-  const [wordsPerLine, setWordsPerLine] = useState(12);
+  const [wordsPerLine, setWordsPerLine] = useState(10);
   //state for how many characters per line can exist for the purposes of resizing screen dynamically
   const [charactersPerLine, setCharactersPerLine] = useState(0);
   //reference for container containing typed words for the purposes of reszizing
@@ -39,46 +39,30 @@ const MemorizeGame = ({ cookie, theme }) => {
   const charRef = useRef(null);
   //state fortracking final wpm, never gets set to zero
   const finalWpmRef = useRef(0);
-  //state for tracking when to stop timer
-  const endTime = useRef(false);
-  //state for tracking quoteID
-  const [quoteID, setQuoteID] = useState("none");
+  //current line index
+  const [currentLineIndex, setCurrentLineIndex] = useState(0);
+  //future line index
+  const [futureLineIndex, setFutureLineIndex] = useState(0);
+  //const lines memorized
+  const [linesToMemorize, setLinesToMemorize] = useState([]);
 
   //Auxiliary functions to help with game
-  async function getRandomQuote() {
-    try {
-      //get the quote from the server
-      const response = await axios.get("http://localhost:3000/api/randomQuote");
-      //turn it into text
-      const quote = response.data.quote;
-      setQuoteID(response.data.quoteID);
-      //parse the words
-      const parsedQuote = quote.split(" ").map((word, index, array) => {
-        return index < array.length - 1 ? word + " " : word;
-      });
-      setWords(parsedQuote);
-      console.log(parsedQuote);
-    } catch (error) {
-      console.error("Error fetching random quote from server");
-      //turn it into text
-      const quote = "The Quote does not exist but it will exist soon.";
-      //parse the words
-      const parsedQuote = quote.split(" ").map((word, index, array) => {
-        return index < array.length - 1 ? word + " " : word;
-      });
-      setWords(parsedQuote);
-      setQuoteID(-1);
+  function generateWords() {
+    //lines to memorize
+    let lines = []
+    for(let i = 1; i < 100; i++){
+      let tempWords = generate(i);
+      let line = tempWords.join(" ");
+      lines.push(line);
     }
+    setLinesToMemorize(lines);
   }
 
   //got this from chatgpt
   function formatTime(time) {
     const minutes = Math.floor(time / 60);
     const seconds = time % 60;
-    return `${String(minutes).padStart(2, "0")}:${String(seconds).padStart(
-      2,
-      "0"
-    )}`;
+    return `${String(minutes).padStart(2, "0")}:${String(seconds).padStart(2, "0")}`;
   }
 
   const navigate = useNavigate();
@@ -89,7 +73,15 @@ const MemorizeGame = ({ cookie, theme }) => {
   //handles starting the game from the start game button
   function start() {
     setGameStatus(true);
-    endTime.current=false;
+    //set current line index to 0
+    setCurrentLineIndex(0);
+    //Clear input
+    setTypedWord("");
+    //reset correct chars
+    setCorrectChars(0);
+    //set the time
+    setTime(SECONDS);
+    setFutureLineIndex(0);
   }
 
   async function postGameData(finalWpm) {
@@ -97,16 +89,12 @@ const MemorizeGame = ({ cookie, theme }) => {
     //get user information
     let userData = cookie.usr;
     //store data in object
-    //grab time
-    let timeTaken = time;
     const data = {
-      "userID": userData.userID,
-      "wpm": finalWpm,
-      "time": timeTaken,
-      "mode": 3,
-      "quoteID": quoteID
-    }
-
+      userID: userData.userID,
+      wpm: finalWpm,
+      time: SECONDS,
+      mode: 2,
+    };
     //post
     try {
       await axios.post("http://localhost:3000/api/postNewGame", data);
@@ -122,7 +110,15 @@ const MemorizeGame = ({ cookie, theme }) => {
 
     //add character to typed word
     setTypedWord(typedPhrase);
-    if (typedPhrase === words[currIt]) {
+
+    // Show the next line as soon as the user starts typing
+    if (typedPhrase.length === 1 && currentLineIndex === futureLineIndex) {
+      setFutureLineIndex((prev) => prev+1);
+    }
+
+    const currentLine = linesToMemorize[currentLineIndex];
+    console.log(linesToMemorize[currentLineIndex])
+    if (typedPhrase === currentLine) {
       //if game is running, allow characters to be recorded
       if (gameStatus === true) {
         //get correct characters typed so far
@@ -133,28 +129,9 @@ const MemorizeGame = ({ cookie, theme }) => {
         setCorrectChars(charsTyped);
       }
       //increment the word
-      setCurrIt(currIt + 1);
+      setCurrentLineIndex((prev) => prev + 1);
       //set input word to nothing
       setTypedWord("");
-
-      //check if user has completed all words
-      if(currIt+1 === words.length){
-        //end game
-        endGame();
-      }
-
-    }
-  }
-
-  function endGame(){
-    setGameStatus(false);
-    endTime.current = true;
-    const finalWpm_ = finalWpmRef;
-
-    if(cookie.usr){
-      postGameData(finalWpm_).then(() => {
-        console.log("Game data posted successfully.");
-      });
     }
   }
 
@@ -163,9 +140,9 @@ const MemorizeGame = ({ cookie, theme }) => {
     //convert characters to words
     let words_ = numChars / 5;
     //calculate wpm if
-    if (time != 0) {
+    if (SECONDS - time != 0) {
       //calculate seconds elapsed
-      let secondsElapsed = time;
+      let secondsElapsed = SECONDS - time;
       //convert secondsElapsed to minutes elapsed
       let minutesElapsed = secondsElapsed / 60;
       //return wpm which is words/minutes
@@ -178,7 +155,7 @@ const MemorizeGame = ({ cookie, theme }) => {
   //useEffect hooks for game logic
   //This hook generates initial text when page first loads
   useEffect(() => {
-    getRandomQuote();
+    generateWords();
   }, []);
 
   //This hook is responsible for generating text when the game starts and resetting it
@@ -188,12 +165,12 @@ const MemorizeGame = ({ cookie, theme }) => {
       //set text counter to 0
       setIt(0);
       //set currIt counter to 0
-      setCurrIt(0);
+      setCurrentLineIndex(0);
       //set typed word to nothing
       setTypedWord("");
       //if text is not generated, generate the text
       if (textGenerated === false) {
-        getRandomQuote();
+        generateWords();
         setTextGenerated(true);
       }
       //set wpm
@@ -214,29 +191,28 @@ const MemorizeGame = ({ cookie, theme }) => {
   useEffect(() => {
     if (gameStatus === true) {
       //set time for timer to value of global variable SECONDS
-      let tempTime = 0;
+      let tempTime = SECONDS;
       //set time to temp time before timer runs
       setTime(tempTime);
       //set timer that updates code roughly every second
       const timer = setInterval(() => {
-        //increment timer
-        tempTime = tempTime + 1;
+        //decrement timer
+        tempTime = tempTime - 1;
         //when timer hits zero, game is over
-        if (endTime.current === true) {
+        if (tempTime <= 0) {
+          //get final wpm
           //disable the timer
           clearInterval(timer);
-
-          // //set gameStatus to false
-          // setGameStatus(false);
-          // //set textGenerated to false so new text can generate
-          // setTextGenerated(false);
-          // //get wpm
-          // const finalWpm_ = finalWpmRef.current;
-          // //check if user is logged in
-          // if(cookie.usr){
-          //   postGameData(finalWpm_).then(() => {
-          //   });
-          // }
+          //set gameStatus to false
+          setGameStatus(false);
+          //set textGenerated to false so new text can generate
+          setTextGenerated(false);
+          //get wpm
+          const finalWpm_ = finalWpmRef.current;
+          //check if user is logged in
+          if (cookie.usr) {
+            postGameData(finalWpm_).then(() => {});
+          }
         }
         //set time to new time
         setTime(tempTime);
@@ -253,192 +229,19 @@ const MemorizeGame = ({ cookie, theme }) => {
     }
     setWpm(Math.round(tmpWpm));
     //useeffect function runs when correctChars changes
-  }, [correctChars]);
+  }, [correctChars, time]);
 
-  const handleResize = () => {
-    if (!typingContainerRef.current || !charRef.current) {
-      console.log("One or both refs are null");
-      return;
-    }
-
-    //get container padding
-    const containerElement = typingContainerRef.current;
-    const containerStyles = window.getComputedStyle(containerElement);
-    const containerPadding =
-      parseFloat(containerStyles.paddingLeft) +
-      parseFloat(containerStyles.paddingRight);
-
-    //get the container width
-    const containerWidth =
-      typingContainerRef.current.offsetWidth - containerPadding;
-
-    //get the character width
-    const characterWidth = charRef.current.offsetWidth;
-    //calculate how many characters can fit within container
-    const charAmount = Math.floor(containerWidth / characterWidth);
-    //set characters per line
-    setCharactersPerLine(charAmount);
-  };
-
-  //use effect for handling screensize
-  useEffect(() => {
-    handleResize();
-    window.addEventListener("resize", handleResize);
-    return () => window.removeEventListener("resize", handleResize);
-  }, []);
-
-  useEffect(() => {
-    handleResize(); // Run on initial render
-  }, []);
-
-  useEffect(() => {
-    if (gameStatus) {
-      setTimeout(() => {
-        handleResize(); // Run after the game starts
-      }, 0);
-    }
-  }, [gameStatus]);
-
-  //function for rendering the text, will be same across all games
+  // Render the current line
   const renderGame = useMemo(() => {
-    if (charactersPerLine === 0) {
-      return [];
+    if (currentLineIndex >= linesToMemorize.length) {
+      return <div>Game Over! Well done!</div>;
     }
-    //used to track indexes of all characters from 0 - n characters
-    let charIndex = 0;
-    //tracks the starting position of the current word we are typing
-    let currWordIndex = 0;
-    //set curr word index - must happen only once
-    let setCurrWordIndex = false;
-    //flag to mark all words typed after incorrect character red
-    let incorrectCharFound = false;
-    //current line
-    let line = [];
-    //set of lines
-    let lines = [];
-
-    //grab characters per line
-    let charsPerLine = charactersPerLine;
-    let charsPerLineSoFar = 0;
-    let wordsOnCurrentLine = 0;
-    let visibleWords = words.slice(it, it + 85);
-    //unique keys for letters in lines. Coutns number of characters total
-    let k = 0;
-
-    //set it forward if needed
-    if (currIt >= it + wordsPerLine) {
-      setIt(currIt);
-    }
-
-    //iterate through all words from iterator marker onwards
-    let wordIt = 0;
-    while (wordIt < visibleWords.length && lines.length < 4) {
-      if (charsPerLineSoFar + visibleWords[wordIt].length <= charsPerLine) {
-        //add word length to charsPerLineSoFar
-        charsPerLineSoFar += visibleWords[wordIt].length;
-        //add every letter to line through rendering logic
-        for (
-          let letterIt = 0;
-          letterIt < visibleWords[wordIt].length;
-          letterIt++
-        ) {
-          //rendering logic
-          //default rendering styles
-          let styling = {};
-          let charSpan = <span></span>;
-          //if word has already been typed
-          if (wordIt + it < currIt) {
-            styling = { color: "white" };
-            charSpan = (
-              <span key={k} style={styling}>
-                {visibleWords[wordIt][letterIt]}
-              </span>
-            );
-          } else {
-            if (wordIt + it === currIt) {
-              if (setCurrWordIndex === false) {
-                currWordIndex = k;
-                setCurrWordIndex = true;
-              }
-            }
-
-            //check if character has been typed
-            if (k - currWordIndex < typedWord.length) {
-              //if it has been typed, check if correct, if correct make it white
-              if (
-                visibleWords[wordIt][letterIt] === typedWord[letterIt] &&
-                incorrectCharFound === false
-              ) {
-                styling = { color: "white", position: "relative" };
-              } else {
-                styling = { color: "red", position: "relative" };
-                incorrectCharFound = true;
-              }
-            } else {
-              styling = { color: "grey", position: "relative" };
-            }
-
-            //check whether to print cursor or not
-            if (k - currWordIndex === typedWord.length) {
-              charSpan = (
-                <span key={k} style={styling}>
-                  {visibleWords[wordIt][letterIt]}
-                  <span
-                    style={{
-                      position: "absolute",
-                      left: -2,
-                      top: 0,
-                      bottom: 0,
-                      width: "2px",
-                      backgroundColor: "orange",
-                      animation: "blink 1s step-end infinite",
-                    }}
-                  />
-                </span>
-              );
-            } else {
-              charSpan = (
-                <span key={k} style={styling}>
-                  {visibleWords[wordIt][letterIt]}
-                </span>
-              );
-            }
-          }
-          line.push(charSpan);
-          //increment unique key
-          k++;
-        }
-        //increment wordIt;
-        wordIt++;
-        //increment words on current line
-        wordsOnCurrentLine++;
-      } else {
-        //push the line of words into lines
-        lines.push(<div key={lines.length}>{line}</div>);
-        //reset charsperlinesofar and line and wordsOnCurrentline
-
-        if(lines.length === 1){
-          setWordsPerLine(wordsOnCurrentLine);
-        }
-        charsPerLineSoFar = 0;
-        line = [];
-        wordsOnCurrentLine = 0;
-      }
-    }
-
-    //Push remaining characters onto lines
-    if (line.length > 0) {
-      lines.push(<div key={lines.length}>{line}</div>);
-
-      //set wordsPerLine if this is the first line
-      if (lines.length === 1) {
-        setWordsPerLine(wordsOnCurrentLine);
-      }
-    }
-
-    return lines;
-  }, [words, it, typedWord, wordsPerLine, charactersPerLine]);
-
+  
+    // Show the previous line if no typing has started
+    const lineToShow =linesToMemorize[futureLineIndex];
+  
+    return <div>{lineToShow}</div>;
+  }, [currentLineIndex, linesToMemorize, typedWord]);
   return (
     <div className="container-fluid d-flex flex-column flex-grow-1 align-items-center m-5">
       <div className={`row w-75 rounded p-4 accent-${theme} fw-bold mb-4`}>
@@ -452,7 +255,7 @@ const MemorizeGame = ({ cookie, theme }) => {
           <div ref={charRef} style={{ visibility: "hidden", position: "absolute" }}>
             <span>a</span>
           </div>
-          <div>{renderGame}</div>
+          <div className="text-center">{renderGame}</div>
         </div>
       )}
       {gameStatus && <input ref={inputRef} className="w-50 m-6" value={typedWord} onChange={(event) => handleTypedInput(event)} />}

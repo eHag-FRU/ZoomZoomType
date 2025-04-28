@@ -16,13 +16,8 @@ const GameModes = ({theme}) => {
       </div>
 
       <div className="d-flex row py-3 justify-content-center">
-        <button type="button" className={`btn btn-lg btn-${theme} mb-3 fw-bold`} onClick={() => handleClick("/LookAheadGame")}>Look Ahead Mode</button>
-        <p className="col-6 text-center">Each word disappears as you begin to type it.</p>
-      </div>
-
-      <div className="d-flex row py-3 justify-content-center">
         <button type="button" className={`btn btn-lg btn-${theme} mb-3 fw-bold`} onClick={() => handleClick("/MemorizeGame")}>Memorize Mode</button>
-        <p className="col-6 text-center">Memorize a line at a time!</p>
+        <p className="col-6 text-center">Memorize a line at a time with increasing quantities of words!</p>
       </div>
 
       <div className="d-flex row py-3 justify-content-center">
