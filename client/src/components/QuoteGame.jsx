@@ -6,7 +6,7 @@ import axios from "axios";
 const NUMB_OF_WORD = 170;
 const SECONDS = 60;
 
-const QuoteGame = ({ cookie }) => {
+const QuoteGame = ({ cookie, theme }) => {
   //used placeholder for future gamemodes
   const [mode, setMode] = useState("Random Quote");
   //place holder for ability to set time
@@ -67,8 +67,7 @@ const QuoteGame = ({ cookie }) => {
         return index < array.length - 1 ? word + " " : word;
       });
       setWords(parsedQuote);
-      setQuoteID(response.data.quoteID);
-
+      setQuoteID(-1);
     }
   }
 
@@ -442,52 +441,24 @@ const QuoteGame = ({ cookie }) => {
 
   return (
     <div className="container-fluid d-flex flex-column flex-grow-1 align-items-center m-5">
-      <div className="row w-75 rounded p-4 border fw-bold mb-4">
-        <div className="col-12 col-lg-4 text-center mt-2 mb-2 fs-5">
-          Mode: {mode}
-        </div>
-        <div className="col-12 col-lg-4 text-center mt-2 mb-2 fs-5">
-          Time: {formatTime(time)}
-        </div>
-        <div className="col-12 col-lg-4 text-center mt-2 mb-2 fs-5">
-          wpm: {wpm}
-        </div>
+      <div className={`row w-75 rounded p-4 accent-${theme} fw-bold mb-4`}>
+        <div className="col-12 col-lg-4 text-center mt-2 mb-2 fs-5">Mode: {mode}</div>
+        <div className="col-12 col-lg-4 text-center mt-2 mb-2 fs-5">Time: {formatTime(time)}</div>
+        <div className="col-12 col-lg-4 text-center mt-2 mb-2 fs-5">wpm: {wpm}</div>
       </div>
       {/*Conditionally render game is game is running or not*/}
       {gameStatus && (
         <div ref={typingContainerRef} className="w-75 p-5 fs-5 font-monospace">
-          <div
-            ref={charRef}
-            style={{ visibility: "hidden", position: "absolute" }}
-          >
+          <div ref={charRef} style={{ visibility: "hidden", position: "absolute" }}>
             <span>a</span>
           </div>
           <div>{renderGame}</div>
         </div>
       )}
-      {gameStatus && (
-        <input
-          ref={inputRef}
-          className="w-50 m-6"
-          value={typedWord}
-          onChange={(event) => handleTypedInput(event)}
-        />
-      )}
+      {gameStatus && <input ref={inputRef} className="w-50 m-6" value={typedWord} onChange={(event) => handleTypedInput(event)} />}
       <div className="container mt-5 d-flex flex-row gap-3 justify-content-center">
-        {gameStatus === false && (
-          <button
-            onClick={() => start()}
-            className="btn btn-lg custom-btn bg-transparent mb-3 fw-bold"
-          >
-            Start
-          </button>
-        )}
-        <button
-          onClick={() => handleClick("/Home")}
-          className="btn btn-lg custom-btn bg-transparent mb-3 fw-bold"
-        >
-          Home
-        </button>
+        {gameStatus === false && (<button onClick={() => start()} className={`btn btn-lg btn-${theme} mb-3 fw-bold`}>Start</button>)}
+        <button onClick={() => handleClick("/Home")} className={`btn btn-lg btn-${theme} mb-3 fw-bold`}>Home</button>
       </div>
       {/*Hidden character reference used to calculating width of a character*/}
     </div>
